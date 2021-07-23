@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "80821200866",
+    "project_id": "jvsnew-93e01",
+    "storage_bucket": "jvsnew-93e01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80821200866:android:fe9902592163137dfc7bbb",
+        "android_client_info": {
+          "package_name": "com.example.lessgoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80821200866-m9h9i7v1iombnhgusvfhm0a6sf32lruq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC729SxOLWK86hfx4tnVy3MlvEHeqDc6uY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80821200866-m9h9i7v1iombnhgusvfhm0a6sf32lruq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
