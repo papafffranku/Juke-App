@@ -5,7 +5,6 @@ import 'package:lessgoo/abc.dart';
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  Paint.enableDithering = true;
   await Firebase.initializeApp();
 
   runApp(MaterialApp(
