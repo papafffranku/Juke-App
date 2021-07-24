@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lessgoo/abc.dart';
-import 'package:lessgoo/firesign/Pro.dart';
+import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
 
 class Hello extends StatefulWidget {
   const Hello({Key? key}) : super(key: key);

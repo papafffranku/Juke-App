@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:lessgoo/Firebase%20Auth%20Helper/fireauthservice.dart';
-import 'package:lessgoo/wavewidget.dart';
+import 'package:lessgoo/loginsignup/UI/wavewidget.dart';
 
 class abc extends StatefulWidget {
   const abc({Key? key}) : super(key: key);

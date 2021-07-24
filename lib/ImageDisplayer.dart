@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/urlgetter.dart';
 
@@ -9,26 +10,30 @@ class Display extends StatefulWidget {
 }
 
 class _DisplayState extends State<Display> {
-  String? url='';
+  String? url='https://i.stack.imgur.com/y9DpT.jpg';
+  final img = ImageDisplay();
+
 
   @override
   void initState() {
     abc();
     super.initState();
   }
-
   void abc() async {
-    setState(() async {
-      url = await ImageDisplay().getUrl();
+    url = await ImageDisplay().getUrl();
+    setState(() {
+      url = url;
     });
+    print(url);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(image: NetworkImage(url!)),
+    return Scaffold(
+      appBar: AppBar(
+        title: GestureDetector(child: Text('click'),onTap: (){abc();},),
       ),
+      body: Image.network(url!)
     );
   }
 }
