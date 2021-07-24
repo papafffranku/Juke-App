@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/ref/Hello.dart';
 import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
@@ -13,12 +14,13 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     //home: isLoggedIn ? FirstPage() : Persist(),
-    initialRoute: '/ok',
+    initialRoute: '/library',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => Pro(),
       '/upload': (context) => UploadScreen(),
       '/display': (context) => Display(),
+      '/library': (context) => LibraryPage()
     },
     debugShowCheckedModeBanner: false,
   ));
