@@ -13,10 +13,10 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     //home: isLoggedIn ? FirstPage() : Persist(),
-    initialRoute: '/display',
+    initialRoute: '/ok',
     routes: {
-      '/ok':(context) => Hello(),
-      '/Pro':(context) => Pro(),
+      '/ok': (context) => Hello(),
+      '/Pro': (context) => Pro(),
       '/upload': (context) => UploadScreen(),
       '/display': (context) => Display(),
     },
