@@ -9,13 +9,12 @@ class Display extends StatefulWidget {
 }
 
 class _DisplayState extends State<Display> {
-  String? url;
+  String? url='';
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
     abc();
+    super.initState();
   }
 
   void abc() async {

@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:lessgoo/Firebase%20Auth%20Helper/fireauthservice.dart';
+import 'package:lessgoo/wavewidget.dart';
 
 class abc extends StatefulWidget {
   const abc({Key? key}) : super(key: key);
@@ -13,70 +12,210 @@ class abc extends StatefulWidget {
 }
 
 class _abcState extends State<abc> {
-  final googleSignIn = GoogleSignIn();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  GoogleSignInAccount? _user;
-
-  GoogleSignInAccount get user => _user!;
+  final fireauth = fireauthhelp();
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white12,
-        body: Column(
-          children: [
-            CarouselSlider(
-                items: [
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25)),
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                'https://i.pinimg.com/originals/a1/46/b8/a146b831d0540717d5ab926760652abd.jpg'),
-                            fit: BoxFit.cover)),
-                  ),
-                ],
-                options: CarouselOptions(
-                  height: 180,
-                  autoPlay: false,
-                  autoPlayCurve: Curves.easeInOut,
-                  enlargeCenterPage: true,
-                  viewportFraction: 0.5,
-                )),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        backgroundColor: Color(0xff0e0e15),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Center(
+              child: Stack(
                 children: [
-                  SignInButton(Buttons.Google, onPressed: () {
-                    goochapati();
-                  }),
-                  SignInButton(Buttons.AppleDark, onPressed: () {}),
-                  CupertinoButton(
-                      child: Text('Sign up with Username and password'),
-                      onPressed: () {})
+                  AnimatedPositioned(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeOutQuad,
+                    child: WaveWidget(
+                        size: size,
+                        yOffset: size.height / 6,
+                        color: Colors.deepPurple),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40, top: 20),
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome to",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              height: 2,
+                            ),
+                          ),
+                          Text(
+                            "JVS Music",
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 2,
+                              height: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: height / 3 - 60),
+                    child: Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Meet Collaborators and help each other grow',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Icon(CupertinoIcons.graph_circle,color: Colors.white,)
+                          ],
+                        )),
+                  ),
+                  Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: height / 3,
+                        ),
+                        EmailPassFields(),
+                        SignInButton(Buttons.Google, onPressed: () async {
+                          await fireauth.googleLoginHelp();
+                        }),
+                        SignInButton(Buttons.Apple, onPressed: () {}),
+                        newaccount(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Future goochapati() async {
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) return;
-    _user = googleUser;
-
-    final googleAuth = await googleUser.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+  Widget EmailPassFields() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: emailController,
+            style: TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: 'Enter Email / Username',
+              hintStyle: TextStyle(
+                fontSize: 16,
+                color: Colors.white38,
+                fontWeight: FontWeight.bold,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
+              ),
+              prefixIcon: Icon(
+                CupertinoIcons.mail_solid,
+                color: Colors.white38,
+              ),
+              filled: true,
+              fillColor: Colors.grey.withOpacity(0.1),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          TextFormField(
+            controller: passwordController,
+            style: TextStyle(color: Colors.white),
+            obscureText: true,
+            decoration: InputDecoration(
+              hintText: 'Password',
+              hintStyle: TextStyle(
+                fontSize: 16,
+                color: Colors.white38,
+                fontWeight: FontWeight.bold,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
+              ),
+              prefixIcon: Icon(
+                CupertinoIcons.lock_circle_fill,
+                color: Colors.white38,
+              ),
+              filled: true,
+              fillColor: Colors.grey.withOpacity(0.1),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: CircleBorder(), primary: Colors.blue),
+            child: Icon(
+              CupertinoIcons.arrow_right,
+            ),
+            onPressed: () {},
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            'or',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+        ],
+      ),
     );
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  Widget newaccount() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'No Account yet?',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        CupertinoButton(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Sign-Up now',
+                ),
+                Icon(CupertinoIcons.forward),
+              ],
+            ),
+            onPressed: () {})
+      ],
+    );
+  }
 }
