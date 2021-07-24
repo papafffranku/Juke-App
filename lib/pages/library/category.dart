@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/pages/library/categories/librarytracks.dart';
 
 class CategoriesPage extends StatefulWidget {
   final int selectedOption;
@@ -11,6 +14,7 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   List<String> categories = ['Tracks', 'Albums', 'Artists'];
+  List<Widget> underDisplay = [Tracks()];
   int? selectedIndex;
 
   @override
@@ -23,25 +27,41 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text('Library'),
+        child: Scaffold(
             backgroundColor: Color(0xff0e0e15),
-          ),
-          body: Container(
-              color: Color(0xff0e0e15),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: categories.length,
-                        itemBuilder: (context, index) => buildCategory(index)),
+            body: CustomScrollView(
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              slivers: [
+                SliverAppBar(
+                  title: Text('Library'),
+                  backgroundColor: Color(0xff0e0e15),
+                  pinned: true,
+                  floating: true,
+                  expandedHeight: 130,
+                  flexibleSpace: FlexibleSpaceBar(
+                    stretchModes: const <StretchMode>[
+                      StretchMode.blurBackground,
+                    ],
+                    background: Transform(
+                      transform: Matrix4.translationValues(10.0, 50.0, 0.0),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) =>
+                                buildCategory(index)),
+                      ),
+                    ),
                   ),
-                ],
-              ))),
-    );
+                ),
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  Container(color: Color(0xff0e0e15), child: underDisplay[0])
+                ]))
+              ],
+            )));
   }
 
   Widget buildCategory(int index) {
@@ -54,7 +74,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(categories[index],
                 style: TextStyle(
@@ -65,13 +85,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Container(
-                height: 6,
-                width: 100,
+                height: 3,
+                width: 50,
                 decoration: BoxDecoration(
-                    color: selectedIndex == index
-                        ? Colors.purpleAccent.withOpacity(0.6)
-                        : Colors.transparent,
-                    shape: BoxShape.circle),
+                  color: selectedIndex == index
+                      ? Colors.purpleAccent
+                      : Colors.transparent,
+                  //shape: BoxShape.circle
+                ),
               ),
             ),
           ],
