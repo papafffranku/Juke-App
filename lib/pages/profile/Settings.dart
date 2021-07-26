@@ -1,7 +1,9 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfileSettings extends StatefulWidget {
   const ProfileSettings({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
+  final googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,16 +124,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 )
               ),
               SizedBox(height: 30,),
-              InkWell(
-                onTap: () {
-
-                },
-                child: Text("Log Out",
-                  style: TextStyle(
-                    color: CupertinoColors.systemBlue,
-                    fontSize: 25,
-                  ),),
-              ),
+              CupertinoButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.square_arrow_left),
+                      Text('Logout')
+                    ],
+                  ),
+                  onPressed: () async {await Logout();}),
               SizedBox(height: 20,),
             ],
           ),
@@ -153,7 +156,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
-  Future<void> signout()async{
-
+  Future Logout() async{
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
   }
 }

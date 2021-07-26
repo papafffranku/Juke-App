@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
-import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
 
 class Hello extends StatefulWidget {
   const Hello({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _HelloState extends State<Hello> {
           if(snapshot.connectionState == ConnectionState.waiting){
             return Scaffold(body: Center(child: CircularProgressIndicator(),),);
           } else if(snapshot.hasData){
-            return Pro();
+            return Persist();
           } else if(snapshot.hasError){
             return Scaffold(body: Center(child: Text('Error bro'),));
           } else{

@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:lessgoo/pages/home/tools/album_tile.dart';
 import 'package:lessgoo/pages/home/tools/track_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
+import 'package:lessgoo/pages/profile/Settings.dart';
 import 'package:lessgoo/pages/profile/trackwidget/ActionSheet.dart';
 import 'package:lessgoo/pages/profile/trackwidget/bio.dart';
 import 'package:lessgoo/pages/profile/trackwidget/collab.dart';
@@ -68,7 +69,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.black.withOpacity(0.4),
                       shape: BoxShape.circle
                   ),
-                      child: IconButton(onPressed: (){}, icon: Icon(Icons.settings), iconSize: 30, color: Colors.white)),
+                      child: IconButton(onPressed: (){
+                        pushNewScreen(context, screen: ProfileSettings());
+                      }, icon: Icon(Icons.settings), iconSize: 30, color: Colors.white)),
                 ),
               ),
               Padding(
