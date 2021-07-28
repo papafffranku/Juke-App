@@ -13,12 +13,10 @@ class Persist extends StatefulWidget {
 }
 
 class _PersistState extends State<Persist> {
-
   List<Widget> _buildScreens() {
     return [
       HomePage(),
       ExplorePage(),
-      ProfilePage(),
       ProfilePage(),
       ProfilePage(),
     ];
@@ -50,12 +48,6 @@ class _PersistState extends State<Persist> {
         activeColorPrimary: Color(0xff5338FF),
         inactiveColorPrimary: CupertinoColors.white,
       ),
-      PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.profile_circled),
-        title: ("Profile"),
-        activeColorPrimary: Color(0xff5338FF),
-        inactiveColorPrimary: CupertinoColors.white,
-      ),
     ];
   }
 
@@ -63,7 +55,6 @@ class _PersistState extends State<Persist> {
 
   @override
   Widget build(BuildContext context) {
-
     _controller = PersistentTabController(initialIndex: 0);
 
     return Scaffold(
@@ -76,21 +67,26 @@ class _PersistState extends State<Persist> {
           items: _navBarsItems(),
           backgroundColor: Colors.black,
           handleAndroidBackButtonPress: true, // Default is true.
-          resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+          resizeToAvoidBottomInset:
+              true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
           stateManagement: true,
-          hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+          hideNavigationBarWhenKeyboardShows:
+              true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
           popAllScreensOnTapOfSelectedTab: true,
           popActionScreens: PopActionScreensType.all,
-          itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+          itemAnimationProperties: ItemAnimationProperties(
+            // Navigation Bar's items animation properties.
             duration: Duration(milliseconds: 400),
             curve: Curves.fastLinearToSlowEaseIn,
           ),
-          screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+          screenTransitionAnimation: ScreenTransitionAnimation(
+            // Screen transition animation on change of selected tab.
             animateTabTransition: true,
             curve: Curves.fastLinearToSlowEaseIn,
             duration: Duration(milliseconds: 400),
           ),
-          navBarStyle: NavBarStyle.style13, // Choose the nav bar style with this property.
+          navBarStyle: NavBarStyle
+              .style13, // Choose the nav bar style with this property.
         ),
       ),
     );

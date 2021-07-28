@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
+import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
@@ -14,7 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(MaterialApp(
-    initialRoute: '/ok',
+    initialRoute: '/persist',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -22,6 +23,7 @@ Future<void> main() async {
       '/display': (context) => Display(),
       '/library': (context) => LibraryPage(),
       '/newdetail': (context) => NewDetail(),
+      '/persist': (context) => Persist(),
     },
     debugShowCheckedModeBanner: false,
   ));

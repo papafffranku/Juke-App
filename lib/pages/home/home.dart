@@ -3,9 +3,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/home/tools/track_tile.dart';
+import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,14 +13,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _selectedIndex = 0;
   FilePickerResult? result;
   late PlatformFile file;
 
-  Container trails(String img_url) {
+  Container trails(String imgUrl) {
     return Container(
         width: 100,
-        child: Card(child: Wrap(children: <Widget>[Image.network(img_url)])));
+        child: Card(child: Wrap(children: <Widget>[Image.network(imgUrl)])));
   }
 
   @override
@@ -30,7 +29,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double sHeight = MediaQuery.of(context).size.height;
     double sWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
@@ -42,6 +40,20 @@ class _HomePageState extends State<HomePage> {
                 slivers: <Widget>[
                   SliverAppBar //QuickAccess Bar
                       (
+                    automaticallyImplyLeading: false,
+                    leading: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80'),
+                                radius: 20),
+                            onTap: () {
+                              pushNewScreen(context, screen: ProfilePage());
+                            }),
+                      ],
+                    ),
                     backgroundColor: Color(0xff0e0e15),
                     pinned: true,
                     // onStretchTrigger: (){
@@ -58,7 +70,8 @@ class _HomePageState extends State<HomePage> {
                             final File UPF = File(file.path.toString());
                             print(file.name);
                             print(file.size);
-                            pushNewScreen(context, screen: SongUpload(UPFcon: UPF));
+                            pushNewScreen(context,
+                                screen: SongUpload(UPFcon: UPF));
                             // Navigator.pushNamed(context, '/UploadSong',
                             //     arguments: {
                             //       'UPF': UPF,
@@ -66,18 +79,13 @@ class _HomePageState extends State<HomePage> {
                           },
                           icon: Icon(Icons.add_circle_outline_rounded)),
                       IconButton(
-                          onPressed: () {
-
-                          },
+                          onPressed: () {},
                           icon: Icon(Icons.notifications_none_rounded)),
                       IconButton(
-                          onPressed: () {
-
-                          },
-                          icon: Icon(Icons.message_outlined)),
+                          onPressed: () {}, icon: Icon(Icons.message_outlined)),
                     ],
 
-                    expandedHeight: 150.0,
+                    expandedHeight: 170.0,
                     flexibleSpace: FlexibleSpaceBar(
                       stretchModes: const <StretchMode>[
                         StretchMode.blurBackground,
@@ -89,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                           text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Welcome,',
+                                text: '\nWelcome,',
                                 style: TextStyle(
                                     letterSpacing: 1.3,
                                     fontWeight: FontWeight.w800,
