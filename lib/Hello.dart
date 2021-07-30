@@ -22,7 +22,7 @@ class _HelloState extends State<Hello> {
           } else if(snapshot.hasData){
             return Persist();
           } else if(snapshot.hasError){
-            return Scaffold(body: Center(child: Text('Error bro'),));
+            return Scaffold(body: Center(child: Text('Error'),));
           } else{
             return abc();
           }

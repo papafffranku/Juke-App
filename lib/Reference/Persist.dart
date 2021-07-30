@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
@@ -13,6 +14,12 @@ class Persist extends StatefulWidget {
 }
 
 class _PersistState extends State<Persist> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   List<Widget> _buildScreens() {
     return [
       HomePage(),
@@ -52,6 +59,7 @@ class _PersistState extends State<Persist> {
   }
 
   late PersistentTabController _controller;
+
 
   @override
   Widget build(BuildContext context) {

@@ -30,7 +30,7 @@ class fireauthhelp{
     var authResult = await _auth.signInWithCredential(credential);
     if(authResult.additionalUserInfo!.isNewUser){
       //new user
-      createUserInFirestore1(context);
+      createUserInFirestore(context);
     }
   }
 
@@ -41,25 +41,6 @@ class fireauthhelp{
 
   //Create User in Firestore
   createUserInFirestore(BuildContext context) async {
-    //check if user exists
-    final fyeuser = FirebaseAuth.instance.currentUser!;
-    final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
-
-    if(!doc.exists){
-      final username = await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NewDetail()),
-      );
-      usersRef.doc(fyeuser.uid).set({
-        "id": fyeuser.uid,
-        "username": username,
-        "timestamp" : timestamp
-      });
-    }
-  }
-
-  createUserInFirestore1(BuildContext context) async {
-    //check if user exists
     final fyeuser = FirebaseAuth.instance.currentUser!;
     final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
 
@@ -67,6 +48,15 @@ class fireauthhelp{
       usersRef.doc(fyeuser.uid).set({
         "id": fyeuser.uid,
         "username": fyeuser.displayName,
+        "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2Fprofile.png?alt=media&token=bb19b87c-2af3-4e5e-bf40-3f757cd99053',
+        "email": fyeuser.email,
+        "bio": '-',
+        "tag": '',
+        "socialfb": '',
+        "socialig": '',
+        "songs": 0,
+        "followers": 0,
+        "following": 0,
         "timestamp" : timestamp
       });
     }

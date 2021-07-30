@@ -1,8 +1,10 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  final Map<String, dynamic> data;
+  const EditProfile({Key? key, required this.data}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -11,10 +13,9 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   String Background='https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80';
   String Profile = 'https://www.classifapp.com/wp-content/uploads/2017/09/avatar-placeholder.png';
-  List<bool> isSelected = [false,false,false];
+  late List<bool> isSelected;
 
-  String uid='';
-  String username='';
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -33,11 +34,20 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+
+    UsernameControl.text=widget.data['username'];
+    BioControl.text=widget.data['bio'];
+    InstagramControl.text=widget.data['socialig'];
+    FacebookControl.text=widget.data['socialfb'];
+    OtherControl.text=widget.data['socialot'];
+    var tog1= toggleget(widget.data['tag']);
+    isSelected=tog1;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("Edit Profile",
+        title: Text('Edit Profile',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 25
@@ -45,27 +55,19 @@ class _EditProfileState extends State<EditProfile> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: TextButton(
+            child: CupertinoButton(
               onPressed: () {
                 WriteDetails(UsernameControl,BioControl,InstagramControl,FacebookControl,OtherControl);
               },
               child: Text("Save",
               style: TextStyle(
-                color: Color(0xff5338FF),
-                fontSize: 20
+                fontSize: 18
               ),),
             ),
           ),
         ], //<Widget>[]
         backgroundColor: Colors.black,
         elevation: 50.0,
-        leading: IconButton(
-          icon: Icon(Icons.clear_rounded),
-          iconSize: 30,
-          tooltip: 'Menu Icon',
-          onPressed: () {},
-        ), //IconButton
-        brightness: Brightness.dark,
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -389,7 +391,7 @@ class _EditProfileState extends State<EditProfile> {
 
   }
 
-  Future <List<bool>> toggleget(String artTag)async{
+  List<bool> toggleget(String artTag){
     List<bool> tog = [false, false, false];
     if(artTag=='S'){
       tog = [true, false, false];
