@@ -16,12 +16,12 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(MaterialApp(
-    initialRoute: '/display',
+    initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
       '/upload': (context) => UploadScreen(),
-      '/display': (context) => Display(),
+      // '/display': (context) => Display(),
       '/library': (context) => LibraryPage(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),

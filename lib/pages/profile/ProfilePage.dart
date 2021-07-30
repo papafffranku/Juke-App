@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
-          snapshot.data!.data() as Map<String, dynamic>;
+          snapshot.data?.data() as Map<String, dynamic>;
 
           return Scaffold(
             backgroundColor: Color(0xff0e0e15),
@@ -227,6 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    print (data);
                                     pushNewScreen(
                                       context,
                                       screen: EditProfile(data: data,),

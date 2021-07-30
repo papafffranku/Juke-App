@@ -1,10 +1,13 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
 class EditProfile extends StatefulWidget {
   final Map<String, dynamic> data;
-  const EditProfile({Key? key, required this.data}) : super(key: key);
+  const EditProfile({Key? key, required this.data,}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -13,9 +16,9 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   String Background='https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80';
   String Profile = 'https://www.classifapp.com/wp-content/uploads/2017/09/avatar-placeholder.png';
-  late List<bool> isSelected;
+  late List<bool> arr;
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final usersRef = FirebaseFirestore.instance.collection('users');
 
   @override
   void initState() {
@@ -30,7 +33,10 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController FacebookControl = TextEditingController();
   final TextEditingController OtherControl = TextEditingController();
 
-
+  bool singerValue = false;
+  bool producerValue = false;
+  bool instrumentValue = false;
+  bool engineValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +45,6 @@ class _EditProfileState extends State<EditProfile> {
     BioControl.text=widget.data['bio'];
     InstagramControl.text=widget.data['socialig'];
     FacebookControl.text=widget.data['socialfb'];
-    OtherControl.text=widget.data['socialot'];
-    var tog1= toggleget(widget.data['tag']);
-    isSelected=tog1;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -56,8 +59,8 @@ class _EditProfileState extends State<EditProfile> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: CupertinoButton(
-              onPressed: () {
-                WriteDetails(UsernameControl,BioControl,InstagramControl,FacebookControl,OtherControl);
+              onPressed: () async {
+                await WriteDetails();
               },
               child: Text("Save",
               style: TextStyle(
@@ -122,7 +125,7 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextField(
                         controller: UsernameControl,
                         style: TextStyle(
@@ -166,7 +169,7 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextField(
                         controller: BioControl,
                         style: TextStyle(
@@ -193,56 +196,70 @@ class _EditProfileState extends State<EditProfile> {
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
-              ToggleButtons(
-                borderWidth: 1.5,
-                borderRadius: BorderRadius.circular(50),
-                selectedBorderColor: Colors.lightBlueAccent,
-                borderColor: Colors.grey[500],
-                isSelected: isSelected,
-                fillColor: Color(0xff5338FF),
-                color: Colors.grey[400],
-                selectedColor: Colors.white,
-                constraints: BoxConstraints(
-                  minWidth: 90,
-                  minHeight: 40
+              SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Row(
+                  children: [
+                    Text("Your skills",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                      ),),
+                    Icon(CupertinoIcons.forward,color: Colors.white,)
+                  ],
                 ),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Text("Singer",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Text("Producer",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Text("Cover Artist",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                  ),
-                ],
-                onPressed: (int newIndex){
-                  setState(() {
-                    for(int index=0;index<isSelected.length;index++){
-                      if(index==newIndex){
-                        isSelected[index]= !isSelected[index];
-                      }
-                    }
-                  });
-                  print(isSelected.toString());
-                  // print(togglebuttonstate(isSelected));
-                },
               ),
-              ListTileTheme(
-                contentPadding: EdgeInsets.only(left: 8),
-                child: ListTile(leading: Text("Add your interests",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
-                  ),),
-                  dense: true,
-                  trailing:Icon(Icons.arrow_forward_ios_rounded,color: Color(0xff5338FF),
-                  ),),
+              Column(
+                children: [
+                  Theme(
+                    data: ThemeData(unselectedWidgetColor: CupertinoColors.white),
+                    child: Column(
+                      children: [
+                        CheckboxListTile(
+                            title: Text(
+                              'Singer',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            activeColor: Colors.blue,
+                            checkColor: Colors.black,
+                            value: singerValue,
+                            onChanged: (singerValue) =>
+                                setState(() => this.singerValue = singerValue!)),
+                        CheckboxListTile(
+                            title: Text(
+                              'Producer',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            activeColor: Colors.blue,
+                            checkColor: Colors.black,
+                            value: producerValue,
+                            onChanged: (producerValue) =>
+                                setState(() => this.producerValue = producerValue!)),
+                        CheckboxListTile(
+                            title: Text(
+                              'Instrumentalist',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            activeColor: Colors.blue,
+                            checkColor: Colors.black,
+                            value: instrumentValue,
+                            onChanged: (instrumentValue) =>
+                                setState(() => this.instrumentValue = instrumentValue!)),
+                        CheckboxListTile(
+                            title: Text(
+                              'Audio Engineer',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            activeColor: Colors.blue,
+                            checkColor: Colors.black,
+                            value: engineValue,
+                            onChanged: (engineValue) =>
+                                setState(() => this.engineValue = engineValue!)),
+                      ],
+                    ),
+                  )
+                ],
               ),
               SizedBox(height: 25,),
               Padding(
@@ -360,63 +377,20 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  String togglebuttonstate(List<bool> isSelected){
-    if (isSelected.toString()=='[false, false, false]'){
-      return ("N");
-    }else if(isSelected.toString()=='[true, false, false]'){
-      return("S");
-    }else if(isSelected.toString()=='[false, true, false]'){
-      return("P");
-    }else if(isSelected.toString()=='[false, false, true]'){
-      return("C");
-    }else if(isSelected.toString()=='[true, true, false]'){
-      return("SP");
-    }else if(isSelected.toString()=='[true, false, true]'){
-      return("SC");
-    }else if(isSelected.toString()=='[false, true, true]'){
-      return("PC");
-    }else {
-      return("ALL");
-    }
+  //get tags
+  void tagGet(){
+    arr=[singerValue,producerValue,instrumentValue,engineValue];
+    print(arr);
   }
 
-  Future<void> WriteDetails(TextEditingController usernameControl, TextEditingController bioControl, TextEditingController instagramControl, TextEditingController facebookControl, TextEditingController otherControl) async {
-
-  }
-
-
-  //retreivers
-
-  Future<void> preusername(String uid1, String username1) async {
-
-  }
-
-  List<bool> toggleget(String artTag){
-    List<bool> tog = [false, false, false];
-    if(artTag=='S'){
-      tog = [true, false, false];
-      return tog;
-    }else if(artTag=='P'){
-      tog = [false, true, false];
-      return tog;
-    }else if(artTag=='C'){
-      tog = [true, false, true];
-      return tog;
-    }else if(artTag=='SP'){
-      tog = [true, true, false];
-      return tog;
-    }else if(artTag=='SC'){
-      tog = [true, false, true];
-      return tog;
-    }else if(artTag=='PC'){
-      tog = [false, true, true];
-      return tog;
-    }else if(artTag=='ALL'){
-      tog = [true, true, true];
-      return tog;
-    }else{
-      tog = [false, false, false];
-      return tog;
-    }
+  Future<void> WriteDetails() async {
+    usersRef.doc(widget.data['id']).update({
+      "username": UsernameControl.text,
+      "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2Fprofile.png?alt=media&token=bb19b87c-2af3-4e5e-bf40-3f757cd99053',
+      "bio": BioControl.text,
+      "tag": '',
+      "socialfb": FacebookControl.text,
+      "socialig": InstagramControl.text,
+    });
   }
 }
