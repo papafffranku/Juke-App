@@ -383,7 +383,7 @@ class _NewDetailState extends State<NewDetail> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Bio(),
+                                    // Bio(),
                                     SizedBox(
                                       height: 20,
                                     ),

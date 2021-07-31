@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget Bio() {
+Widget Bio(String data) {
   return Column(
     children: [
       Padding(
@@ -21,7 +21,7 @@ Widget Bio() {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Text(
-            "Control can sometimes be an illusion. But sometimes you need illusions to gain control. Fantasy is an easy way to give meaning to world. To cloak our harsh reality with escapist comfort. ",
+            data,
             style: TextStyle(
                 color: Colors.white70, fontSize: 15),
           ),

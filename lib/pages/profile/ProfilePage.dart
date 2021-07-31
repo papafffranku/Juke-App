@@ -404,7 +404,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Bio(),
+                                    Bio(data['bio']),
                                     SizedBox(
                                       height: 20,
                                     ),

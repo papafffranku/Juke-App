@@ -21,7 +21,7 @@ Future<void> main() async {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
       '/upload': (context) => UploadScreen(),
-      // '/display': (context) => Display(),
+      '/display': (context) => Display(),
       '/library': (context) => LibraryPage(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),

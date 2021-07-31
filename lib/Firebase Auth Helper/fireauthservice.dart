@@ -48,7 +48,7 @@ class fireauthhelp{
       usersRef.doc(fyeuser.uid).set({
         "id": fyeuser.uid,
         "username": fyeuser.displayName,
-        "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2Fprofile.png?alt=media&token=bb19b87c-2af3-4e5e-bf40-3f757cd99053',
+        "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
         "email": fyeuser.email,
         "bio": '-',
         "tag": '',

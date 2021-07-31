@@ -308,7 +308,7 @@ class _OtherProfileState extends State<OtherProfile> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Bio(),
+                              // Bio(),
                               SizedBox(
                                 height: 20,
                               ),
@@ -316,8 +316,6 @@ class _OtherProfileState extends State<OtherProfile> {
                               SizedBox(
                                 height: 20,
                               ),
-
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
