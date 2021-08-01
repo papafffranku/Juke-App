@@ -90,8 +90,8 @@ class _HomePageState extends State<HomePage> {
                                   onPressed: () async {
                                     result =
                                         await FilePicker.platform.pickFiles(
-                                      type: FileType.image,
-                                      // allowedExtensions: ['mp3'],
+                                      type: FileType.custom,
+                                      allowedExtensions: ['mp3'],
                                     );
                                     file = result!.files.first;
                                     final File UPF = File(file.path.toString());
