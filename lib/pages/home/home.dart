@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lessgoo/pages/home/tools/track_tile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
@@ -36,8 +35,6 @@ class _HomePageState extends State<HomePage> {
     final User? user = auth.currentUser;
     final uid = user!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    double screenwidth = MediaQuery.of(context).size.width;
-
     double sWidth = MediaQuery.of(context).size.width;
 
     return FutureBuilder<DocumentSnapshot>(
@@ -71,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                                     child: CircleAvatar(
                                       radius: 20.0,
                                       backgroundImage:
-                                      NetworkImage(data['avatarUrl']),
+                                          NetworkImage(data['avatarUrl']),
                                       backgroundColor: Colors.transparent,
                                     ),
                                     onTap: () {
@@ -324,25 +321,39 @@ class _HomePageState extends State<HomePage> {
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500),
                                       ),
-                                      SizedBox(height: 10),
-                                      Container //DisplayTracks
-                                          (
-                                        width: double.infinity,
+                                      SizedBox(height: 15),
+                                      Container(
                                         height: 300,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            trackTile('Blood', 'On', 23,
-                                                'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'),
-                                            trackTile('Blood', 'On', 23,
-                                                'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'),
-                                            trackTile('Blood', 'On', 23,
-                                                'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'),
-                                            trackTile('Blood', 'On', 23,
-                                                'https://homepages.cae.wisc.edu/~ece533/images/arctichare.png'),
-                                          ],
-                                        ),
+                                        child: ListView.builder(
+                                            itemBuilder: (_, i) {
+                                          return Container(
+                                              margin: EdgeInsets.only(top: 10),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blueGrey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        width: 80,
+                                                        height: 80,
+                                                        decoration: BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            image: DecorationImage(
+                                                                image: NetworkImage(
+                                                                    'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/images%2FTyler-the-Creator-Lumberjack.jpeg?alt=media&token=c70c73f4-b04c-4ee4-bae8-5a1392b7ea54'))),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ));
+                                        }),
                                       ),
                                       SizedBox(height: 15),
                                     ],
@@ -350,8 +361,7 @@ class _HomePageState extends State<HomePage> {
                                 )),
                           ]))
                         ])));
-          }
-          else{
+          } else {
             return ProfileLoading();
           }
         });

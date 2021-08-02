@@ -7,7 +7,7 @@ import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
-import 'package:lessgoo/pages/profile/ProfilePage.dart';
+import 'package:lessgoo/pages/player/tester.dart';
 import 'package:lessgoo/upload_screen.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
@@ -16,7 +16,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(MaterialApp(
-    initialRoute: '/ok',
+    initialRoute: '/player',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -25,6 +25,7 @@ Future<void> main() async {
       '/library': (context) => LibraryPage(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
+      '/player': (context) => PlaylistTester(),
     },
     debugShowCheckedModeBanner: false,
   ));
