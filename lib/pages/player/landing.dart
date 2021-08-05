@@ -286,16 +286,17 @@ class _MusicPlayerState extends State<MusicPlayer> {
                   children: [
                     Container // Background
                         (
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(playList![currentIndex!].imgUrl),
-                        ),
-                      ),
-                      height: 350,
-                      width: 350,
-                    ),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(
+                                    playList![currentIndex!].imgUrl),
+                              ),
+                            ),
+                            height: 350,
+                            width: 350),
                   ],
                 ),
               ),

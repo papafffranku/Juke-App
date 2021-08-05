@@ -14,7 +14,6 @@ class Persist extends StatefulWidget {
 }
 
 class _PersistState extends State<Persist> {
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +39,7 @@ class _PersistState extends State<Persist> {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.search),
         title: ("Explore"),
-        activeColorPrimary: Color(0xff5338FF),
+        activeColorPrimary: Colors.amberAccent,
         inactiveColorPrimary: CupertinoColors.white,
       ),
       PersistentBottomNavBarItem(
@@ -59,7 +58,6 @@ class _PersistState extends State<Persist> {
   }
 
   late PersistentTabController _controller;
-
 
   @override
   Widget build(BuildContext context) {
