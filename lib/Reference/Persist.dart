@@ -62,38 +62,105 @@ class _PersistState extends State<Persist> {
   @override
   Widget build(BuildContext context) {
     _controller = PersistentTabController(initialIndex: 0);
+    double screenwidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double screenheight = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     return Scaffold(
       backgroundColor: CupertinoColors.white,
       body: SafeArea(
-        child: PersistentTabView(
-          context,
-          controller: _controller,
-          screens: _buildScreens(),
-          items: _navBarsItems(),
-          backgroundColor: Colors.black,
-          handleAndroidBackButtonPress: true, // Default is true.
-          resizeToAvoidBottomInset:
-              true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-          stateManagement: true,
-          hideNavigationBarWhenKeyboardShows:
-              true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-          popAllScreensOnTapOfSelectedTab: true,
-          popActionScreens: PopActionScreensType.all,
-          itemAnimationProperties: ItemAnimationProperties(
-            // Navigation Bar's items animation properties.
-            duration: Duration(milliseconds: 400),
-            curve: Curves.fastLinearToSlowEaseIn,
-          ),
-          screenTransitionAnimation: ScreenTransitionAnimation(
-            // Screen transition animation on change of selected tab.
-            animateTabTransition: true,
-            curve: Curves.fastLinearToSlowEaseIn,
-            duration: Duration(milliseconds: 400),
-          ),
-          navBarStyle: NavBarStyle
-              .style13, // Choose the nav bar style with this property.
+        child: Stack(
+          children: [
+            PersistentTabView(
+              context,
+              controller: _controller,
+              screens: _buildScreens(),
+              items: _navBarsItems(),
+              backgroundColor: Colors.black,
+              handleAndroidBackButtonPress: true,
+              resizeToAvoidBottomInset: true,
+              stateManagement: true,
+              hideNavigationBarWhenKeyboardShows: true,
+              popAllScreensOnTapOfSelectedTab: true,
+              popActionScreens: PopActionScreensType.all,
+              itemAnimationProperties: ItemAnimationProperties(
+                // Navigation Bar's items animation properties.
+                duration: Duration(milliseconds: 400),
+                curve: Curves.fastLinearToSlowEaseIn,
+              ),
+              screenTransitionAnimation: ScreenTransitionAnimation(
+                // Screen transition animation on change of selected tab.
+                animateTabTransition: true,
+                curve: Curves.fastLinearToSlowEaseIn,
+                duration: Duration(milliseconds: 400),
+              ),
+              navBarStyle: NavBarStyle.style13,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        child: Row(
+                          children: [
+                            SizedBox(width: 20,),
+                            Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                child: Image.network(
+                                    'https://images.squarespace-cdn.com/content/v1/53b6eb62e4b06e0feb2d8e86/1595624196054-EHA9AOE535UCPQ1I7YNV/SamSpratt_NoPressure_CoverArt_Tracklist_clean.jpg?format=1500w'),),
+                            Icon(
+                              CupertinoIcons.play,
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(color: Colors.yellow),
+                      )),
+                ],
+              ),
+            )
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget botbut() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(bottom: 70),
+              child: Container(
+                width: 60,
+                height: 60,
+                child: Center(
+                    child: Icon(
+                      CupertinoIcons.play,
+                      size: 30,
+                    )),
+                decoration:
+                BoxDecoration(color: Colors.yellow, shape: BoxShape.circle),
+              )),
+        ],
       ),
     );
   }
