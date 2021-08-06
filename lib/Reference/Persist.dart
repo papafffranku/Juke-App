@@ -1,4 +1,3 @@
-import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
@@ -67,7 +66,7 @@ class _PersistState extends State<Persist> {
     double screenheight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: CupertinoColors.white,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
