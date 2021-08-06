@@ -1,18 +1,24 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class SongUpload extends StatefulWidget {
   final File UPFcon;
+  final String uid;
 
-  const SongUpload({Key? key, required this.UPFcon}) : super(key: key);
+  const SongUpload({Key? key, required this.UPFcon, required this.uid}) : super(key: key);
 
   @override
   _SongUploadState createState() => _SongUploadState();
@@ -20,13 +26,12 @@ class SongUpload extends StatefulWidget {
 
 class _SongUploadState extends State<SongUpload> {
   final modal = ModalScreens();
-  String UID = '';
-  bool doneLoad = false;
+  final usersRef = FirebaseFirestore.instance.collection('users');
   late AudioPlayer advancedPlayer;
   FilePickerResult? result;
   late PlatformFile file;
   File? Cover;
-  String path = '';
+  String path='';
   String Cover_key = '';
   String Song_key = '';
   bool prv = false;
@@ -51,12 +56,11 @@ class _SongUploadState extends State<SongUpload> {
   Widget build(BuildContext context) {
     File UPF1 = widget.UPFcon;
     String audiofileName = UPF1.path.split('/').last;
-    Song_key = "song" + UID + audiofileName.substring(0, 5);
-    Cover_key = "cover" + UID + audiofileName.substring(0, 5);
+    Song_key = "song" + widget.uid + audiofileName.substring(0, 5);
+    Cover_key = "cover" + widget.uid + audiofileName.substring(0, 5);
 
     return CupertinoPageScaffold(
       backgroundColor: Color(0xff0e0e15),
-      // navigationBar: IOSNAV.NavBarIOS(context, 'Upload Details', 'Home'),
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -68,7 +72,16 @@ class _SongUploadState extends State<SongUpload> {
               ),
               trailing: GestureDetector(
                   onTap: () async {
-                    await Uploader(Cover!, Cover_key, UPF1, Song_key, UID);
+                    final DocumentSnapshot doc = await usersRef.doc('ok').get();
+                    int check = await FieldChecker();
+                    if(check==2 && !doc.exists){
+                      modal.loadingmodalscreen(context);
+                      await Uploader(Cover!,Cover_key,UPF1,Song_key,widget.uid);
+                      Navigator.pop(context);
+                      pushNewScreen(context, screen: SuccessUpload(),withNavBar: true);
+                    }else if(doc.exists){
+                      Snackbar("Looks like you've already uploaded a song with the same name");
+                    }
                   },
                   child: Icon(
                     CupertinoIcons.check_mark_circled_solid,
@@ -77,11 +90,8 @@ class _SongUploadState extends State<SongUpload> {
                   )),
               leading: CupertinoNavigationBarBackButton(
                 color: CupertinoColors.activeBlue,
-                onPressed: () async {
-                  int check = await FieldChecker();
-                  // if(check==2){
-                  //   await Uploader(Cover,Cover_key,UPF1,Song_key,UID);
-                  // }
+                onPressed: (){
+                  Navigator.pop(context);
                 },
                 previousPageTitle: 'Home',
               ),
@@ -382,11 +392,11 @@ class _SongUploadState extends State<SongUpload> {
       Snackbar('Song name cannot be empty');
       return 1;
     }
-    if (path.isEmpty) {
+    else if (path=='') {
       Snackbar('You must choose some cover art');
       return 1;
     }
-    if (SongDescController.text.length >= 140) {
+    else if (SongDescController.text.length >= 140) {
       Snackbar('Limit Description to 140 words');
       return 1;
     } else {
@@ -402,21 +412,43 @@ class _SongUploadState extends State<SongUpload> {
     return (File(file.path.toString()));
   }
 
-  Future<void> Uploader(File cover, String cover_key, File upf1,
-      String song_key, String uid) async {
+  Future<void> Uploader(File cover, String cover_key, File upf1, String song_key, String uid) async {
     try {
       await firebase_storage.FirebaseStorage.instance
-          .ref('test/tester1')
+          .ref('track/$song_key')
+          .putFile(upf1);
+      await firebase_storage.FirebaseStorage.instance
+          .ref('cover/$cover_key')
           .putFile(upf1);
     } catch (e) {
       print(e);
     }
-    await dbsong(song_key, upf1, cover_key, SongNameController.text,
-        SongDescController.text, uid);
+    String songLink=await getUrl('track/$song_key');
+    String coverLink=await getUrl('cover/$cover_key');
+    await dbsong(song_key, upf1, cover_key, SongNameController.text, SongDescController.text, uid, songLink, coverLink);
   }
 
-  Future<void> dbsong(String song_key, File upf1, String cover_key,
-      String sname, String desc, String uid) async {}
+  Future<void> dbsong(String song_key, File upf1, String cover_key, String sname, String desc, String uid, String songLink, String coverLink) async {
+    FirebaseFirestore.instance
+        .collection('tracks')
+        .doc(uid)
+        .collection(song_key)
+        .doc(song_key)
+        .set({
+      "id": song_key,
+      "SongName": sname,
+      "SongDesc": desc,
+      "Artist": uid,
+      "songLink": songLink,
+      "coverLink": coverLink,
+    });
+  }
+
+  Future<String> getUrl(String s) async {
+    final ref = FirebaseStorage.instance.ref().child(s);
+    var url = await ref.getDownloadURL();
+    return url;
+  }
 
   void Snackbar(String abc) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -431,13 +463,5 @@ class _SongUploadState extends State<SongUpload> {
       duration: Duration(seconds: 3),
       backgroundColor: Color(0xff24B8D6),
     ));
-  }
-
-  Widget infoFade() {
-    return Container(
-      width: 200.0,
-      height: 200.0,
-      color: Colors.green,
-    );
   }
 }

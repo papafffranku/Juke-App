@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +26,21 @@ class _DisplayState extends State<Display> {
     return ColorfulSafeArea(
         child: Scaffold(
             backgroundColor: Color(0xff0e0e15),
-            body: Column(
-              children: [
-                CupertinoButton(
-                    child: Text("Subcollection create"), onPressed: () {getter();}),
-              ],
+            body: Center(
+              child: Column(
+                children: [
+                  CupertinoButton(
+                      child: Text("Subcollection create"),
+                      onPressed: () {
+                        getter();
+                      }),
+                  CupertinoButton(
+                      child: Text("Link get"),
+                      onPressed: () async {
+                        print(await getUrl());
+                      }),
+                ],
+              ),
             )));
   }
 
@@ -37,11 +48,17 @@ class _DisplayState extends State<Display> {
     final databaseReference = FirebaseFirestore.instance;
     databaseReference
         .collection('tester')
-        .doc('s')
-        .collection('testercoll')
-        .doc('uid')
-        .set({
-      "test": 'vikram test'
-    });
+        .doc('vikram sharma')
+        .collection('song2')
+        .doc('song2')
+        .set({"test": 'vikram test'});
+  }
+
+  void link() {}
+
+  Future<String> getUrl() async {
+    final ref = FirebaseStorage.instance.ref().child('test/tester');
+    var url = await ref.getDownloadURL();
+    return url;
   }
 }

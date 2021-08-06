@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Persist.dart';
+import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/tester.dart';
-import 'package:lessgoo/upload_screen.dart';
+import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
 Future<void> main() async {
@@ -27,12 +28,13 @@ Future<void> main() async {
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
-      '/upload': (context) => UploadScreen(),
       '/display': (context) => Display(),
       '/library': (context) => LibraryPage(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/player': (context) => PlaylistTester(),
+      '/success': (context) => SuccessUpload(),
+      '/anime': (context) => anime(),
     },
     debugShowCheckedModeBanner: false,
   ));
