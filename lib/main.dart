@@ -19,8 +19,8 @@ Future<void> main() async {
   runApp(MaterialApp(
     theme: ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Color(0xff141415),
-      accentColor: Color(0xffFEE715),
+      primaryColor: Color(0xff101011),
+      accentColor: Color(0xffFFEF00),
       fontFamily: GoogleFonts.ubuntu().fontFamily,
     ),
     initialRoute: '/ok',

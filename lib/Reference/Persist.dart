@@ -1,3 +1,4 @@
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
@@ -33,25 +34,25 @@ class _PersistState extends State<Persist> {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.house_fill),
         title: ("Home"),
-        activeColorPrimary: Color(0xff5338FF),
+        activeColorPrimary: Theme.of(context).accentColor,
         inactiveColorPrimary: CupertinoColors.white,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.search),
         title: ("Explore"),
-        activeColorPrimary: Colors.amberAccent,
+        activeColorPrimary: Theme.of(context).accentColor,
         inactiveColorPrimary: CupertinoColors.white,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.infinite),
         title: ("Connect"),
-        activeColorPrimary: Color(0xff5338FF),
+        activeColorPrimary: Theme.of(context).accentColor,
         inactiveColorPrimary: CupertinoColors.white,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.group_solid),
         title: ("Community"),
-        activeColorPrimary: Color(0xff5338FF),
+        activeColorPrimary: Theme.of(context).accentColor,
         inactiveColorPrimary: CupertinoColors.white,
       ),
     ];
@@ -64,8 +65,8 @@ class _PersistState extends State<Persist> {
     _controller = PersistentTabController(initialIndex: 0);
 
     return Scaffold(
-      backgroundColor: CupertinoColors.white,
-      body: SafeArea(
+      body: ColorfulSafeArea(
+        color: Colors.black,
         child: PersistentTabView(
           context,
           controller: _controller,
