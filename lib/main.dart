@@ -24,7 +24,7 @@ Future<void> main() async {
       accentColor: Color(0xffFFEF00),
       fontFamily: GoogleFonts.ubuntu().fontFamily,
     ),
-    initialRoute: '/library',
+    initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:lessgoo/Firebase%20Auth%20Helper/Pro.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/home/home.dart';
@@ -64,6 +65,9 @@ class _PersistState extends State<Persist> {
     _controller = PersistentTabController(initialIndex: 0);
     double screenwidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
+    String imagis =
+        'https://images.complex.com/complex/images/c_fill,f_auto,g_center,w_1200/fl_lossy,pg_1/hcjrqlvc6dfhpjxob9nt/cudi';
+
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -95,42 +99,9 @@ class _PersistState extends State<Persist> {
               ),
               navBarStyle: NavBarStyle.style13,
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      child: Container(
-                        width: double.infinity,
-                        height: 50,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                ),
-                              ),
-                              child: Image.network(
-                                  'https://images.squarespace-cdn.com/content/v1/53b6eb62e4b06e0feb2d8e86/1595624196054-EHA9AOE535UCPQ1I7YNV/SamSpratt_NoPressure_CoverArt_Tracklist_clean.jpg?format=1500w'),
-                            ),
-                            Icon(
-                              CupertinoIcons.play,
-                              size: 30,
-                            ),
-                          ],
-                        ),
-                        decoration: BoxDecoration(color: Colors.yellow),
-                      )),
-                ],
-              ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: miniplayer(imagis, screenwidth),
             )
           ],
         ),
@@ -138,27 +109,56 @@ class _PersistState extends State<Persist> {
     );
   }
 
-  Widget botbut() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(bottom: 70),
-              child: Container(
-                width: 60,
-                height: 60,
-                child: Center(
-                    child: Icon(
-                  CupertinoIcons.play,
-                  size: 30,
-                )),
-                decoration:
-                    BoxDecoration(color: Colors.yellow, shape: BoxShape.circle),
-              )),
-        ],
-      ),
+  Widget miniplayer(String imagis, double screenwidth) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Center(
+          child: GlassContainer(
+            height: 60,
+            blur: 30,
+            shadowStrength: 10,
+            opacity: 0.2,
+            width: screenwidth - 50,
+            border: Border.fromBorderSide(BorderSide.none),
+            borderRadius: BorderRadius.circular(10),
+            child: Row(
+              children: [
+                Container(
+                  width: 60.0,
+                  height: 60.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover, image: NetworkImage(imagis)),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.black,
+                  ),
+                ),
+                Spacer(),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Heaven on Earth",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    Text(
+                      "Kid Cudi",
+                      style: TextStyle(color: Colors.white54),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 10,),
+                Spacer(),
+                Icon(CupertinoIcons.play_fill),
+                SizedBox(
+                  width: 20,
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

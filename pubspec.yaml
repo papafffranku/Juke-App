@@ -49,6 +49,7 @@ dependencies:
   audio_service: ^0.17.1
   google_fonts: ^2.1.0
   flare_flutter:
+  glassmorphism_ui: ^0.2.0
 
 dev_dependencies:
   flutter_test:
