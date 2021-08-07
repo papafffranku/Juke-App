@@ -68,7 +68,6 @@ class _PersistState extends State<Persist> {
     String imagis =
         'https://images.complex.com/complex/images/c_fill,f_auto,g_center,w_1200/fl_lossy,pg_1/hcjrqlvc6dfhpjxob9nt/cudi';
 
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -118,7 +117,7 @@ class _PersistState extends State<Persist> {
             height: 60,
             blur: 30,
             shadowStrength: 10,
-            opacity: 0.2,
+            opacity: 0.1,
             width: screenwidth - 50,
             border: Border.fromBorderSide(BorderSide.none),
             borderRadius: BorderRadius.circular(10),
@@ -148,7 +147,9 @@ class _PersistState extends State<Persist> {
                     ),
                   ],
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Spacer(),
                 Icon(CupertinoIcons.play_fill),
                 SizedBox(
