@@ -13,6 +13,7 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
+  late TabController _tabController;
   List<String> categories = ['Tracks', 'Albums', 'Artists'];
   List<Widget> underDisplay = [Tracks()];
   int? selectedIndex;
@@ -21,6 +22,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    //_tabController = TabController(length: 3, vsync: this);
     selectedIndex = widget.selectedOption;
   }
 
@@ -28,14 +30,20 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Color(0xff0e0e15),
+            backgroundColor: Theme.of(context).primaryColor,
             body: CustomScrollView(
               physics: BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
               slivers: [
                 SliverAppBar(
-                  title: Text('Library'),
-                  backgroundColor: Color(0xff0e0e15),
+                  title: Text(
+                    'library',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  backgroundColor: Theme.of(context).primaryColor,
                   pinned: true,
                   floating: true,
                   expandedHeight: 130,
@@ -46,19 +54,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     background: Transform(
                       transform: Matrix4.translationValues(10.0, 50.0, 0.0),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: categories.length,
-                            itemBuilder: (context, index) =>
-                                buildCategory(index)),
-                      ),
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Text('')),
                     ),
                   ),
                 ),
                 SliverList(
                     delegate: SliverChildListDelegate([
-                  Container(color: Color(0xff0e0e15), child: underDisplay[0])
+                  Container(
+                      color: Theme.of(context).primaryColor,
+                      child: underDisplay[0])
                 ]))
               ],
             )));

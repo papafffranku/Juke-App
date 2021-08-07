@@ -69,9 +69,10 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomRight,
             child: Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor, shape: BoxShape.circle),
-              child:
-                  Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black),
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.circle),
+              child: Icon(Icons.play_arrow_rounded,
+                  size: 35, color: Theme.of(context).accentColor),
             ),
           ),
         ),
@@ -105,7 +106,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget artistRelease(String imgUrl, String trackName, String artistName) {
+  Widget artistRelease(
+      String imgUrl, String trackName, String artistName, String releaseType) {
     return Container(
       height: 200,
       width: 150,
@@ -135,7 +137,13 @@ class _HomePageState extends State<HomePage> {
               text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: '$trackName',
+                    text: '$releaseType',
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context).accentColor.withOpacity(0.9)),
+                  ),
+                  TextSpan(
+                    text: '\n$trackName',
                     style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
                   ),
                   TextSpan(
@@ -439,22 +447,26 @@ class _HomePageState extends State<HomePage> {
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
                                         'Gimme Love',
-                                        'Joji'),
+                                        'Joji',
+                                        'single'),
                                     SizedBox(width: 10),
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png',
                                         'After Hours',
-                                        'The Weeknd'),
+                                        'The Weeknd',
+                                        'album'),
                                     SizedBox(width: 10),
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/b/b8/Mura_Masa_album.jpg',
                                         'Mura Masa',
-                                        'Mura Masa'),
+                                        'Mura Masa',
+                                        'album'),
                                     SizedBox(width: 10),
                                     artistRelease(
                                         'https://images.genius.com/3e19af5cd67d794b62e6b0fe59de0cde.500x500x1.jpg',
                                         'Between Days',
-                                        'Far Caspian')
+                                        'Far Caspian',
+                                        'single')
                                   ],
                                 ),
                               ),
