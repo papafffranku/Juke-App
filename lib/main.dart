@@ -7,6 +7,7 @@ import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/pages/library/categories/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/tester.dart';
@@ -21,10 +22,11 @@ Future<void> main() async {
     theme: ThemeData(
       brightness: Brightness.dark,
       primaryColor: Color(0xff101011),
+      backgroundColor: Color(0xff101011),
       accentColor: Color(0xffFFEF00),
       fontFamily: GoogleFonts.ubuntu().fontFamily,
     ),
-    initialRoute: '/library',
+    initialRoute: '/player',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -35,6 +37,7 @@ Future<void> main() async {
       '/player': (context) => PlaylistTester(),
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
+      '/album': (context) => AlbumViewer(),
     },
     debugShowCheckedModeBanner: false,
   ));

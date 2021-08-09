@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:lessgoo/models/TrackModel.dart';
 
 class MusicPlayer extends StatefulWidget {
@@ -27,11 +30,17 @@ class _MusicPlayerState extends State<MusicPlayer> {
   List<Track>? playList;
   int? currentIndex;
   List<IconData> _icons = [Icons.play_circle_filled, Icons.pause_circle_filled];
+  bool _visible = true;
 
   late AudioPlayer advancedPlayer;
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        _visible = !_visible;
+      });
+    });
     currentIndex = widget.selectedIndex;
     playList = widget.playList;
     super.initState();
@@ -81,50 +90,23 @@ class _MusicPlayerState extends State<MusicPlayer> {
     );
   }
 
-  Widget btnFav() {
-    return IconButton(
-        onPressed: () {},
-        icon:
-            Icon(Icons.favorite_border_rounded, size: 35, color: Colors.white));
+  void btnPrev() {
+    advancedPlayer.stop();
+    advancedPlayer.release();
+    currentIndex = currentIndex! - 1;
+    advancedPlayer.setUrl(playList![currentIndex!].url);
+    advancedPlayer.play(playList![currentIndex!].url);
+    isPlaying = false;
   }
 
-  Widget btnPrev() {
-    return IconButton(
-        onPressed: () {
-          if (_position >= Duration(seconds: 3)) {
-            advancedPlayer.stop();
-            advancedPlayer.resume();
-          } else {
-            currentIndex = currentIndex! - 1;
-            advancedPlayer.setUrl(playList![currentIndex!].url);
-            advancedPlayer.play(playList![currentIndex!].url);
-            isPlaying = false;
-          }
-        },
-        icon: Icon(
-          Icons.skip_previous_rounded,
-          size: 45,
-          color: Colors.white,
-        ));
-  }
-
-  Widget btnNext() {
-    return IconButton(
-        onPressed: () {
-          advancedPlayer.stop();
-          advancedPlayer.release();
-          setState(() {
-            currentIndex = currentIndex! + 1;
-            advancedPlayer.setUrl(playList![currentIndex!].url);
-            advancedPlayer.play(playList![currentIndex!].url);
-            isPlaying = false;
-          });
-        },
-        icon: Icon(
-          Icons.skip_next_rounded,
-          size: 45,
-          color: Colors.white,
-        ));
+  void btnNext() {
+    advancedPlayer.stop();
+    advancedPlayer.release();
+    // setState(() {
+    currentIndex = currentIndex! + 1;
+    advancedPlayer.setUrl(playList![currentIndex!].url);
+    advancedPlayer.play(playList![currentIndex!].url);
+    isPlaying = false;
   }
 
   Widget slider() //MusicSlider
@@ -157,9 +139,9 @@ class _MusicPlayerState extends State<MusicPlayer> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            btnPrev(),
+            //btnPrev(),
             btnStart(),
-            btnNext(),
+            //btnNext(),
           ],
         ),
       ),
@@ -174,6 +156,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
               color: Colors.grey[900],
               height: MediaQuery.of(context).size.height / 1.2,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ListTile(
                     leading: Icon(
@@ -275,226 +258,275 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.blueGrey,
-        body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 70.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container // Background
-                        (
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(
-                                    playList![currentIndex!].imgUrl),
+          body: SafeArea(
+              child: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(playList![currentIndex!].imgUrl))),
+        child: GlassContainer(
+          blur: 40,
+          opacity: 0.01,
+          border: Border.all(
+            color: Colors.white.withOpacity(0),
+          ),
+          borderRadius: BorderRadius.circular(0),
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row //BackButton
+                  (
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.keyboard_arrow_down_sharp,
+                        color: Colors.white, size: 32),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.messenger_outline_rounded,
+                        color: Colors.white, size: 28),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            GestureDetector(
+              onTapDown: (details) => _onTapDown(details),
+              child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.contain,
+                      image: NetworkImage(playList![currentIndex!].imgUrl),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: AnimatedOpacity(
+                      opacity: _visible ? 1 : 0,
+                      duration: const Duration(seconds: 5),
+                      child: Row(
+                        // btn Controls
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            color: Colors.black.withOpacity(0.3),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.skip_previous, size: 50),
+                                  Text(
+                                    'previous',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
                             ),
-                            height: 350,
-                            width: 350),
-                  ],
-                ),
-              ),
-              Container(
-                //height: sHeight,
-
-                //color: Colors.blue,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: sWidth,
-                      child: Row //BackButton
-                          (
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(Icons.keyboard_arrow_down_sharp,
-                                color: Colors.white, size: 32),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.messenger_outline_rounded,
-                                color: Colors.white, size: 28),
+                          Container(
+                            color: Colors.black.withOpacity(0.3),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.skip_next, size: 50),
+                                  Text(
+                                    'next',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    Container(
-                      //color: Colors.red,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: (sHeight - 400)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: sWidth,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 17.0),
-                                        child: Text(
-                                          playList![currentIndex!].title,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 24),
-                                        ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                              Icons.favorite_border_rounded,
-                                              size: 30,
-                                              color: Colors.white)),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 17.0),
-                                    child: Text(
-                                      playList![currentIndex!].artist,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 18),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                        child: Column(
-                      children: [
-                        Container(
-                          child: Column(
+                  ),
+                  height: 330,
+                  width: MediaQuery.of(context).size.width),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: sWidth,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(height: 15),
+                      Center(
+                        child: Container(
+                          width: sWidth / 2,
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .backgroundColor
+                                  .withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              SliderTheme // TrackSlider
-                                  (
-                                      data: SliderTheme.of(context).copyWith(
-                                        trackShape:
-                                            RoundedRectSliderTrackShape(),
-                                        trackHeight: 2.0,
-                                      ),
-                                      child: slider()),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 24, right: 24),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      (_position.toString().split('.').first)
-                                              .split(':')[1] +
-                                          ':' +
-                                          (_position
-                                                  .toString()
-                                                  .split('.')
-                                                  .first)
-                                              .split(':')[2],
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.white),
-                                    ),
-                                    Text(
-                                      (_duration.toString().split('.').first)
-                                              .split(':')[1] +
-                                          ':' +
-                                          (_duration
-                                                  .toString()
-                                                  .split('.')
-                                                  .first)
-                                              .split(':')[2],
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.favorite_border_rounded,
+                                      size: 24)),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.shuffle_rounded, size: 24)),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.repeat, size: 24)),
                             ],
                           ),
                         ),
-                        loadAsset(),
-                      ],
-                    )),
-                    SizedBox(height: 25),
-                    Expanded(
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  btnMenu();
-                                },
-                                child: Icon(
-                                  Icons.more_horiz_rounded,
-                                  size: 35,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(50.0),
-                                    ),
-                                    primary: Colors.grey[900])),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.blueGrey,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30),
-                                      topRight: Radius.circular(30))),
-                              child: ListTile(
-                                  leading: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.keyboard_arrow_up),
-                                      iconSize: 32,
-                                      color: Colors.white),
-                                  title: Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                        text: 'Up Next : ',
-                                        style: TextStyle(
-                                            color: Colors.white54,
-                                            fontWeight: FontWeight.w500)),
-                                    TextSpan(
-                                        text:
-                                            currentIndex == playList!.length - 1
-                                                ? '-'
-                                                : playList![currentIndex! + 1]
-                                                    .title,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold))
-                                  ]))),
-                            ),
-                          ],
+                      ),
+                      SizedBox(height: 15),
+                      Center(
+                        child: Text(
+                          playList![currentIndex!].title,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 35),
                         ),
                       ),
-                    )
-                  ],
+                      Center(
+                        child: Text(
+                          playList![currentIndex!].artist,
+                          style: TextStyle(
+                              color: Colors.white54,
+                              fontWeight: FontWeight.w300,
+                              fontSize: 18),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ],
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 17.0),
+                  child: btnStart(),
+                ),
+                SizedBox(width: 30),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 18.0),
+                    child: SliderTheme // TrackSlider
+                        (
+                            data: SliderTheme.of(context).copyWith(
+                              trackShape: RoundedRectSliderTrackShape(),
+                              trackHeight: 5.0,
+                            ),
+                            child: slider()),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    (_position.toString().split('.').first).split(':')[1] +
+                        ':' +
+                        (_position.toString().split('.').first).split(':')[2],
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(' / '),
+                  Text(
+                    (_duration.toString().split('.').first).split(':')[1] +
+                        ':' +
+                        (_duration.toString().split('.').first).split(':')[2],
+                    style: TextStyle(fontSize: 16, color: Colors.white54),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Flexible(
+              child: Container(
+                //color: Colors.pink,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            btnMenu();
+                          },
+                          child: Icon(
+                            Icons.more_horiz_rounded,
+                            size: 35,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(50.0),
+                              ),
+                              primary: Colors.grey[900])),
+                      SizedBox(height: 7.5),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).backgroundColor,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
+                          child: ListTile(
+                              leading: IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.keyboard_arrow_up),
+                                  iconSize: 32,
+                                  color: Colors.white),
+                              title: Text.rich(TextSpan(children: [
+                                TextSpan(
+                                    text: 'Up Next : ',
+                                    style: TextStyle(
+                                        color: Colors.white54,
+                                        fontWeight: FontWeight.w500)),
+                                TextSpan(
+                                    text: currentIndex == playList!.length - 1
+                                        ? '-'
+                                        : playList![currentIndex! + 1].title,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold))
+                              ]))))
+                    ]),
+              ),
+            )
+          ]),
         ),
-      ),
+      ))),
     );
+  }
+
+  void _onTapDown(TapDownDetails details) {
+    final double sWidth = MediaQuery.of(context).size.width;
+    final double dx = details.globalPosition.dx;
+
+    if (dx < sWidth / 3) {
+      setState(() {
+        btnPrev();
+      });
+    } else if (dx > 2 * sWidth / 3) {
+      setState(() {
+        btnNext();
+      });
+    }
   }
 }

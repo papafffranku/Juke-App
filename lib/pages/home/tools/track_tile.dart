@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget trackTile(
-    String trackname, String artistname, int plays, String coverart) {
+Widget trackTile(String trackname, String artistname, String coverart) {
   return Padding(
     padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 5),
     child: InkWell(
@@ -66,24 +65,4 @@ Widget trackTile(
       onTap: () {},
     ),
   );
-}
-
-String playsToString(int plays) {
-  int n = plays.toString().length;
-  String notif = '';
-  String res = '';
-  if (n < 4) {
-    return plays.toString();
-  } else if (n < 6) {
-    notif = 'K';
-  } else if (n < 9) {
-    notif = 'M';
-  }
-
-  res = plays.toString().substring(0, 3);
-  if (res.length != 1) {
-    res = res[0] + '.' + res.substring(1);
-  }
-
-  return res + notif;
 }

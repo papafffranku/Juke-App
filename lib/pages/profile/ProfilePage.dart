@@ -17,7 +17,6 @@ import 'package:lessgoo/pages/profile/trackwidget/featured_track.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ProfilePage extends StatefulWidget {
-
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
@@ -29,7 +28,6 @@ class _ProfilePageState extends State<ProfilePage> {
       'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
   String Profile =
       'https://www.nicepng.com/png/detail/627-6278749_at-the-movies-elliot-alderson.png';
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
-          snapshot.data?.data() as Map<String, dynamic>;
+              snapshot.data?.data() as Map<String, dynamic>;
 
           return Scaffold(
             backgroundColor: Color(0xff0e0e15),
@@ -69,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               image: NetworkImage(Background))),
                     ),
                     Container //Gradient
-                      (
+                        (
                       height: 475,
                       decoration: BoxDecoration(
                           color: Color(0xff0e0e15),
@@ -108,8 +106,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.only(top: 200),
                         child: CircleAvatar(
                           radius: 40.0,
-                          backgroundImage:
-                          NetworkImage(data['avatarUrl']),
+                          backgroundImage: NetworkImage(data['avatarUrl']),
                           backgroundColor: Colors.transparent,
                         ),
                       ),
@@ -227,13 +224,15 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    print (data);
+                                    print(data);
                                     pushNewScreen(
                                       context,
-                                      screen: EditProfile(data: data,),
+                                      screen: EditProfile(
+                                        data: data,
+                                      ),
                                       withNavBar: true,
                                       pageTransitionAnimation:
-                                      PageTransitionAnimation.slideUp,
+                                          PageTransitionAnimation.slideUp,
                                     );
                                   },
                                   child: Container(
@@ -293,7 +292,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           horizontal: 10.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text('Top Songs',
                                               style: TextStyle(
@@ -317,19 +316,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                           trackTile(
                                               'Vinland Saga',
                                               'Vikram Sharma',
-                                              129985,
                                               'https://i1.sndcdn.com/artworks-000573835055-8owmgt-t500x500.jpg'),
                                           trackTile(
                                               'Orange Soda',
                                               'Vikram Sharma',
-                                              27760,
                                               'https://upload.wikimedia.org/wikipedia/en/thumb/a/a6/Baby_Keem_-_Orange_Soda.png/220px-Baby_Keem_-_Orange_Soda.png'),
-                                          trackTile('Bad', 'Vikram Sharma', 300,
+                                          trackTile('Bad', 'Vikram Sharma',
                                               'https://s.abcnews.com/images/Entertainment/MJ-bad-1987-170831_4x5_992.jpg'),
                                           trackTile(
                                               'Sinnerman',
                                               'Vikram Sharma',
-                                              10455,
                                               'https://m.media-amazon.com/images/I/811Fs99RivL._SS500_.jpg'),
                                         ],
                                       ),
@@ -344,20 +340,20 @@ class _ProfilePageState extends State<ProfilePage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text('Albums',
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 24,
                                                     fontWeight:
-                                                    FontWeight.w700)),
+                                                        FontWeight.w700)),
                                             Text('See All',
                                                 style: TextStyle(
                                                     color: Colors.white54,
                                                     fontSize: 15,
                                                     fontWeight:
-                                                    FontWeight.w400)),
+                                                        FontWeight.w400)),
                                           ],
                                         ),
                                       ),
@@ -414,7 +410,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         GestureDetector(
                                           onTap: () {},
@@ -456,13 +452,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-
   Future getter() async {
-    try{
-
-    }catch(e){
+    try {} catch (e) {
       print(e);
     }
   }
-
-  }
+}

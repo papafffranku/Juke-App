@@ -27,11 +27,16 @@ class _LibraryPageState extends State<LibraryPage> {
                   Container(
                     color: Colors.black,
                     child: Column(children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_back_ios_sharp)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.arrow_back_ios_sharp)),
+                        ),
                       ),
                       Text(
                         'LIBRARY',
@@ -56,8 +61,8 @@ class _LibraryPageState extends State<LibraryPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              category(Icons.library_music, 'Genres',
-                                  Colors.greenAccent, 0),
+                              category(
+                                  Icons.piano, 'Genres', Colors.greenAccent, 0),
                               category(Icons.music_note, 'Tracks',
                                   Colors.amberAccent, 1),
                             ],
@@ -90,26 +95,24 @@ class _LibraryPageState extends State<LibraryPage> {
                       trackTile(
                           'SLUGGER (feat. NOT & slowthai)',
                           'Kevin Abstract',
-                          3500,
                           'https://static.stereogum.com/uploads/2021/07/Kevin-Abstract-Slugger-1626363400.jpeg'),
-                      trackTile('Swing Lynn', 'Harmless', 2890000,
+                      trackTile('Swing Lynn', 'Harmless',
                           'https://i1.sndcdn.com/artworks-000028655569-uk4f1a-t500x500.jpg'),
-                      trackTile('Corso', 'Tyler, The Creator', 9000000,
+                      trackTile('Corso', 'Tyler, The Creator',
                           'https://images.genius.com/9b50709a30fbb0eee802ba391af0eb43.999x999x1.png'),
-                      trackTile('Weirdo', 'Fatter', 9000000,
+                      trackTile('Weirdo', 'Fatter',
                           'https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/d5/30/4d/d5304d50-b5a4-db22-2db6-82019159ffd6/0.jpg/400x400bb.jpeg'),
-                      trackTile('Feel Good Inc.', 'Gorillaz', 900,
+                      trackTile('Feel Good Inc.', 'Gorillaz',
                           'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG'),
-                      trackTile('Green Grass', 'Ellie Dixon', 52343,
+                      trackTile('Green Grass', 'Ellie Dixon',
                           'https://is2-ssl.mzstatic.com/image/thumb/Music125/v4/1d/18/46/1d184666-be67-5f81-660a-a2b36b7f7c8b/195999965284.jpg/400x400cc.jpg'),
                       trackTile(
                           'SLUGGER (feat. NOT & slowthai)',
                           'Kevin Abstract',
-                          3500,
                           'https://static.stereogum.com/uploads/2021/07/Kevin-Abstract-Slugger-1626363400.jpeg'),
-                      trackTile('Swing Lynn', 'Harmless', 2890000,
+                      trackTile('Swing Lynn', 'Harmless',
                           'https://i1.sndcdn.com/artworks-000028655569-uk4f1a-t500x500.jpg'),
-                      trackTile('Feel Good Inc.', 'Gorillaz', 900,
+                      trackTile('Feel Good Inc.', 'Gorillaz',
                           'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG'),
                     ]),
                   )
@@ -125,15 +128,15 @@ class _LibraryPageState extends State<LibraryPage> {
       child: Column(
         children: [
           InkWell(
-              splashColor: Colors.transparent,
+              //splashColor: Colors.transparent,
               child: Container(
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: Theme.of(context).primaryColor,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                       blurRadius: 3.0,
                     ),
                   ],

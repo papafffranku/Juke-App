@@ -21,7 +21,6 @@ class NewDetail extends StatefulWidget {
 }
 
 class _NewDetailState extends State<NewDetail> {
-
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -46,9 +45,7 @@ class _NewDetailState extends State<NewDetail> {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
 
-          username=data['username'];
-
-
+          username = data['username'];
 
           return Scaffold(
             backgroundColor: Color(0xff0e0e15),
@@ -296,19 +293,16 @@ class _NewDetailState extends State<NewDetail> {
                                           trackTile(
                                               'Vinland Saga',
                                               'Vikram Sharma',
-                                              129985,
                                               'https://i1.sndcdn.com/artworks-000573835055-8owmgt-t500x500.jpg'),
                                           trackTile(
                                               'Orange Soda',
                                               'Vikram Sharma',
-                                              27760,
                                               'https://upload.wikimedia.org/wikipedia/en/thumb/a/a6/Baby_Keem_-_Orange_Soda.png/220px-Baby_Keem_-_Orange_Soda.png'),
-                                          trackTile('Bad', 'Vikram Sharma', 300,
+                                          trackTile('Bad', 'Vikram Sharma',
                                               'https://s.abcnews.com/images/Entertainment/MJ-bad-1987-170831_4x5_992.jpg'),
                                           trackTile(
                                               'Sinnerman',
                                               'Vikram Sharma',
-                                              10455,
                                               'https://m.media-amazon.com/images/I/811Fs99RivL._SS500_.jpg'),
                                         ],
                                       ),
