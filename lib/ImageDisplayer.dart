@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +15,8 @@ class Display extends StatefulWidget {
 }
 
 class _DisplayState extends State<Display> {
-  bool singerValue = false;
-  bool producerValue = false;
-  bool instrumentValue = false;
-  bool engineValue = false;
-  late List<bool> arr;
+  FilePickerResult? result;
+  late PlatformFile file;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _DisplayState extends State<Display> {
 
     return ColorfulSafeArea(
         child: Scaffold(
-            backgroundColor: Color(0xff0e0e15),
+            backgroundColor: CupertinoColors.white,
             body: Center(
               child: Column(
                 children: [
@@ -53,8 +53,6 @@ class _DisplayState extends State<Display> {
         .doc('song2')
         .set({"test": 'vikram test'});
   }
-
-  void link() {}
 
   Future<String> getUrl() async {
     final ref = FirebaseStorage.instance.ref().child('test/tester');

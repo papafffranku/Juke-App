@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 
 class EditProfile extends StatefulWidget {
-  final Map<String, dynamic> data;
+  final data;
   const EditProfile({Key? key, required this.data,}) : super(key: key);
 
   @override
@@ -61,6 +61,7 @@ class _EditProfileState extends State<EditProfile> {
             child: CupertinoButton(
               onPressed: () async {
                 await WriteDetails();
+                Navigator.pop(context);
               },
               child: Text("Save",
               style: TextStyle(
@@ -386,7 +387,7 @@ class _EditProfileState extends State<EditProfile> {
   Future<void> WriteDetails() async {
     usersRef.doc(widget.data['id']).update({
       "username": UsernameControl.text,
-      "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2Fprofile.png?alt=media&token=bb19b87c-2af3-4e5e-bf40-3f757cd99053',
+      "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
       "bio": BioControl.text,
       "tag": '',
       "socialfb": FacebookControl.text,

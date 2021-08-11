@@ -51,6 +51,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   FilePickerResult? result;
   late PlatformFile file;
+  Stream<DocumentSnapshot<Object?>>? docStream;
 
   Widget playlister(String imgUrl, String playlistName, String playlistDesc) {
     return Column(
@@ -198,33 +199,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  final uid = FirebaseAuth.instance.currentUser!.uid;
   @override
   void initState() {
+    docStream=FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user!.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     // ignore: unused_local_variable
     double sWidth = MediaQuery.of(context).size.width;
 
-    return FutureBuilder<DocumentSnapshot>(
-        future: users.doc(uid).get(),
+    return StreamBuilder<DocumentSnapshot>(
+        stream: docStream,
         builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text("Something went wrong");
           }
           if (snapshot.hasData && !snapshot.data!.exists) {
             return HomePage();
           }
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data?.data() as Map<String, dynamic>;
+          if (snapshot.hasData) {
+            var data = snapshot.data;
 
             return Scaffold(
               backgroundColor: Colors.black87,
@@ -242,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                               child: CircleAvatar(
                                 radius: 20.0,
                                 backgroundImage:
-                                    NetworkImage(data['avatarUrl']),
+                                    NetworkImage(data!['avatarUrl']),
                                 backgroundColor: Colors.transparent,
                               ),
                               onTap: () {
@@ -552,7 +551,7 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 30)
+                              SizedBox(height: 50)
                             ],
                           )),
                     ])),

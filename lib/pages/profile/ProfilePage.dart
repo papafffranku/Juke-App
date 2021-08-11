@@ -4,13 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lessgoo/models/UserModel.dart';
 import 'package:lessgoo/pages/home/tools/album_tile.dart';
 import 'package:lessgoo/pages/home/tools/track_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/Settings.dart';
-import 'package:lessgoo/pages/profile/trackwidget/ActionSheet.dart';
 import 'package:lessgoo/pages/profile/trackwidget/bio.dart';
 import 'package:lessgoo/pages/profile/trackwidget/collab.dart';
 import 'package:lessgoo/pages/profile/trackwidget/featured_track.dart';
@@ -26,33 +24,33 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String Background =
       'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
-  String Profile =
-      'https://www.nicepng.com/png/detail/627-6278749_at-the-movies-elliot-alderson.png';
+  Stream<DocumentSnapshot<Object?>>? docStream;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
+  void initState() {
+    docStream=FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final User? user = auth.currentUser;
-    final uid = user!.uid;
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
     double screenwidth = MediaQuery.of(context).size.width;
 
-    return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(uid).get(),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: docStream,
       builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Something went wrong");
         }
         if (snapshot.hasData && !snapshot.data!.exists) {
           return Text("Welp! kill me");
         }
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data?.data() as Map<String, dynamic>;
+        if (snapshot.hasData) {
+          var data = snapshot.data;
 
           return Scaffold(
-            backgroundColor: Color(0xff0e0e15),
+            backgroundColor: Colors.black,
             body: ColorfulSafeArea(
               child: SingleChildScrollView(
                 child: Stack(
@@ -70,13 +68,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         (
                       height: 475,
                       decoration: BoxDecoration(
-                          color: Color(0xff0e0e15),
+                          color: Colors.black,
                           gradient: LinearGradient(
                               begin: FractionalOffset.topCenter,
                               end: FractionalOffset.bottomCenter,
                               colors: [
-                                Color(0xff0e0e15).withOpacity(0.2),
-                                Color(0xff0e0e15),
+                                Colors.black.withOpacity(0.2),
+                                Colors.black,
                               ],
                               stops: [
                                 0.0,
@@ -106,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         padding: EdgeInsets.only(top: 200),
                         child: CircleAvatar(
                           radius: 40.0,
-                          backgroundImage: NetworkImage(data['avatarUrl']),
+                          backgroundImage: NetworkImage(data!['avatarUrl']),
                           backgroundColor: Colors.transparent,
                         ),
                       ),
@@ -268,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 475.0),
                       child: Container(
-                        color: Color(0xff0e0e15),
+                        color: Colors.black,
                         width: screenwidth,
                         child: Column(
                           children: [
@@ -433,7 +431,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         // ),
                                       ],
                                     ),
-                                    SizedBox(height: 40)
+                                    SizedBox(height: 100)
                                   ],
                                 )), //details
                           ],
