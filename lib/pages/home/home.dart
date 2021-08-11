@@ -270,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                               pushNewScreen(context,
                                   screen: SongUpload(
                                     UPFcon: UPF,
-                                    uid: '',
+                                    uid: data['id'],
                                   ));
                               // Navigator.pushNamed(context, '/UploadSong',
                               //     arguments: {

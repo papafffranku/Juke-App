@@ -1,3 +1,4 @@
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/Reference/Persist.dart';
@@ -11,67 +12,44 @@ class SuccessUpload extends StatefulWidget {
 }
 
 class _SuccessUploadState extends State<SuccessUpload> {
-  bool toggle = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xff0e0e15),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoButton(
-                child: Text("Toggle"),
-                onPressed: () {
-                  setState(() {
-                    toggle = !toggle;
-                  });
-                },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: ColorfulSafeArea(
+        child: Scaffold(
+            backgroundColor: Color(0xff0e0e15),
+            body: Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 20,),
+                  Text(
+                    'Successfully uploaded',
+                    style: TextStyle(
+                        letterSpacing: 1.3,
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'Your song is now online',
+                    style: TextStyle(
+                        letterSpacing: 1.3,
+                        color: Colors.white38,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    height: 300,
+                    width: 300,
+                    child: Success(),
+                  ),
+                ],
               ),
-              Container(
-                height: 200,
-                width: 200,
-                child: toggle ? Loading() : Success(),
-              ),
-              Container(
-                color: Colors.white10,
-                child: Column(
-                  children: [
-                    SizedBox(height: 15,),
-                    Container(
-                      height: 250,
-                      width:250,
-                      child: FlareActor(
-                        'lib/assets/MusicLoad.flr',
-                        animation: 'searching',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Text("Hang on, we're still uploading....",
-                      style: TextStyle(
-                          color: Colors.lightBlueAccent[100],
-                          fontSize: 18
-                      ),),
-                    Text("This takes about 1-2 minutes",
-                      style: TextStyle(
-                          color: Colors.lightBlueAccent[100],
-                          fontSize: 16
-                      ),),
-                    SizedBox(height: 30,),
-                    SizedBox(
-                      width: 250,
-                      child: LinearProgressIndicator(
-                        color: CupertinoColors.systemBlue,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ));
+            )),
+      ),
+    );
   }
 
   Widget Loading() {
@@ -84,7 +62,7 @@ class _SuccessUploadState extends State<SuccessUpload> {
 
   Widget Success() {
     return FlareActor(
-      'lib/assets/Success_Check.flr',
+      'lib/assets/tickAnimation.flr',
       animation: 'Untitled',
       fit: BoxFit.contain,
     );

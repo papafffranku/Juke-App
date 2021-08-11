@@ -69,6 +69,7 @@ class _PersistState extends State<Persist> {
         'https://images.complex.com/complex/images/c_fill,f_auto,g_center,w_1200/fl_lossy,pg_1/hcjrqlvc6dfhpjxob9nt/cudi';
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
@@ -118,7 +119,7 @@ class _PersistState extends State<Persist> {
             blur: 30,
             shadowStrength: 10,
             opacity: 0.1,
-            width: screenwidth - 50,
+            width: screenwidth - 20,
             border: Border.fromBorderSide(BorderSide.none),
             borderRadius: BorderRadius.circular(10),
             child: Row(

@@ -26,7 +26,8 @@ class SongUpload extends StatefulWidget {
 
 class _SongUploadState extends State<SongUpload> {
   final modal = ModalScreens();
-  final usersRef = FirebaseFirestore.instance.collection('users');
+  final tracksRef = FirebaseFirestore.instance.collection('tracks');
+  final coversRef = FirebaseFirestore.instance.collection('cover');
   late AudioPlayer advancedPlayer;
   FilePickerResult? result;
   late PlatformFile file;
@@ -56,8 +57,8 @@ class _SongUploadState extends State<SongUpload> {
   Widget build(BuildContext context) {
     File UPF1 = widget.UPFcon;
     String audiofileName = UPF1.path.split('/').last;
-    Song_key = "song" + widget.uid + audiofileName.substring(0, 5);
-    Cover_key = "cover" + widget.uid + audiofileName.substring(0, 5);
+    Song_key = widget.uid + audiofileName;
+    Cover_key = "cover" + Song_key;
 
     return CupertinoPageScaffold(
       backgroundColor: Color(0xff0e0e15),
@@ -72,14 +73,15 @@ class _SongUploadState extends State<SongUpload> {
               ),
               trailing: GestureDetector(
                   onTap: () async {
-                    final DocumentSnapshot doc = await usersRef.doc('ok').get();
+                    final DocumentSnapshot doc = await tracksRef.doc(widget.uid).collection('publicSong').doc(Song_key).get();
+                    final DocumentSnapshot doc1 = await tracksRef.doc(widget.uid).collection('privateSong').doc(Song_key).get();
                     int check = await FieldChecker();
-                    if(check==2 && !doc.exists){
+                    if(check==2 && !doc.exists && !doc1.exists){
                       modal.loadingmodalscreen(context);
                       await Uploader(Cover!,Cover_key,UPF1,Song_key,widget.uid);
                       Navigator.pop(context);
                       pushNewScreen(context, screen: SuccessUpload(),withNavBar: true);
-                    }else if(doc.exists){
+                    }else if(doc.exists || doc1.exists){
                       Snackbar("Looks like you've already uploaded a song with the same name");
                     }
                   },
@@ -419,7 +421,7 @@ class _SongUploadState extends State<SongUpload> {
           .putFile(upf1);
       await firebase_storage.FirebaseStorage.instance
           .ref('cover/$cover_key')
-          .putFile(upf1);
+          .putFile(cover);
     } catch (e) {
       print(e);
     }
@@ -429,19 +431,27 @@ class _SongUploadState extends State<SongUpload> {
   }
 
   Future<void> dbsong(String song_key, File upf1, String cover_key, String sname, String desc, String uid, String songLink, String coverLink) async {
-    FirebaseFirestore.instance
-        .collection('tracks')
-        .doc(uid)
-        .collection(song_key)
-        .doc(song_key)
-        .set({
-      "id": song_key,
-      "SongName": sname,
-      "SongDesc": desc,
-      "Artist": uid,
-      "songLink": songLink,
-      "coverLink": coverLink,
-    });
+    if (prv==true){
+      await tracksRef.doc(widget.uid).collection('privateSong').doc(Song_key).set({
+        "id": song_key,
+        "SongName": sname,
+        "SongDesc": desc,
+        "Artist": uid,
+        "songLink": songLink,
+        "coverLink": coverLink,
+        "privacy": 'private',
+      });
+    }else{
+      await tracksRef.doc(widget.uid).collection('publicSong').doc(Song_key).set({
+        "id": song_key,
+        "SongName": sname,
+        "SongDesc": desc,
+        "Artist": uid,
+        "songLink": songLink,
+        "coverLink": coverLink,
+        "privacy": 'public',
+      });
+    }
   }
 
   Future<String> getUrl(String s) async {
