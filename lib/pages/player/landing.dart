@@ -266,286 +266,276 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    double sHeight = MediaQuery.of(context).size.height;
     double sWidth = MediaQuery.of(context).size.width;
 
-    return SafeArea(
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: SafeArea(
-              child: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(playList![currentIndex!].imgUrl))),
-            child: GlassContainer(
-              blur: 40,
-              opacity: 0.01,
-              border: Border.all(
-                color: Colors.white.withOpacity(0),
-              ),
-              borderRadius: BorderRadius.circular(0),
-              child: Column(children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-                  child: Row //BackButton
-                      (
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.keyboard_arrow_down_rounded,
-                            color: Colors.white, size: 36),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon:
-                            Icon(Icons.message, color: Colors.white, size: 32),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTapDown: (details) => _onTapDown(details),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: NetworkImage(playList![currentIndex!].imgUrl),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: AnimatedOpacity(
-                          opacity: _visible ? 1 : 0,
-                          duration: const Duration(seconds: 5),
-                          child: Row(
-                            // btn Controls
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: Container(
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
-                                      shape: BoxShape.circle),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.skip_previous, size: 50),
-                                      Text(
-                                        'previous',
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(30.0),
-                                child: Container(
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
-                                      shape: BoxShape.circle),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.skip_next, size: 50),
-                                      Text(
-                                        'next',
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      height: 330,
-                      width: MediaQuery.of(context).size.width),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: sWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 15),
-                          Center(
-                            child: Container(
-                              width: sWidth / 2,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .backgroundColor
-                                      .withOpacity(0.7),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.playlist_add_sharp,
-                                          size: 26)),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.favorite_border_rounded,
-                                          size: 26)),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.shuffle_rounded,
-                                          size: 26)),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.repeat, size: 26)),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Center(
-                            child: Text(
-                              playList![currentIndex!].title,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 35),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Center(
-                            child: Text(
-                              playList![currentIndex!].artist,
-                              style: TextStyle(
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 17.0),
-                      child: btnStart(),
-                    ),
-                    SizedBox(width: 30),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 18.0),
-                        child: SliderTheme // TrackSlider
-                            (
-                                data: SliderTheme.of(context).copyWith(
-                                  trackShape: RoundedRectSliderTrackShape(),
-                                  trackHeight: 5.0,
-                                ),
-                                child: slider()),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        (_position.toString().split('.').first).split(':')[1] +
-                            ':' +
-                            (_position.toString().split('.').first)
-                                .split(':')[2],
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(' / '),
-                      Text(
-                        (_duration.toString().split('.').first).split(':')[1] +
-                            ':' +
-                            (_duration.toString().split('.').first)
-                                .split(':')[2],
-                        style: TextStyle(fontSize: 16, color: Colors.white54),
-                      ),
-                    ],
-                  ),
-                ),
-                Flexible(
-                  child: Container(
-                    //color: Colors.pink,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                btnMenu();
-                              },
-                              child: Icon(
-                                Icons.more_horiz_rounded,
-                                size: 35,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(50.0),
-                                  ),
-                                  primary: Colors.grey[900])),
-                          SizedBox(height: 7.5),
-                          Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).backgroundColor,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20))),
-                              child: ListTile(
-                                  leading: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.keyboard_arrow_up),
-                                      iconSize: 32,
-                                      color: Colors.white),
-                                  title: Text.rich(TextSpan(children: [
-                                    TextSpan(
-                                        text: 'Up Next : ',
-                                        style: TextStyle(
-                                            color: Colors.white54,
-                                            fontWeight: FontWeight.w500)),
-                                    TextSpan(
-                                        text:
-                                            currentIndex == playList!.length - 1
-                                                ? '-'
-                                                : playList![currentIndex! + 1]
-                                                    .title,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold))
-                                  ]))))
-                        ]),
-                  ),
-                )
-              ]),
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+            child: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(playList![currentIndex!].imgUrl))),
+          child: GlassContainer(
+            blur: 40,
+            opacity: 0.01,
+            border: Border.all(
+              color: Colors.white.withOpacity(0),
             ),
-          ))),
-    );
+            borderRadius: BorderRadius.circular(0),
+            child: Column(children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                child: Row //BackButton
+                    (
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.keyboard_arrow_down_rounded,
+                          color: Colors.white, size: 36),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.message, color: Colors.white, size: 32),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              GestureDetector(
+                onTapDown: (details) => _onTapDown(details),
+                child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: NetworkImage(playList![currentIndex!].imgUrl),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: AnimatedOpacity(
+                        opacity: _visible ? 1 : 0,
+                        duration: const Duration(seconds: 5),
+                        child: Row(
+                          // btn Controls
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Container(
+                                width: 80,
+                                decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.3),
+                                    shape: BoxShape.circle),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.skip_previous, size: 50),
+                                    Text(
+                                      'previous',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Container(
+                                width: 80,
+                                decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.3),
+                                    shape: BoxShape.circle),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.skip_next, size: 50),
+                                    Text(
+                                      'next',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    height: 330,
+                    width: MediaQuery.of(context).size.width),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width: sWidth,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 15),
+                        Center(
+                          child: Container(
+                            width: sWidth / 2,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .backgroundColor
+                                    .withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.playlist_add_sharp,
+                                        size: 26)),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.favorite_border_rounded,
+                                        size: 26)),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon:
+                                        Icon(Icons.shuffle_rounded, size: 26)),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.repeat, size: 26)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Center(
+                          child: Text(
+                            playList![currentIndex!].title,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 35),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Center(
+                          child: Text(
+                            playList![currentIndex!].artist,
+                            style: TextStyle(
+                                color: Colors.white54,
+                                fontWeight: FontWeight.w300,
+                                fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 17.0),
+                    child: btnStart(),
+                  ),
+                  SizedBox(width: 30),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 18.0),
+                      child: SliderTheme // TrackSlider
+                          (
+                              data: SliderTheme.of(context).copyWith(
+                                trackShape: RoundedRectSliderTrackShape(),
+                                trackHeight: 5.0,
+                              ),
+                              child: slider()),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      (_position.toString().split('.').first).split(':')[1] +
+                          ':' +
+                          (_position.toString().split('.').first).split(':')[2],
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(' / '),
+                    Text(
+                      (_duration.toString().split('.').first).split(':')[1] +
+                          ':' +
+                          (_duration.toString().split('.').first).split(':')[2],
+                      style: TextStyle(fontSize: 16, color: Colors.white54),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  //color: Colors.pink,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              btnMenu();
+                            },
+                            child: Icon(
+                              Icons.more_horiz_rounded,
+                              size: 35,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(50.0),
+                                ),
+                                primary: Colors.grey[900])),
+                        SizedBox(height: 7.5),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).backgroundColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            child: ListTile(
+                                leading: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.keyboard_arrow_up),
+                                    iconSize: 32,
+                                    color: Colors.white),
+                                title: Text.rich(TextSpan(children: [
+                                  TextSpan(
+                                      text: 'Up Next : ',
+                                      style: TextStyle(
+                                          color: Colors.white54,
+                                          fontWeight: FontWeight.w500)),
+                                  TextSpan(
+                                      text: currentIndex == playList!.length - 1
+                                          ? '-'
+                                          : playList![currentIndex! + 1].title,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold))
+                                ]))))
+                      ]),
+                ),
+              )
+            ]),
+          ),
+        )));
   }
 
   void _onTapDown(TapDownDetails details) {

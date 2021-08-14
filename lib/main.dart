@@ -10,6 +10,7 @@ import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/library/categories/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
+import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/player/tester.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
@@ -26,7 +27,7 @@ Future<void> main() async {
       accentColor: Color(0xffFFEF00),
       fontFamily: GoogleFonts.ubuntu().fontFamily,
     ),
-    initialRoute: '/ok',
+    initialRoute: '/player',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -34,7 +35,7 @@ Future<void> main() async {
       '/library': (context) => LibraryPage(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
-      '/player': (context) => PlaylistTester(),
+      '/player': (context) => MyApp(),
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
       '/album': (context) => AlbumViewer(),
