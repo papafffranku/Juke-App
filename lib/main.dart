@@ -11,7 +11,6 @@ import 'package:lessgoo/pages/library/categories/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/player.dart';
-import 'package:lessgoo/pages/player/tester.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();

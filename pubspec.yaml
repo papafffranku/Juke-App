@@ -51,7 +51,6 @@ dependencies:
   flare_flutter:
   glassmorphism_ui: ^0.2.0
   just_audio: ^0.9.5
-  audio_video_progress_bar: ^0.8.0
 
 dev_dependencies:
   flutter_test:
