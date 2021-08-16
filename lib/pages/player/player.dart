@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'common.dart';
@@ -21,40 +22,12 @@ class _MyAppState extends State<MyApp> {
     AudioSource.uri(
       Uri.parse(
           'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2FLUMBERJACK%20(Audio).mp3?alt=media&token=20161301-fcf0-450f-82f4-a5b7bc129b61'),
-      tag: AudioMetadata(
-        artist: 'Tyler, The Creator',
-        title: 'Lumberjack',
-        artwork:
-            'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/images%2FTyler-the-Creator-Lumberjack.jpeg?alt=media&token=c70c73f4-b04c-4ee4-bae8-5a1392b7ea54',
-      ),
-    ),
-    AudioSource.uri(
-      Uri.parse(
-          "https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3"),
-      tag: AudioMetadata(
-        artist: "Science Friday",
-        title: "A Salute To Head-Scratching Science",
-        artwork:
-            "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg",
-      ),
-    ),
-    AudioSource.uri(
-      Uri.parse("https://s3.amazonaws.com/scifri-segments/scifri201711241.mp3"),
-      tag: AudioMetadata(
-        artist: "Science Friday",
-        title: "From Cat Rheology To Operatic Incompetence",
-        artwork:
-            "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg",
-      ),
-    ),
-    AudioSource.uri(
-      Uri.parse("asset:///audio/nature.mp3"),
-      tag: AudioMetadata(
-        artist: "Public Domain",
-        title: "Nature Sounds",
-        artwork:
-            "https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg",
-      ),
+      tag: MediaItem(
+          id: '1',
+          title: 'Tyler, The Creator',
+          artist: 'Tyler',
+          artUri: Uri.parse(
+              'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/images%2FTyler-the-Creator-Lumberjack.jpeg?alt=media&token=c70c73f4-b04c-4ee4-bae8-5a1392b7ea54')),
     ),
   ]);
   int _addedCount = 0;
@@ -115,12 +88,12 @@ class _MyAppState extends State<MyApp> {
               builder: (context, snapshot) {
                 final state = snapshot.data;
                 if (state?.sequence.isEmpty ?? true) return SizedBox();
-                final metadata = state!.currentSource!.tag as AudioMetadata;
+                final metadata = state!.currentSource!.tag as MediaItem;
                 return Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(metadata.artwork))),
+                          image: NetworkImage(metadata.artUri.toString()))),
                   child: Container(
                     color: Theme.of(context).backgroundColor.withOpacity(0.5),
                     child: GlassContainer(
@@ -168,7 +141,8 @@ class _MyAppState extends State<MyApp> {
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         fit: BoxFit.contain,
-                                        image: NetworkImage(metadata.artwork),
+                                        image: NetworkImage(
+                                            metadata.artUri.toString()),
                                       ),
                                     ),
                                     child: Padding(
@@ -252,7 +226,7 @@ class _MyAppState extends State<MyApp> {
                               SizedBox(height: 5),
                               Center(
                                 child: Text(
-                                  metadata.artist,
+                                  metadata.artist.toString(),
                                   style: TextStyle(
                                       color: Colors.white54,
                                       fontWeight: FontWeight.w300,
@@ -464,16 +438,4 @@ class ControlButtons extends StatelessWidget {
       ),
     );
   }
-}
-
-class AudioMetadata {
-  final String artist;
-  final String title;
-  final String artwork;
-
-  AudioMetadata({
-    required this.artist,
-    required this.title,
-    required this.artwork,
-  });
 }
