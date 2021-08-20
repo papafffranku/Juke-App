@@ -82,7 +82,7 @@ class _SongUploadState extends State<SongUpload> {
                       Navigator.pop(context);
                       pushNewScreen(context, screen: SuccessUpload(),withNavBar: true);
                     }else if(doc.exists || doc1.exists){
-                      Snackbar("Looks like you've already uploaded a song with the same name");
+                      Snackbar("Looks like you've already uploaded this audio file before");
                     }
                   },
                   child: Icon(
@@ -431,6 +431,8 @@ class _SongUploadState extends State<SongUpload> {
   }
 
   Future<void> dbsong(String song_key, File upf1, String cover_key, String sname, String desc, String uid, String songLink, String coverLink) async {
+    final DateTime timestamp = DateTime.now();
+
     if (prv==true){
       await tracksRef.doc(widget.uid).collection('privateSong').doc(Song_key).set({
         "id": song_key,
@@ -440,6 +442,7 @@ class _SongUploadState extends State<SongUpload> {
         "songLink": songLink,
         "coverLink": coverLink,
         "privacy": 'private',
+        "timestamp": timestamp
       });
     }else{
       await tracksRef.doc(widget.uid).collection('publicSong').doc(Song_key).set({
@@ -450,6 +453,7 @@ class _SongUploadState extends State<SongUpload> {
         "songLink": songLink,
         "coverLink": coverLink,
         "privacy": 'public',
+        "timestamp": timestamp
       });
     }
   }

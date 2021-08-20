@@ -1,7 +1,6 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lessgoo/Reference/Persist.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 class SuccessUpload extends StatefulWidget {

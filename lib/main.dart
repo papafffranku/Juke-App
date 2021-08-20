@@ -12,6 +12,8 @@ import 'package:lessgoo/pages/library/categories/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/player.dart';
+import 'package:lessgoo/pages/profile/ProfilePage.dart';
+import 'package:lessgoo/pages/swiper/cardswipe.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
@@ -32,7 +34,7 @@ Future<void> main() async {
       accentColor: Color(0xffFFEF00),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
-    initialRoute: '/player',
+    initialRoute: '/swiper',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -44,6 +46,8 @@ Future<void> main() async {
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
       '/album': (context) => AlbumViewer(),
+      '/profile': (context) => ProfilePage(),
+      '/swiper': (context) => cardSwiper(),
     },
     debugShowCheckedModeBanner: false,
   ));

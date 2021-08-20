@@ -40,7 +40,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Row(
                         children: [
-                          Text("Working",
+                          Text("Account",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -49,7 +49,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ],
                       ),
                     ),
-                    Holders('Guide','Utilize all of our features',CupertinoIcons.doc),
+                    Holders('Account details','View your account details',CupertinoIcons.person_alt_circle_fill),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Row(
+                        children: [
+                          Text("Guide",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800
+                            ),),
+                        ],
+                      ),
+                    ),
+                    Holders('Guide','Utilize all of our features',CupertinoIcons.doc_fill),
                     Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: Row(
@@ -92,7 +106,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ],
                       ),
                     ),
-                    Holders('Clear Cache','Delete data stored in cache',CupertinoIcons.delete),
+                    Holders('Clear Cache','Delete data stored in cache',CupertinoIcons.delete_solid),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Row(
@@ -110,7 +124,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       dense: true,
                       leading: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Icon(CupertinoIcons.info_circle,color: Colors.white,size: 35,),
+                        children: [Icon(CupertinoIcons.info_circle_fill,color: Colors.white,size: 35,),
                         ],
                       ),
                       title: Text('Version',textScaleFactor: 1.25,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700),),

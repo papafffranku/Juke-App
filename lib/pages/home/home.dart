@@ -208,8 +208,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    // ignore: unused_local_variable
     double sWidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder<DocumentSnapshot>(
