@@ -30,7 +30,7 @@ class _ExplorePageState extends State<ExplorePage> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 15),
                 child: RichText(
                   text: TextSpan(
                     children: [

@@ -8,12 +8,12 @@ import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/pages/community/communityPage.dart';
 import 'package:lessgoo/pages/library/categories/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
-import 'package:lessgoo/pages/swiper/cardswipe.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
@@ -34,7 +34,7 @@ Future<void> main() async {
       accentColor: Color(0xffFFEF00),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
-    initialRoute: '/swiper',
+    initialRoute: '/community',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -47,7 +47,7 @@ Future<void> main() async {
       '/anime': (context) => anime(),
       '/album': (context) => AlbumViewer(),
       '/profile': (context) => ProfilePage(),
-      '/swiper': (context) => cardSwiper(),
+      '/community': (context) => communityPage(),
     },
     debugShowCheckedModeBanner: false,
   ));
