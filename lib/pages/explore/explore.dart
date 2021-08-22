@@ -18,7 +18,8 @@ class ExplorePage extends StatefulWidget {
 class _ExplorePageState extends State<ExplorePage> {
   List<String> categories = ['Trending', 'For You'];
   int counter = 0;
-  String Profile = 'https://www.classifapp.com/wp-content/uploads/2017/09/avatar-placeholder.png';
+  String Profile =
+      'https://www.classifapp.com/wp-content/uploads/2017/09/avatar-placeholder.png';
 
   @override
   Widget build(BuildContext context) {
@@ -30,39 +31,34 @@ class _ExplorePageState extends State<ExplorePage> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 15.0, top: 20),
                 child: RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Discover",
+                        text: "explore",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w900
-                        ),
-                      ),
-                      WidgetSpan(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Icon(CupertinoIcons.globe,color: Color(0xff5338FF),size: 30,),
-                        ),
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextField(
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     hintText: 'Artists or songs',
-                    prefixIcon: Icon(CupertinoIcons.search,color: Colors.white,),
+                    prefixIcon: Icon(
+                      CupertinoIcons.search,
+                      color: Colors.white,
+                    ),
                     hintStyle: TextStyle(
                       fontSize: 20,
                       color: Colors.white54,
@@ -71,18 +67,20 @@ class _ExplorePageState extends State<ExplorePage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide(
-                        width: 1,
-                        style: BorderStyle.none,
-                        color: Colors.white
-                      ),
+                          width: 1,
+                          style: BorderStyle.none,
+                          color: Colors.white),
                     ),
                     filled: true,
                     fillColor: Color(0xff1e1e2d),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 1),
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
@@ -101,7 +99,9 @@ class _ExplorePageState extends State<ExplorePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               CarouselSlider(
                   items: [
                     Container(
@@ -132,7 +132,8 @@ class _ExplorePageState extends State<ExplorePage> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                               image: DecorationImage(
                                   image: NetworkImage(
                                       'https://cdn6.f-cdn.com/contestentries/1485199/27006121/5ca3e39ced7f1_thumb900.jpg'),
@@ -140,18 +141,23 @@ class _ExplorePageState extends State<ExplorePage> {
                         ),
                         Center(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 210.0),
-                              child: Text("Bingo was his name-o",
-                                style: TextStyle(color: Colors.white,fontSize: 20,backgroundColor: Colors.black),
-                              ),
-                            ))
+                          padding: const EdgeInsets.only(top: 210.0),
+                          child: Text(
+                            "Bingo was his name-o",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                backgroundColor: Colors.black),
+                          ),
+                        ))
                       ],
                     ),
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                           image: DecorationImage(
-                              image: NetworkImage('https://static-cse.canva.com/blob/141792/albumcover-image10.jpg'),
+                              image: NetworkImage(
+                                  'https://static-cse.canva.com/blob/141792/albumcover-image10.jpg'),
                               fit: BoxFit.cover)),
                     ),
                   ],
@@ -162,28 +168,44 @@ class _ExplorePageState extends State<ExplorePage> {
                     enlargeCenterPage: true,
                     viewportFraction: 0.5,
                   )),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Container(
                   height: 35,
                   //width: 120,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      SizedBox(width: 8,),
+                      SizedBox(
+                        width: 8,
+                      ),
                       Tag('New Artists'),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Tag('Latest Singles'),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Tag('Trending'),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Tag('Hip-Hop'),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Tag('Pop'),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Tag('Rock'),
                     ],
                   )),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
@@ -202,13 +224,15 @@ class _ExplorePageState extends State<ExplorePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Column(
                 children: [
-                  Artist(Profile,'Jack Harlow','Singer'),
-                  Artist(Profile,'Swedish House Mafia','Producer'),
-                  Artist(Profile,'Imagine Dragons','Cover Artist'),
-                  Artist(Profile,'Joji','Singer,Producer'),
+                  Artist(Profile, 'Jack Harlow', 'Singer'),
+                  Artist(Profile, 'Swedish House Mafia', 'Producer'),
+                  Artist(Profile, 'Imagine Dragons', 'Cover Artist'),
+                  Artist(Profile, 'Joji', 'Singer,Producer'),
                 ],
               )
             ],
@@ -219,37 +243,45 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 }
 
-Widget Tag(String s){
+Widget Tag(String s) {
   return Container(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 1),
-      child: Center(
-        child: Text(s,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w700)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 1),
+        child: Center(
+          child: Text(s,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700)),
+        ),
       ),
-    ),
-    height: 35,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        color: Color(0xff2c2c36)));
+      height: 35,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          color: Color(0xff2c2c36)));
 }
 
-Widget Artist(String profile, String name, String sub){
+Widget Artist(String profile, String name, String sub) {
   return Container(
     child: ListTile(
         leading: CircleAvatar(
           radius: 25.0,
-          backgroundImage:
-          NetworkImage(profile),
+          backgroundImage: NetworkImage(profile),
           backgroundColor: Colors.transparent,
         ),
-        title: Text(name,style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 18),),
-        subtitle: Text(sub,style: TextStyle(color: Colors.grey[400]),),
-        trailing: Icon(Icons.arrow_forward_ios,color: Colors.white,)
-    ),
+        title: Text(
+          name,
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.w700, fontSize: 18),
+        ),
+        subtitle: Text(
+          sub,
+          style: TextStyle(color: Colors.grey[400]),
+        ),
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.white,
+        )),
   );
 }
 
@@ -329,6 +361,5 @@ class DataSearch extends SearchDelegate<String> {
       ),
       itemCount: suggestions.length,
     );
-
   }
 }

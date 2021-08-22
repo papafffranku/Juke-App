@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/models/TrailModel.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
+import 'package:lessgoo/pages/playlist/view_playlist.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
@@ -55,51 +56,40 @@ class _HomePageState extends State<HomePage> {
 
   Widget playlister(String imgUrl, String playlistName, String playlistDesc) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width / 1.1,
+          height: 200,
+          width: 200,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             image: DecorationImage(
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               image: NetworkImage(imgUrl),
-            ),
-          ),
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  shape: BoxShape.circle),
-              child: Icon(Icons.play_arrow_rounded,
-                  size: 35, color: Theme.of(context).accentColor),
             ),
           ),
         ),
         SizedBox(height: 10),
         Container(
-          width: MediaQuery.of(context).size.width / 1.1,
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: RichText //Welcome Header
-                (
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: playlistName,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.white),
-                  ),
-                  TextSpan(
-                    text: '\n$playlistDesc',
-                    style: TextStyle(
-                        fontSize: 13, color: Colors.white.withOpacity(0.7)),
-                  ),
-                ],
-              ),
+          width: 200,
+          child: RichText //Welcome Header
+              (
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: playlistName,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: Colors.white),
+                ),
+                TextSpan(
+                  text: '\n$playlistDesc',
+                  style: TextStyle(
+                      fontSize: 14, color: Colors.white.withOpacity(0.7)),
+                ),
+              ],
             ),
           ),
         ),
@@ -202,7 +192,8 @@ class _HomePageState extends State<HomePage> {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   @override
   void initState() {
-    docStream=FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
+    docStream =
+        FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
     super.initState();
   }
 
@@ -214,8 +205,7 @@ class _HomePageState extends State<HomePage> {
 
     return StreamBuilder<DocumentSnapshot>(
         stream: docStream,
-        builder:
-            (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text("Something went wrong");
           }
@@ -351,14 +341,20 @@ class _HomePageState extends State<HomePage> {
                                       width: 170,
                                       height: 50,
                                       decoration: BoxDecoration(
-                                          color: Theme.of(context).accentColor,
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: <Color>[
+                                              Color(0xff5AE0D3),
+                                              Color(0xff5A62D3)
+                                            ],
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(13),
                                           boxShadow: [
                                             BoxShadow(
-                                              offset: Offset(0, 17),
-                                              blurRadius: 17,
-                                              spreadRadius: -23,
+                                              color: Color(0xff494c78),
+                                              offset: Offset(5, 5),
                                             )
                                           ]),
                                       child: Center(
@@ -367,12 +363,12 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           WidgetSpan(
                                               child: Icon(
-                                            Icons.library_music_rounded,
+                                            CupertinoIcons.music_albums,
                                             color: Colors.black,
                                             size: 20,
                                           )),
                                           TextSpan(
-                                              text: '  My Library',
+                                              text: '  Library',
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.black,
@@ -390,14 +386,20 @@ class _HomePageState extends State<HomePage> {
                                       width: 170,
                                       height: 50,
                                       decoration: BoxDecoration(
-                                          color: Theme.of(context).accentColor,
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            colors: <Color>[
+                                              Color(0xff5AE0D3),
+                                              Color(0xff5A62D3)
+                                            ],
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(13),
                                           boxShadow: [
                                             BoxShadow(
-                                              offset: Offset(0, 17),
-                                              blurRadius: 17,
-                                              spreadRadius: -23,
+                                              color: Color(0xff494c78),
+                                              offset: Offset(5, 5),
                                             )
                                           ]),
                                       child: Center(
@@ -406,14 +408,16 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           WidgetSpan(
                                               child: Icon(
-                                            Icons.playlist_play_rounded,
-                                            color: Colors.black,
+                                            CupertinoIcons.list_bullet,
+                                            color: Theme.of(context)
+                                                .backgroundColor,
                                             size: 20,
                                           )),
                                           TextSpan(
                                               text: '  Playlists',
                                               style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Theme.of(context)
+                                                      .backgroundColor,
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w500)),
                                         ],
@@ -442,30 +446,31 @@ class _HomePageState extends State<HomePage> {
                                     (
                                   scrollDirection: Axis.horizontal,
                                   children: [
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 15),
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
                                         'Gimme Love',
                                         'Joji',
                                         'single'),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 15),
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png',
                                         'After Hours',
                                         'The Weeknd',
                                         'album'),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 15),
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/b/b8/Mura_Masa_album.jpg',
                                         'Mura Masa',
                                         'Mura Masa',
                                         'album'),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 15),
                                     artistRelease(
                                         'https://images.genius.com/3e19af5cd67d794b62e6b0fe59de0cde.500x500x1.jpg',
                                         'Between Days',
                                         'Far Caspian',
-                                        'single')
+                                        'single'),
+                                    SizedBox(width: 15),
                                   ],
                                 ),
                               ),
@@ -503,7 +508,7 @@ class _HomePageState extends State<HomePage> {
                                               int index) {
                                             return Container(
                                               margin: EdgeInsets.symmetric(
-                                                  horizontal: 5),
+                                                  horizontal: 15),
                                               child: Column(
                                                 children: [
                                                   trailAvatar(
@@ -533,15 +538,21 @@ class _HomePageState extends State<HomePage> {
                               ),
                               SizedBox(height: 15),
                               Container(
-                                height: 200,
+                                height: 250,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
                                   children: [
                                     SizedBox(width: 15),
-                                    playlister(
-                                        'https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80',
-                                        'the weekly shuffle',
-                                        'A customised playlist cherry picked just for you. Tune in, sit back and relax while you listen to the freshest beats in town.'),
+                                    InkWell(
+                                      onTap: () {
+                                        pushNewScreen(context,
+                                            screen: PlaylistViewer());
+                                      },
+                                      child: playlister(
+                                          'https://i.redd.it/6edffsd31bn31.jpg',
+                                          'weekly shuffle',
+                                          'A customised playlist cherry picked just for you. Tune in, sit back and relax while you listen to the freshest beats in town.'),
+                                    ),
                                     SizedBox(width: 15),
                                     playlister(
                                         'https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
@@ -551,7 +562,7 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 50)
+                              SizedBox(height: 70)
                             ],
                           )),
                     ])),

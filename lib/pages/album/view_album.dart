@@ -20,18 +20,17 @@ class _AlbumViewerState extends State<AlbumViewer> {
               Container(
                 height: 600,
                 decoration: BoxDecoration(
-                    color: Colors.pink,
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                            'https://i.redd.it/vz918rh5w3t41.jpg'))),
+                            'https://townsquare.media/site/295/files/2018/09/White.jpg?w=980&q=75'))),
                 child: Container(
                   height: 620,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
                     Colors.transparent,
                     Theme.of(context).primaryColor
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                  ], begin: Alignment.center, end: Alignment.bottomCenter)),
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Column(
@@ -66,7 +65,7 @@ class _AlbumViewerState extends State<AlbumViewer> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(15.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -83,7 +82,7 @@ class _AlbumViewerState extends State<AlbumViewer> {
                                     'Nectar',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 40),
+                                        fontSize: 30),
                                   ),
                                   Row(
                                     children: [
@@ -92,13 +91,19 @@ class _AlbumViewerState extends State<AlbumViewer> {
                                           icon: Icon(Icons.favorite_border,
                                               size: 30)),
                                       SizedBox(width: 15),
-                                      CircleAvatar(
-                                        backgroundColor:
-                                            Theme.of(context).accentColor,
-                                        child: IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(Icons.shuffle,
-                                                color: Colors.black)),
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(100)),
+                                          color: Color(0xffFAEBD4),
+                                        ),
+                                        child: Center(
+                                            child: Icon(
+                                          Icons.shuffle,
+                                          color: Colors.black,
+                                        )),
                                       ),
                                     ],
                                   )
@@ -107,7 +112,7 @@ class _AlbumViewerState extends State<AlbumViewer> {
                               Text(
                                 'Joji',
                                 style: TextStyle(
-                                    color: Colors.white70, fontSize: 20),
+                                    color: Colors.white70, fontSize: 16),
                               ),
                               SizedBox(height: 10),
                               Text(

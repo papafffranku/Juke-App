@@ -8,10 +8,12 @@ import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
-import 'package:lessgoo/pages/library/categories/view_album.dart';
+import 'package:lessgoo/pages/explore/explore.dart';
+import 'package:lessgoo/pages/album/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/player.dart';
+import 'package:lessgoo/pages/playlist/view_playlist.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
@@ -29,21 +31,21 @@ Future<void> main() async {
       brightness: Brightness.dark,
       primaryColor: Color(0xff101011),
       backgroundColor: Color(0xff101011),
-      accentColor: Color(0xffFFEF00),
+      accentColor: Color(0xff57cfdc),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
-    initialRoute: '/player',
+    initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
       '/display': (context) => Display(),
-      '/library': (context) => LibraryPage(),
+      '/explore': (context) => LibraryPage(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/player': (context) => MyApp(),
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
-      '/album': (context) => AlbumViewer(),
+      '/album': (context) => PlaylistViewer(),
     },
     debugShowCheckedModeBanner: false,
   ));

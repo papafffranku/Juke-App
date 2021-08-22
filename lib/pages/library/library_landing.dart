@@ -17,8 +17,17 @@ class LibraryPage extends StatefulWidget {
 class _LibraryPageState extends State<LibraryPage> {
   @override
   Widget build(BuildContext context) {
+    final Shader linearGradient = LinearGradient(
+      colors: <Color>[Color(0xff5AE0D3), Color(0xff5A62D3)],
+    ).createShader(
+      Rect.fromLTWH(70.0, 0.0, 200.0, 70.0),
+    );
     return Scaffold(
         backgroundColor: Colors.black,
+        appBar: AppBar(
+            leading: Icon(Icons.arrow_back_ios_sharp),
+            backgroundColor: Colors.black,
+            elevation: 5.0),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -27,20 +36,10 @@ class _LibraryPageState extends State<LibraryPage> {
                   Container(
                     color: Colors.black,
                     child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(Icons.arrow_back_ios_sharp)),
-                        ),
-                      ),
                       Text(
                         'LIBRARY',
                         style: TextStyle(
+                            foreground: Paint()..shader = linearGradient,
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 3),
@@ -80,7 +79,7 @@ class _LibraryPageState extends State<LibraryPage> {
                       Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Text(
                               'recently played',
                               style: TextStyle(
@@ -91,29 +90,35 @@ class _LibraryPageState extends State<LibraryPage> {
                           )
                         ],
                       ),
-                      SizedBox(height: 15),
-                      trackTile(
-                          'SLUGGER (feat. NOT & slowthai)',
-                          'Kevin Abstract',
-                          'https://static.stereogum.com/uploads/2021/07/Kevin-Abstract-Slugger-1626363400.jpeg'),
-                      trackTile('Swing Lynn', 'Harmless',
-                          'https://i1.sndcdn.com/artworks-000028655569-uk4f1a-t500x500.jpg'),
-                      trackTile('Corso', 'Tyler, The Creator',
-                          'https://images.genius.com/9b50709a30fbb0eee802ba391af0eb43.999x999x1.png'),
-                      trackTile('Weirdo', 'Fatter',
-                          'https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/d5/30/4d/d5304d50-b5a4-db22-2db6-82019159ffd6/0.jpg/400x400bb.jpeg'),
-                      trackTile('Feel Good Inc.', 'Gorillaz',
-                          'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG'),
-                      trackTile('Green Grass', 'Ellie Dixon',
-                          'https://is2-ssl.mzstatic.com/image/thumb/Music125/v4/1d/18/46/1d184666-be67-5f81-660a-a2b36b7f7c8b/195999965284.jpg/400x400cc.jpg'),
-                      trackTile(
-                          'SLUGGER (feat. NOT & slowthai)',
-                          'Kevin Abstract',
-                          'https://static.stereogum.com/uploads/2021/07/Kevin-Abstract-Slugger-1626363400.jpeg'),
-                      trackTile('Swing Lynn', 'Harmless',
-                          'https://i1.sndcdn.com/artworks-000028655569-uk4f1a-t500x500.jpg'),
-                      trackTile('Feel Good Inc.', 'Gorillaz',
-                          'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            trackTile(
+                                'SLUGGER (feat. NOT & slowthai)',
+                                'Kevin Abstract',
+                                'https://static.stereogum.com/uploads/2021/07/Kevin-Abstract-Slugger-1626363400.jpeg'),
+                            trackTile('Swing Lynn', 'Harmless',
+                                'https://i1.sndcdn.com/artworks-000028655569-uk4f1a-t500x500.jpg'),
+                            trackTile('Corso', 'Tyler, The Creator',
+                                'https://images.genius.com/9b50709a30fbb0eee802ba391af0eb43.999x999x1.png'),
+                            trackTile('Weirdo', 'Fatter',
+                                'https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/d5/30/4d/d5304d50-b5a4-db22-2db6-82019159ffd6/0.jpg/400x400bb.jpeg'),
+                            trackTile('Feel Good Inc.', 'Gorillaz',
+                                'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG'),
+                            trackTile('Green Grass', 'Ellie Dixon',
+                                'https://is2-ssl.mzstatic.com/image/thumb/Music125/v4/1d/18/46/1d184666-be67-5f81-660a-a2b36b7f7c8b/195999965284.jpg/400x400cc.jpg'),
+                            trackTile(
+                                'SLUGGER (feat. NOT & slowthai)',
+                                'Kevin Abstract',
+                                'https://static.stereogum.com/uploads/2021/07/Kevin-Abstract-Slugger-1626363400.jpeg'),
+                            trackTile('Swing Lynn', 'Harmless',
+                                'https://i1.sndcdn.com/artworks-000028655569-uk4f1a-t500x500.jpg'),
+                            trackTile('Feel Good Inc.', 'Gorillaz',
+                                'https://upload.wikimedia.org/wikipedia/en/d/df/Gorillaz_Demon_Days.PNG'),
+                          ],
+                        ),
+                      ),
                     ]),
                   )
                 ],
@@ -153,7 +158,7 @@ class _LibraryPageState extends State<LibraryPage> {
               onTap: () {
                 pushNewScreen(
                   context,
-                  screen: CategoriesPage(selectedOption: catIndex),
+                  screen: TracksPage(selectedOption: catIndex),
                 );
               }),
           SizedBox(height: 10),

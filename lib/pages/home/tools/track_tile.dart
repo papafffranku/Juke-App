@@ -51,6 +51,7 @@ Widget trackTile(String trackname, String artistname, String coverart) {
                     Icons.favorite_border_outlined,
                     color: Colors.white,
                   )),
+              SizedBox(width: 8),
               IconButton(
                   onPressed: () {},
                   splashColor: Colors.transparent,

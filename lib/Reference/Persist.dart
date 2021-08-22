@@ -122,41 +122,44 @@ class _PersistState extends State<Persist> {
             width: screenwidth - 20,
             border: Border.fromBorderSide(BorderSide.none),
             borderRadius: BorderRadius.circular(10),
-            child: Row(
-              children: [
-                Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        fit: BoxFit.cover, image: NetworkImage(imagis)),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colors.black,
+            child: Container(
+              color: Colors.black.withOpacity(0.7),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60.0,
+                    height: 60.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover, image: NetworkImage(imagis)),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Heaven on Earth",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    Text(
-                      "Kid Cudi",
-                      style: TextStyle(color: Colors.white54),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Spacer(),
-                Icon(CupertinoIcons.play_fill),
-                SizedBox(
-                  width: 20,
-                )
-              ],
+                  Spacer(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Heaven on Earth",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      Text(
+                        "Kid Cudi",
+                        style: TextStyle(color: Colors.white54),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Spacer(),
+                  Icon(CupertinoIcons.play_fill),
+                  SizedBox(
+                    width: 20,
+                  )
+                ],
+              ),
             ),
           ),
         ),
