@@ -8,12 +8,16 @@ import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/pages/community/communityPage.dart';
+
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/playlist/view_playlist.dart';
+import 'package:lessgoo/pages/profile/ProfilePage.dart';
+
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
@@ -46,6 +50,9 @@ Future<void> main() async {
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
       '/album': (context) => PlaylistViewer(),
+      '/album': (context) => AlbumViewer(),
+      '/profile': (context) => ProfilePage(),
+      '/community': (context) => communityPage(),
     },
     debugShowCheckedModeBanner: false,
   ));
