@@ -4,8 +4,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/models/TrailModel.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
+import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/playlist/view_playlist.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
@@ -45,8 +48,10 @@ List<Trails> trailList = [
 ];
 
 class HomePage extends StatefulWidget {
-  @override
+  final AudioPlayer homePlayer;
+
   State<HomePage> createState() => _HomePageState();
+  const HomePage({Key? key, required this.homePlayer}) : super(key: key);
 }
 
 class _HomePageState extends State<HomePage> {
@@ -200,6 +205,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double sWidth = MediaQuery.of(context).size.width;
+    ConcatenatingAudioSource _playlist;
+    AudioPlayer _player = widget.homePlayer;
 
     return StreamBuilder<DocumentSnapshot>(
         stream: docStream,
@@ -208,7 +215,7 @@ class _HomePageState extends State<HomePage> {
             return Text("Something went wrong");
           }
           if (snapshot.hasData && !snapshot.data!.exists) {
-            return HomePage();
+            return HomePage(homePlayer: _player);
           }
           if (snapshot.hasData) {
             var data = snapshot.data;
@@ -225,6 +232,7 @@ class _HomePageState extends State<HomePage> {
                       leading: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          SizedBox(width: 15),
                           InkWell(
                               child: CircleAvatar(
                                 radius: 20.0,
@@ -273,33 +281,126 @@ class _HomePageState extends State<HomePage> {
                             icon: Icon(Icons.message_outlined)),
                       ],
 
-                      expandedHeight: 175.0,
+                      expandedHeight: 160.0,
                       flexibleSpace: FlexibleSpaceBar(
                         stretchModes: const <StretchMode>[
                           StretchMode.blurBackground,
                         ],
-                        background: Transform(
-                          transform: Matrix4.translationValues(10.0, 50.0, 0.0),
-                          child: RichText //Welcome Header
-                              (
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: '\nWelcome,',
-                                  style: TextStyle(
-                                      letterSpacing: 1.3,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 40),
+                        background: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 60, right: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText //Welcome Header
+                                  (
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'Hello ${data['username']}',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "\nHow are you doing?",
+                                      style: TextStyle(
+                                          letterSpacing: 0.2,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 12),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          "\n\n5 unread messages\n30 notifications",
+                                      style: TextStyle(
+                                          color: Colors.white54,
+                                          letterSpacing: 0.2,
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 12),
+                                    ),
+                                  ],
                                 ),
-                                TextSpan(
-                                  text: '\n${data['username']}',
-                                  style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 40),
+                              ),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    InkWell(
+                                      child: Container(
+                                        width: 120,
+                                        height: 38,
+                                        decoration: BoxDecoration(
+                                            //color: Color(0xffFAEBD4),
+                                            borderRadius:
+                                                BorderRadius.circular(13),
+                                            border: Border.all(
+                                                color: Colors.white)),
+                                        child: Center(
+                                            child: RichText(
+                                                text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                                child: Icon(
+                                              CupertinoIcons.music_albums,
+                                              size: 16,
+                                            )),
+                                            TextSpan(
+                                                text: '  Library',
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w500)),
+                                          ],
+                                        ))),
+                                      ),
+                                      onTap: () {
+                                        pushNewScreen(context,
+                                            screen: LibraryPage());
+                                      },
+                                    ),
+                                    SizedBox(height: 10),
+                                    InkWell(
+                                      child: Container(
+                                        width: 120,
+                                        height: 38,
+                                        decoration: BoxDecoration(
+                                            //color: Color(0xffFAEBD4),
+                                            borderRadius:
+                                                BorderRadius.circular(13),
+                                            border: Border.all(
+                                                color: Colors.white)),
+                                        child: Center(
+                                            child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
+                                          child: RichText(
+                                              text: TextSpan(
+                                            children: [
+                                              WidgetSpan(
+                                                  child: Icon(
+                                                CupertinoIcons.list_bullet,
+                                                size: 16,
+                                              )),
+                                              TextSpan(
+                                                  text: '  Playlists',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                            ],
+                                          )),
+                                        )),
+                                      ),
+                                      onTap: () {
+                                        pushNewScreen(context,
+                                            screen: LibraryPage());
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -321,114 +422,6 @@ class _HomePageState extends State<HomePage> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
                                 child: Text(
-                                  'dashboard',
-                                  style: TextStyle(
-                                      letterSpacing: 1.3,
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  InkWell(
-                                    child: Container(
-                                      width: 170,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                            colors: <Color>[
-                                              Color(0xff5AE0D3),
-                                              Color(0xff5A62D3)
-                                            ],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(13),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0xff494c78),
-                                              offset: Offset(5, 5),
-                                            )
-                                          ]),
-                                      child: Center(
-                                          child: RichText(
-                                              text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                              child: Icon(
-                                            CupertinoIcons.music_albums,
-                                            color: Colors.black,
-                                            size: 20,
-                                          )),
-                                          TextSpan(
-                                              text: '  Library',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
-                                      ))),
-                                    ),
-                                    onTap: () {
-                                      pushNewScreen(context,
-                                          screen: LibraryPage());
-                                    },
-                                  ),
-                                  InkWell(
-                                    child: Container(
-                                      width: 170,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                            colors: <Color>[
-                                              Color(0xff5AE0D3),
-                                              Color(0xff5A62D3)
-                                            ],
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(13),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color(0xff494c78),
-                                              offset: Offset(5, 5),
-                                            )
-                                          ]),
-                                      child: Center(
-                                          child: RichText(
-                                              text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                              child: Icon(
-                                            CupertinoIcons.list_bullet,
-                                            color: Theme.of(context)
-                                                .backgroundColor,
-                                            size: 20,
-                                          )),
-                                          TextSpan(
-                                              text: '  Playlists',
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .backgroundColor,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
-                                      ))),
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: Text(
                                   'new releases',
                                   style: TextStyle(
                                       letterSpacing: 1.3,
@@ -445,11 +438,35 @@ class _HomePageState extends State<HomePage> {
                                   scrollDirection: Axis.horizontal,
                                   children: [
                                     SizedBox(width: 15),
-                                    artistRelease(
-                                        'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
-                                        'Gimme Love',
-                                        'Joji',
-                                        'single'),
+                                    InkWell(
+                                      onTap: () {
+                                        pushNewScreen(context,
+                                            withNavBar: false,
+                                            pageTransitionAnimation:
+                                                PageTransitionAnimation
+                                                    .cupertino,
+                                            screen: Player(
+                                                player: widget.homePlayer,
+                                                playlist:
+                                                    ConcatenatingAudioSource(
+                                                        children: [
+                                                      AudioSource.uri(
+                                                          Uri.parse(
+                                                              'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2FJoji_-_Gimme_Love.mp3?alt=media&token=6a5d7b4f-0e88-4ed7-802f-ae60ccc2b418'),
+                                                          tag: MediaItem(
+                                                              id: '1',
+                                                              title:
+                                                                  'Tyler, Test',
+                                                              artUri: Uri.parse(
+                                                                  'https://i.pinimg.com/564x/5d/5a/8d/5d5a8d86a7a6751c3957dd25ee5bb89c.jpg')))
+                                                    ])));
+                                      },
+                                      child: artistRelease(
+                                          'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
+                                          'Gimme Love',
+                                          'Joji',
+                                          'single'),
+                                    ),
                                     SizedBox(width: 15),
                                     artistRelease(
                                         'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png',
@@ -505,8 +522,7 @@ class _HomePageState extends State<HomePage> {
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             return Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 15),
+                                              margin: EdgeInsets.only(left: 15),
                                               child: Column(
                                                 children: [
                                                   trailAvatar(

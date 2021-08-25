@@ -5,42 +5,37 @@ import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
-
 import 'common.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
+class Player extends StatefulWidget {
+  final AudioPlayer player;
+  final ConcatenatingAudioSource? playlist;
+  const Player({Key? key, required this.player, required this.playlist})
+      : super(key: key);
   @override
-  _MyAppState createState() => _MyAppState();
+  _PlayerState createState() => _PlayerState();
 }
 
-class _MyAppState extends State<MyApp> {
-  late AudioPlayer _player;
+class _PlayerState extends State<Player> {
   bool _visible = true;
-  final _playlist = ConcatenatingAudioSource(children: [
-    AudioSource.uri(
-      Uri.parse(
-          'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2FLUMBERJACK%20(Audio).mp3?alt=media&token=20161301-fcf0-450f-82f4-a5b7bc129b61'),
-      tag: MediaItem(
-          id: '1',
-          title: 'Tyler, The Creator',
-          artist: 'Tyler',
-          artUri: Uri.parse(
-              'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/images%2FTyler-the-Creator-Lumberjack.jpeg?alt=media&token=c70c73f4-b04c-4ee4-bae8-5a1392b7ea54')),
-    ),
-  ]);
   int _addedCount = 0;
+  late AudioPlayer _player;
+  late ConcatenatingAudioSource _playlist;
 
   @override
   void initState() {
     super.initState();
+    this._player = widget.player;
+    if (widget.playlist != null) {
+      this._playlist = widget.playlist!;
+    }
+
     Future.delayed(const Duration(seconds: 5), () {
       setState(() {
         _visible = !_visible;
       });
     });
-    _player = AudioPlayer();
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black,
     ));
@@ -64,12 +59,6 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
-  }
-
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
           _player.positionStream,
@@ -87,7 +76,7 @@ class _MyAppState extends State<MyApp> {
               stream: _player.sequenceStateStream,
               builder: (context, snapshot) {
                 final state = snapshot.data;
-                if (state?.sequence.isEmpty ?? true) return SizedBox();
+
                 final metadata = state!.currentSource!.tag as MediaItem;
                 return Container(
                   decoration: BoxDecoration(
@@ -95,9 +84,9 @@ class _MyAppState extends State<MyApp> {
                           fit: BoxFit.cover,
                           image: NetworkImage(metadata.artUri.toString()))),
                   child: Container(
-                    color: Theme.of(context).backgroundColor.withOpacity(0.5),
+                    color: Theme.of(context).backgroundColor.withOpacity(0.8),
                     child: GlassContainer(
-                      blur: 40,
+                      blur: 10,
                       opacity: 0.01,
                       border: Border.all(
                         color: Colors.white.withOpacity(0),
@@ -117,7 +106,7 @@ class _MyAppState extends State<MyApp> {
                               children: <Widget>[
                                 IconButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    Navigator.of(context).pop();
                                   },
                                   icon: Icon(Icons.keyboard_arrow_down_rounded,
                                       color: Colors.white, size: 36),

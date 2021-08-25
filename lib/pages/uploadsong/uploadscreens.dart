@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
@@ -18,7 +18,8 @@ class SongUpload extends StatefulWidget {
   final File UPFcon;
   final String uid;
 
-  const SongUpload({Key? key, required this.UPFcon, required this.uid}) : super(key: key);
+  const SongUpload({Key? key, required this.UPFcon, required this.uid})
+      : super(key: key);
 
   @override
   _SongUploadState createState() => _SongUploadState();
@@ -32,7 +33,7 @@ class _SongUploadState extends State<SongUpload> {
   FilePickerResult? result;
   late PlatformFile file;
   File? Cover;
-  String path='';
+  String path = '';
   String Cover_key = '';
   String Song_key = '';
   bool prv = false;
@@ -73,16 +74,27 @@ class _SongUploadState extends State<SongUpload> {
               ),
               trailing: GestureDetector(
                   onTap: () async {
-                    final DocumentSnapshot doc = await tracksRef.doc(widget.uid).collection('publicSong').doc(Song_key).get();
-                    final DocumentSnapshot doc1 = await tracksRef.doc(widget.uid).collection('privateSong').doc(Song_key).get();
+                    final DocumentSnapshot doc = await tracksRef
+                        .doc(widget.uid)
+                        .collection('publicSong')
+                        .doc(Song_key)
+                        .get();
+                    final DocumentSnapshot doc1 = await tracksRef
+                        .doc(widget.uid)
+                        .collection('privateSong')
+                        .doc(Song_key)
+                        .get();
                     int check = await FieldChecker();
-                    if(check==2 && !doc.exists && !doc1.exists){
+                    if (check == 2 && !doc.exists && !doc1.exists) {
                       modal.loadingmodalscreen(context);
-                      await Uploader(Cover!,Cover_key,UPF1,Song_key,widget.uid);
+                      await Uploader(
+                          Cover!, Cover_key, UPF1, Song_key, widget.uid);
                       Navigator.pop(context);
-                      pushNewScreen(context, screen: SuccessUpload(),withNavBar: true);
-                    }else if(doc.exists || doc1.exists){
-                      Snackbar("Looks like you've already uploaded this audio file before");
+                      pushNewScreen(context,
+                          screen: SuccessUpload(), withNavBar: true);
+                    } else if (doc.exists || doc1.exists) {
+                      Snackbar(
+                          "Looks like you've already uploaded this audio file before");
                     }
                   },
                   child: Icon(
@@ -92,7 +104,7 @@ class _SongUploadState extends State<SongUpload> {
                   )),
               leading: CupertinoNavigationBarBackButton(
                 color: CupertinoColors.activeBlue,
-                onPressed: (){
+                onPressed: () {
                   Navigator.pop(context);
                 },
                 previousPageTitle: 'Home',
@@ -393,12 +405,10 @@ class _SongUploadState extends State<SongUpload> {
     if (SongNameController.text.isEmpty) {
       Snackbar('Song name cannot be empty');
       return 1;
-    }
-    else if (path=='') {
+    } else if (path == '') {
       Snackbar('You must choose some cover art');
       return 1;
-    }
-    else if (SongDescController.text.length >= 140) {
+    } else if (SongDescController.text.length >= 140) {
       Snackbar('Limit Description to 140 words');
       return 1;
     } else {
@@ -414,7 +424,8 @@ class _SongUploadState extends State<SongUpload> {
     return (File(file.path.toString()));
   }
 
-  Future<void> Uploader(File cover, String cover_key, File upf1, String song_key, String uid) async {
+  Future<void> Uploader(File cover, String cover_key, File upf1,
+      String song_key, String uid) async {
     try {
       await firebase_storage.FirebaseStorage.instance
           .ref('track/$song_key')
@@ -425,16 +436,29 @@ class _SongUploadState extends State<SongUpload> {
     } catch (e) {
       print(e);
     }
-    String songLink=await getUrl('track/$song_key');
-    String coverLink=await getUrl('cover/$cover_key');
-    await dbsong(song_key, upf1, cover_key, SongNameController.text, SongDescController.text, uid, songLink, coverLink);
+    String songLink = await getUrl('track/$song_key');
+    String coverLink = await getUrl('cover/$cover_key');
+    await dbsong(song_key, upf1, cover_key, SongNameController.text,
+        SongDescController.text, uid, songLink, coverLink);
   }
 
-  Future<void> dbsong(String song_key, File upf1, String cover_key, String sname, String desc, String uid, String songLink, String coverLink) async {
+  Future<void> dbsong(
+      String song_key,
+      File upf1,
+      String cover_key,
+      String sname,
+      String desc,
+      String uid,
+      String songLink,
+      String coverLink) async {
     final DateTime timestamp = DateTime.now();
 
-    if (prv==true){
-      await tracksRef.doc(widget.uid).collection('privateSong').doc(Song_key).set({
+    if (prv == true) {
+      await tracksRef
+          .doc(widget.uid)
+          .collection('privateSong')
+          .doc(Song_key)
+          .set({
         "id": song_key,
         "SongName": sname,
         "SongDesc": desc,
@@ -444,8 +468,12 @@ class _SongUploadState extends State<SongUpload> {
         "privacy": 'private',
         "timestamp": timestamp
       });
-    }else{
-      await tracksRef.doc(widget.uid).collection('publicSong').doc(Song_key).set({
+    } else {
+      await tracksRef
+          .doc(widget.uid)
+          .collection('publicSong')
+          .doc(Song_key)
+          .set({
         "id": song_key,
         "SongName": sname,
         "SongDesc": desc,
