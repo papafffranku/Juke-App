@@ -12,6 +12,7 @@ import 'package:lessgoo/pages/community/communityPage.dart';
 
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
+import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/player/player.dart';
@@ -48,7 +49,7 @@ Future<void> main() async {
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
-      '/album': (context) => PlaylistViewer(),
+      '/feed': (context) => ReleaseFeed(),
       '/profile': (context) => ProfilePage(),
       '/community': (context) => communityPage(),
     },

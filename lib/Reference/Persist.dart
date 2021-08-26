@@ -75,7 +75,7 @@ class _PersistState extends State<Persist> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -84,7 +84,7 @@ class _PersistState extends State<Persist> {
               controller: _controller,
               screens: _buildScreens(),
               items: _navBarsItems(),
-              backgroundColor: Colors.black,
+              backgroundColor: Theme.of(context).backgroundColor,
               handleAndroidBackButtonPress: true,
               resizeToAvoidBottomInset: true,
               stateManagement: true,
@@ -120,73 +120,112 @@ class _PersistState extends State<Persist> {
           final state = snapshot.data;
           if (state?.sequence.isEmpty ?? true) return SizedBox();
           final metadata = state!.currentSource!.tag as MediaItem;
-          return StreamBuilder<PlayerState?>(
-              stream: _player.playerStateStream,
-              builder: (context, snapshot) {
-                final playerState = snapshot.data;
-                final playing = playerState?.playing;
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Center(
-                      child: Container(
-                        height: 55,
-                        width: screenwidth - 30,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(metadata.artUri.toString())),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.black.withOpacity(0.7),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10),
-                              if (playing == true)
-                                Icon(CupertinoIcons.play_fill),
-                              SizedBox(width: 20),
-                              InkWell(
-                                onTap: () {
-                                  pushToPlayer();
-                                },
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        metadata.title,
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      Text(
-                                        metadata.artist.toString(),
-                                        style: TextStyle(color: Colors.white54),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Icon(Icons.favorite_outline),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Center(
+                child: Container(
+                  height: 55,
+                  width: screenwidth - 30,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(metadata.artUri.toString())),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.black.withOpacity(0.7),
                     ),
-                  ],
-                );
-              });
+                    child: Row(
+                      children: [
+                        buttonControl(),
+                        SizedBox(width: 15),
+                        InkWell(
+                          onTap: () {
+                            pushToPlayer();
+                          },
+                          child: Expanded(
+                            child: Container(
+                              width: screenwidth - 150,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    metadata.title,
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        letterSpacing: 1.2,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    metadata.artist.toString(),
+                                    style: TextStyle(color: Colors.white54),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(Icons.favorite_outline),
+                        SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
         });
+  }
+
+  Widget buttonControl() {
+    return StreamBuilder<PlayerState>(
+      stream: _player.playerStateStream,
+      builder: (context, snapshot) {
+        final playerState = snapshot.data;
+        final processingState = playerState?.processingState;
+        final playing = playerState?.playing;
+        if (processingState == ProcessingState.loading ||
+            processingState == ProcessingState.buffering) {
+          return Container(
+            margin: EdgeInsets.all(8.0),
+            width: 35,
+            height: 35,
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        } else if (playing != true) {
+          return IconButton(
+            icon: Icon(Icons.play_circle_filled),
+            iconSize: 35,
+            onPressed: _player.play,
+          );
+        } else if (processingState != ProcessingState.completed) {
+          return IconButton(
+            icon: Icon(Icons.pause_circle_filled),
+            iconSize: 35,
+            onPressed: _player.pause,
+          );
+        } else {
+          return IconButton(
+            icon: Icon(Icons.replay),
+            iconSize: 35,
+            onPressed: () => _player.seek(Duration.zero,
+                index: _player.effectiveIndices!.first),
+          );
+        }
+      },
+    );
   }
 
   void pushToPlayer() {

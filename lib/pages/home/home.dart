@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/models/TrailModel.dart';
+import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/playlist/view_playlist.dart';
@@ -64,8 +65,8 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 200,
-          width: 200,
+          height: 150,
+          width: 150,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20)),
             image: DecorationImage(
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         ),
         SizedBox(height: 10),
         Container(
-          width: 200,
+          width: 150,
           child: RichText //Welcome Header
               (
             overflow: TextOverflow.ellipsis,
@@ -86,13 +87,12 @@ class _HomePageState extends State<HomePage> {
                   text: playlistName,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                      fontSize: 16,
                       color: Colors.white),
                 ),
                 TextSpan(
                   text: '\n$playlistDesc',
-                  style: TextStyle(
-                      fontSize: 14, color: Colors.white.withOpacity(0.7)),
+                  style: TextStyle(fontSize: 12, color: Colors.white54),
                 ),
               ],
             ),
@@ -105,12 +105,12 @@ class _HomePageState extends State<HomePage> {
   Widget artistRelease(
       String imgUrl, String trackName, String artistName, String releaseType) {
     return Container(
-      height: 200,
-      width: 150,
+      height: 180,
+      width: 180,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           image: DecorationImage(
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
             image: NetworkImage(imgUrl),
           )),
       child: Container(
@@ -140,14 +140,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextSpan(
                     text: '\n$trackName',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   TextSpan(
                     text: '\n$artistName',
                     style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
-                        color: Colors.white.withOpacity(0.5)),
+                        color: Colors.white54),
                   ),
                 ],
               ),
@@ -164,16 +164,16 @@ class _HomePageState extends State<HomePage> {
         Stack(children: [
           CircleAvatar(
             backgroundColor: Theme.of(context).accentColor,
-            radius: 5,
+            radius: 4,
           ),
           CircleAvatar(
             backgroundImage: NetworkImage(imgurl),
-            radius: 35,
+            radius: 32,
           ),
         ]),
-        SizedBox(height: 10),
+        SizedBox(height: 5),
         Container(
-          width: 80,
+          width: 60,
           child: Row(
             //mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                     artistName.toLowerCase(),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: TextStyle(color: Colors.white, fontSize: 13),
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
               ),
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             return Scaffold(
               backgroundColor: Colors.black87,
               body: CustomScrollView(
-                  physics: BouncingScrollPhysics(
+                  physics: ClampingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
                   slivers: <Widget>[
                     SliverAppBar //QuickAccess Bar
@@ -236,8 +236,8 @@ class _HomePageState extends State<HomePage> {
                           InkWell(
                               child: CircleAvatar(
                                 radius: 20.0,
-                                backgroundImage:
-                                    NetworkImage(data!['avatarUrl']),
+                                backgroundImage: NetworkImage(
+                                    'https://i.pinimg.com/474x/88/1a/1d/881a1d3e764e251d4f187389b47c9031.jpg'), //data!['avatarUrl']
                                 backgroundColor: Colors.transparent,
                               ),
                               onTap: () {
@@ -247,9 +247,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       backgroundColor: Colors.black87,
                       pinned: true,
-                      // onStretchTrigger: (){
-                      //   return Future<void>.value();
-                      //   },
+                      onStretchTrigger: () {
+                        return Future<void>.value();
+                      },
                       actions: [
                         IconButton(
                             onPressed: () async {
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                               pushNewScreen(context,
                                   screen: SongUpload(
                                     UPFcon: UPF,
-                                    uid: data['id'],
+                                    uid: data!['id'],
                                   ));
                               // Navigator.pushNamed(context, '/UploadSong',
                               //     arguments: {
@@ -280,7 +280,6 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {},
                             icon: Icon(Icons.message_outlined)),
                       ],
-
                       expandedHeight: 160.0,
                       flexibleSpace: FlexibleSpaceBar(
                         stretchModes: const <StretchMode>[
@@ -298,24 +297,25 @@ class _HomePageState extends State<HomePage> {
                                 text: TextSpan(
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: 'Hello ${data['username']}',
+                                      text: 'Hello,',
                                       style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white.withOpacity(0.8),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "\nHow are you doing?",
+                                      text: "\n${data!['username']}",
                                       style: TextStyle(
                                           letterSpacing: 0.2,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 12),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
                                     ),
                                     TextSpan(
                                       text:
-                                          "\n\n5 unread messages\n30 notifications",
+                                          "\n\n05 unread messages\n30 notifications",
                                       style: TextStyle(
-                                          color: Colors.white54,
+                                          color: Colors.white38,
                                           letterSpacing: 0.2,
                                           fontWeight: FontWeight.w300,
                                           fontSize: 12),
@@ -359,7 +359,7 @@ class _HomePageState extends State<HomePage> {
                                             screen: LibraryPage());
                                       },
                                     ),
-                                    SizedBox(height: 10),
+                                    SizedBox(height: 15),
                                     InkWell(
                                       child: Container(
                                         width: 120,
@@ -418,21 +418,47 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 20),
+                              SizedBox(height: 15),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: Text(
-                                  'new releases',
-                                  style: TextStyle(
-                                      letterSpacing: 1.3,
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'releases',
+                                          style: TextStyle(
+                                              letterSpacing: 1.2,
+                                              color: Colors.white,
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              pushNewScreen(context,
+                                                  screen: ReleaseFeed());
+                                            },
+                                            icon: Icon(Icons.expand_more))
+                                      ],
+                                    ),
+                                    Text(
+                                      "find out what's new",
+                                      style: TextStyle(
+                                          letterSpacing: 1.3,
+                                          color: Colors.white54,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ],
                                 ),
                               ),
                               SizedBox(height: 15),
                               Container(
-                                height: 200,
+                                height: 180,
                                 child: ListView //New Releases
                                     (
                                   scrollDirection: Axis.horizontal,
@@ -499,20 +525,35 @@ class _HomePageState extends State<HomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(height: 15),
+                                    SizedBox(height: 10),
                                     Padding(
                                       padding:
                                           const EdgeInsets.only(left: 15.0),
-                                      child: Text(
-                                        'trails',
-                                        style: TextStyle(
-                                            letterSpacing: 1.3,
-                                            color: Colors.white,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'trails',
+                                            style: TextStyle(
+                                                letterSpacing: 1.2,
+                                                color: Colors.white,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            "check what everyone's upto",
+                                            style: TextStyle(
+                                                letterSpacing: 1.3,
+                                                color: Colors.white54,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    SizedBox(height: 15),
+                                    SizedBox(height: 10),
                                     Container(
                                         height: 110,
                                         child: ListView.builder(
@@ -534,23 +575,35 @@ class _HomePageState extends State<HomePage> {
                                             );
                                           },
                                         )),
-                                    SizedBox(height: 15),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 15),
+                              SizedBox(height: 10),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
-                                child: Text(
-                                  'playlists for you',
-                                  style: TextStyle(
-                                      letterSpacing: 1.3,
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'playlists for you',
+                                      style: TextStyle(
+                                          letterSpacing: 1.2,
+                                          color: Colors.white,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "some playlists to listen to",
+                                      style: TextStyle(
+                                          letterSpacing: 1.3,
+                                          color: Colors.white54,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(height: 15),
+                              SizedBox(height: 10),
                               Container(
                                 height: 250,
                                 child: ListView(
@@ -576,7 +629,7 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 70)
+                              SizedBox(height: 5)
                             ],
                           )),
                     ])),

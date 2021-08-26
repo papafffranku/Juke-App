@@ -24,7 +24,7 @@ class _ExplorePageState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff0e0e15),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: ColorfulSafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 10.0),

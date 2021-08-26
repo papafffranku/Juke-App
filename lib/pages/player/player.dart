@@ -208,7 +208,7 @@ class _PlayerState extends State<Player> {
                                   metadata.title,
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 35),
                                 ),
                               ),
