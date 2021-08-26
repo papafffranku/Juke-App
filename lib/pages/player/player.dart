@@ -111,11 +111,6 @@ class _PlayerState extends State<Player> {
                                   icon: Icon(Icons.keyboard_arrow_down_rounded,
                                       color: Colors.white, size: 36),
                                 ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.message,
-                                      color: Colors.white, size: 32),
-                                ),
                               ],
                             ),
                           ),
@@ -209,7 +204,7 @@ class _PlayerState extends State<Player> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 35),
+                                      fontSize: 30),
                                 ),
                               ),
                               SizedBox(height: 5),
@@ -377,7 +372,7 @@ class ControlButtons extends StatelessWidget {
           color: Theme.of(context).backgroundColor.withOpacity(0.7),
           borderRadius: BorderRadius.circular(20)),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           StreamBuilder<LoopMode>(
             stream: player.loopModeStream,
@@ -405,6 +400,8 @@ class ControlButtons extends StatelessWidget {
             },
           ),
           Icon(Icons.favorite_border_outlined),
+          SizedBox(width: 5),
+          Icon(Icons.chat_bubble_outline),
           StreamBuilder<bool>(
             stream: player.shuffleModeEnabledStream,
             builder: (context, snapshot) {

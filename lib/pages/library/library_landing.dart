@@ -27,7 +27,7 @@ class _LibraryPageState extends State<LibraryPage> {
         appBar: AppBar(
             leading: Icon(Icons.arrow_back_ios_sharp),
             backgroundColor: Colors.black,
-            elevation: 5.0),
+            elevation: 2.0),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(

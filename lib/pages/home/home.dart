@@ -580,63 +580,75 @@ class _HomePageState extends State<HomePage> {
                               ),
                               SizedBox(height: 10),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'playlists for you',
+                                      'connect',
                                       style: TextStyle(
                                           letterSpacing: 1.2,
                                           color: Colors.white,
                                           fontSize: 25,
                                           fontWeight: FontWeight.bold),
                                     ),
+                                    SizedBox(height: 8),
                                     Text(
-                                      "some playlists to listen to",
+                                      "Find new people to work with",
                                       style: TextStyle(
                                           letterSpacing: 1.3,
                                           color: Colors.white54,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w300),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Container(
-                                height: 250,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    SizedBox(width: 15),
-                                    InkWell(
-                                      onTap: () {
-                                        pushNewScreen(context,
-                                            screen: PlaylistViewer());
-                                      },
-                                      child: playlister(
-                                          'https://i.redd.it/6edffsd31bn31.jpg',
-                                          'weekly shuffle',
-                                          'A customised playlist cherry picked just for you. Tune in, sit back and relax while you listen to the freshest beats in town.'),
+                                    SizedBox(height: 15),
+                                    Container(
+                                      width: sWidth - 30,
+                                      height: 125,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(
+                                                  'https://images.unsplash.com/photo-1618367588411-d9a90fefa881?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80'))),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Discover',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .backgroundColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 40),
+                                            ),
+                                            Text(
+                                              'new artists',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .backgroundColor,
+                                                  fontSize: 20),
+                                            ),
+                                          ]),
                                     ),
-                                    SizedBox(width: 15),
-                                    playlister(
-                                        'https://images.unsplash.com/photo-1494253109108-2e30c049369b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                                        'randomizer',
-                                        'Tired of the same old? Here is a breath of fresh air. You might find a few hidden gems in here too if you are lucky, hehe.'),
-                                    SizedBox(width: 15),
+                                    SizedBox(height: 30),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 5)
                             ],
                           )),
                     ])),
                   ]),
             );
           } else {
-            return ProfileLoading();
+            return Container(
+              color: Theme.of(context).backgroundColor,
+              child: Center(child: CircularProgressIndicator()),
+            );
           }
         });
   }

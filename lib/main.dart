@@ -12,6 +12,7 @@ import 'package:lessgoo/pages/community/communityPage.dart';
 
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
+import 'package:lessgoo/pages/home/page_routes/artist_connect.dart';
 import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
@@ -39,17 +40,17 @@ Future<void> main() async {
       accentColor: Color(0xff57cfdc),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
-    initialRoute: '/ok',
+    initialRoute: '/connect',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
       '/display': (context) => Display(),
-      '/explore': (context) => LibraryPage(),
+      '/connect': (context) => ArtistConnect(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
       '/anime': (context) => anime(),
-      '/feed': (context) => ReleaseFeed(),
+      '/library': (context) => LibraryPage(),
       '/profile': (context) => ProfilePage(),
       '/community': (context) => communityPage(),
     },
