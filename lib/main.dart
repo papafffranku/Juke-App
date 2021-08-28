@@ -42,7 +42,7 @@ Future<void> main() async {
       brightness: Brightness.dark,
       primaryColor: Color(0xff101011),
       backgroundColor: Color(0xff101011),
-      accentColor: Color(0xff57cfdc),
+      accentColor: Color(0xff4E4B6E),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
     initialRoute: '/ok',
