@@ -8,6 +8,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/models/TrailModel.dart';
 import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
+import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/playlist/view_playlist.dart';
@@ -166,9 +167,12 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Theme.of(context).accentColor,
             radius: 4,
           ),
-          CircleAvatar(
-            backgroundImage: NetworkImage(imgurl),
-            radius: 32,
+          GestureDetector(
+            onTap: () => pushNewScreen(context, screen: StoryPageView()),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(imgurl),
+              radius: 32,
+            ),
           ),
         ]),
         SizedBox(height: 5),
@@ -221,7 +225,8 @@ class _HomePageState extends State<HomePage> {
             var data = snapshot.data;
 
             return Scaffold(
-              backgroundColor: Colors.black87,
+              extendBodyBehindAppBar: true,
+              backgroundColor: Color(0xff4E4B6E),
               body: CustomScrollView(
                   physics: ClampingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics()),
@@ -280,127 +285,121 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {},
                             icon: Icon(Icons.message_outlined)),
                       ],
-                      expandedHeight: 160.0,
+                      expandedHeight: 115.0,
                       flexibleSpace: FlexibleSpaceBar(
                         stretchModes: const <StretchMode>[
                           StretchMode.blurBackground,
                         ],
-                        background: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 15, top: 60, right: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText //Welcome Header
-                                  (
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: 'Hello,',
-                                      style: TextStyle(
-                                        color: Colors.white.withOpacity(0.8),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
+                        background: Container(
+                          color: Color(0xff4E4B6E),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 15, top: 110, right: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText //Welcome Header
+                                    (
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Hello,',
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.8),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: "\n${data!['username']}",
-                                      style: TextStyle(
-                                          letterSpacing: 0.2,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    TextSpan(
-                                      text:
-                                          "\n\n05 unread messages\n30 notifications",
-                                      style: TextStyle(
-                                          color: Colors.white38,
-                                          letterSpacing: 0.2,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 12),
-                                    ),
-                                  ],
+                                      TextSpan(
+                                        text: "\n${data!['username']}",
+                                        style: TextStyle(
+                                            letterSpacing: 0.2,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    InkWell(
-                                      child: Container(
-                                        width: 120,
-                                        height: 38,
-                                        decoration: BoxDecoration(
-                                            //color: Color(0xffFAEBD4),
-                                            borderRadius:
-                                                BorderRadius.circular(13),
-                                            border: Border.all(
-                                                color: Colors.white)),
-                                        child: Center(
-                                            child: RichText(
-                                                text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                                child: Icon(
-                                              CupertinoIcons.music_albums,
-                                              size: 16,
-                                            )),
-                                            TextSpan(
-                                                text: '  Library',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                          ],
-                                        ))),
-                                      ),
-                                      onTap: () {
-                                        pushNewScreen(context,
-                                            screen: LibraryPage());
-                                      },
-                                    ),
-                                    SizedBox(height: 15),
-                                    InkWell(
-                                      child: Container(
-                                        width: 120,
-                                        height: 38,
-                                        decoration: BoxDecoration(
-                                            //color: Color(0xffFAEBD4),
-                                            borderRadius:
-                                                BorderRadius.circular(13),
-                                            border: Border.all(
-                                                color: Colors.white)),
-                                        child: Center(
-                                            child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10.0),
-                                          child: RichText(
-                                              text: TextSpan(
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      InkWell(
+                                        child: Container(
+                                          width: 120,
+                                          height: 38,
+                                          decoration: BoxDecoration(
+                                              //color: Color(0xffFAEBD4),
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              border: Border.all(
+                                                  color: Colors.white)),
+                                          child: Center(
+                                              child: RichText(
+                                                  text: TextSpan(
                                             children: [
                                               WidgetSpan(
                                                   child: Icon(
-                                                CupertinoIcons.list_bullet,
+                                                CupertinoIcons.music_albums,
                                                 size: 16,
                                               )),
                                               TextSpan(
-                                                  text: '  Playlists',
+                                                  text: '  Library',
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.w500)),
                                             ],
-                                          )),
-                                        )),
+                                          ))),
+                                        ),
+                                        onTap: () {
+                                          pushNewScreen(context,
+                                              screen: LibraryPage());
+                                        },
                                       ),
-                                      onTap: () {
-                                        pushNewScreen(context,
-                                            screen: LibraryPage());
-                                      },
-                                    ),
-                                  ],
+                                      SizedBox(width: 10),
+                                      InkWell(
+                                        child: Container(
+                                          width: 120,
+                                          height: 38,
+                                          decoration: BoxDecoration(
+                                              //color: Color(0xffFAEBD4),
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                              border: Border.all(
+                                                  color: Colors.white)),
+                                          child: Center(
+                                              child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10.0),
+                                            child: RichText(
+                                                text: TextSpan(
+                                              children: [
+                                                WidgetSpan(
+                                                    child: Icon(
+                                                  CupertinoIcons.list_bullet,
+                                                  size: 16,
+                                                )),
+                                                TextSpan(
+                                                    text: '  Playlists',
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                              ],
+                                            )),
+                                          )),
+                                        ),
+                                        onTap: () {
+                                          pushNewScreen(context,
+                                              screen: LibraryPage());
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -408,7 +407,6 @@ class _HomePageState extends State<HomePage> {
                     SliverList(
                         delegate: SliverChildListDelegate([
                       Container(
-                          width: double.infinity,
                           decoration: BoxDecoration(
                             color: Theme.of(context).primaryColor,
                             borderRadius: BorderRadius.only(
@@ -430,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'releases',
+                                          'Releases',
                                           style: TextStyle(
                                               letterSpacing: 1.2,
                                               color: Colors.white,
@@ -534,7 +532,7 @@ class _HomePageState extends State<HomePage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'trails',
+                                            'Trails',
                                             style: TextStyle(
                                                 letterSpacing: 1.2,
                                                 color: Colors.white,
@@ -587,7 +585,7 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'connect',
+                                      'Connect',
                                       style: TextStyle(
                                           letterSpacing: 1.2,
                                           color: Colors.white,
@@ -635,7 +633,7 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ]),
                                     ),
-                                    SizedBox(height: 30),
+                                    SizedBox(height: 70),
                                   ],
                                 ),
                               ),

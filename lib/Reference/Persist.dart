@@ -1,3 +1,4 @@
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -74,41 +75,40 @@ class _PersistState extends State<Persist> {
         'https://images.complex.com/complex/images/c_fill,f_auto,g_center,w_1200/fl_lossy,pg_1/hcjrqlvc6dfhpjxob9nt/cudi';
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).backgroundColor,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            PersistentTabView(
-              context,
-              controller: _controller,
-              screens: _buildScreens(),
-              items: _navBarsItems(),
-              backgroundColor: Theme.of(context).backgroundColor,
-              handleAndroidBackButtonPress: true,
-              resizeToAvoidBottomInset: true,
-              stateManagement: true,
-              hideNavigationBarWhenKeyboardShows: true,
-              popAllScreensOnTapOfSelectedTab: true,
-              popActionScreens: PopActionScreensType.all,
-              itemAnimationProperties: ItemAnimationProperties(
-                // Navigation Bar's items animation properties.
-                duration: Duration(milliseconds: 400),
-                curve: Curves.fastLinearToSlowEaseIn,
-              ),
-              screenTransitionAnimation: ScreenTransitionAnimation(
-                // Screen transition animation on change of selected tab.
-                animateTabTransition: true,
-                curve: Curves.fastLinearToSlowEaseIn,
-                duration: Duration(milliseconds: 400),
-              ),
-              navBarStyle: NavBarStyle.style9,
+      body: Stack(
+        children: [
+          PersistentTabView(
+            context,
+            controller: _controller,
+            screens: _buildScreens(),
+            items: _navBarsItems(),
+            backgroundColor: Theme.of(context).backgroundColor,
+            handleAndroidBackButtonPress: true,
+            resizeToAvoidBottomInset: true,
+            stateManagement: true,
+            hideNavigationBarWhenKeyboardShows: true,
+            popAllScreensOnTapOfSelectedTab: true,
+            popActionScreens: PopActionScreensType.all,
+            itemAnimationProperties: ItemAnimationProperties(
+              // Navigation Bar's items animation properties.
+              duration: Duration(milliseconds: 400),
+              curve: Curves.fastLinearToSlowEaseIn,
             ),
-            Padding(
-                padding: const EdgeInsets.only(bottom: 60),
-                child: miniplayer(_player, screenwidth))
-          ],
-        ),
+            screenTransitionAnimation: ScreenTransitionAnimation(
+              // Screen transition animation on change of selected tab.
+              animateTabTransition: true,
+              curve: Curves.fastLinearToSlowEaseIn,
+              duration: Duration(milliseconds: 400),
+            ),
+            navBarStyle: NavBarStyle.style9,
+          ),
+          Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: miniplayer(_player, screenwidth))
+        ],
       ),
     );
   }
