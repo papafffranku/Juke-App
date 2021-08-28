@@ -17,7 +17,6 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
-  bool _visible = true;
   int _addedCount = 0;
   late AudioPlayer _player;
   late ConcatenatingAudioSource _playlist;
@@ -29,12 +28,6 @@ class _PlayerState extends State<Player> {
     if (widget.playlist != null) {
       this._playlist = widget.playlist!;
     }
-
-    Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        _visible = !_visible;
-      });
-    });
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black,
@@ -82,7 +75,7 @@ class _PlayerState extends State<Player> {
                   image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                          'https://images.genius.com/9b50709a30fbb0eee802ba391af0eb43.999x999x1.png'))),
+                          'https://images.complex.com/complex/image/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/m7ll2zgzoxostwcoswzi.png'))),
               child: Container(
                 color: Theme.of(context).backgroundColor.withOpacity(0.8),
                 child: GlassContainer(
@@ -97,8 +90,8 @@ class _PlayerState extends State<Player> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 35),
+                        padding: const EdgeInsets.only(
+                            left: 8.0, top: 35, bottom: 15),
                         child: Row //BackButton
                             (
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,107 +107,45 @@ class _PlayerState extends State<Player> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20),
 
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  metadata.title,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30),
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  metadata.artist.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white54,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 18),
+                                ),
+                              ]),
+                          SizedBox(height: 15),
                           GestureDetector(
                             onTapDown: (details) => _onTapDown(details),
                             child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: Colors.pink,
                                   image: DecorationImage(
                                     fit: BoxFit.contain,
                                     image: NetworkImage(
-                                        'https://images.genius.com/9b50709a30fbb0eee802ba391af0eb43.999x999x1.png'),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 30),
-                                  child: AnimatedOpacity(
-                                    opacity: _visible ? 1 : 0,
-                                    duration: const Duration(seconds: 5),
-                                    child: Row(
-                                      // btn Controls
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(30.0),
-                                          child: Container(
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                color: Colors.black
-                                                    .withOpacity(0.5),
-                                                shape: BoxShape.circle),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'previous\n',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(30.0),
-                                          child: Container(
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                color: Colors.black
-                                                    .withOpacity(0.5),
-                                                shape: BoxShape.circle),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'next\n',
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                        'https://images.complex.com/complex/image/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/m7ll2zgzoxostwcoswzi.png'),
                                   ),
                                 ),
                                 height: 330,
                                 width: 330),
                           ),
                           SizedBox(height: 15),
-                          Center(
-                            child: Text(
-                              metadata.title,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Center(
-                            child: Text(
-                              metadata.artist.toString(),
-                              style: TextStyle(
-                                  color: Colors.white54,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 18),
-                            ),
-                          ),
                         ],
                       ),
 
@@ -351,7 +282,7 @@ class _PlayerState extends State<Player> {
   }
 }
 
-class ControlButtons extends StatelessWidget{
+class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
   ControlButtons(this.player);

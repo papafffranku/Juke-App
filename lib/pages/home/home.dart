@@ -480,9 +480,10 @@ class _HomePageState extends State<HomePage> {
                                                           tag: MediaItem(
                                                               id: '1',
                                                               title:
-                                                                  'Tyler, Test',
+                                                                  'Gimme Love',
+                                                              artist: 'Joji',
                                                               artUri: Uri.parse(
-                                                                  'https://i.pinimg.com/564x/5d/5a/8d/5d5a8d86a7a6751c3957dd25ee5bb89c.jpg')))
+                                                                  'https://images.complex.com/complex/image/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/m7ll2zgzoxostwcoswzi.png')))
                                                     ])));
                                       },
                                       child: artistRelease(
