@@ -19,22 +19,16 @@ class _communityPageState extends State<communityPage> {
         body: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.only(left: 15,top: 20),
               child: RichText(
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Community",
+                      text: "Connect",
                       style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 40),
-                    ),
-                    WidgetSpan(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0,top: 10),
-                        child: Icon(CupertinoIcons.link_circle_fill,color: Color(0xff5338FF),size: 35,),
-                      ),
+                          color: Colors.white,
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

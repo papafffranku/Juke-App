@@ -45,7 +45,7 @@ Future<void> main() async {
       accentColor: Color(0xff57cfdc),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
-    initialRoute: '/ok',
+    initialRoute: '/profile',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),

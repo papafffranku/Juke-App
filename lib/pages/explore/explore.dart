@@ -36,7 +36,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "explore",
+                        text: "Explore",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 35,

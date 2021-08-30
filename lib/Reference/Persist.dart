@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:lessgoo/pages/community/communityPage.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
@@ -28,7 +29,7 @@ class _PersistState extends State<Persist> {
     return [
       HomePage(homePlayer: _player),
       ExplorePage(),
-      ProfilePage(),
+      communityPage(),
       ProfilePage(),
     ];
   }

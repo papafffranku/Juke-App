@@ -1,8 +1,12 @@
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 
 class EditProfile extends StatefulWidget {
@@ -14,8 +18,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  String Background='https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80';
-  String Profile = 'https://www.classifapp.com/wp-content/uploads/2017/09/avatar-placeholder.png';
   late List<bool> arr;
 
   final usersRef = FirebaseFirestore.instance.collection('users');
@@ -38,6 +40,14 @@ class _EditProfileState extends State<EditProfile> {
   bool instrumentValue = false;
   bool engineValue = false;
 
+  String? profile;
+  bool profileStatus=false;
+
+  File? Cover;
+  String path = '';
+  FilePickerResult? result;
+  late PlatformFile file;
+
   @override
   Widget build(BuildContext context) {
 
@@ -45,6 +55,8 @@ class _EditProfileState extends State<EditProfile> {
     BioControl.text=widget.data['bio'];
     InstagramControl.text=widget.data['socialig'];
     FacebookControl.text=widget.data['socialfb'];
+
+    profile=widget.data['avatarUrl'];
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -60,6 +72,9 @@ class _EditProfileState extends State<EditProfile> {
             padding: const EdgeInsets.only(right: 8.0),
             child: CupertinoButton(
               onPressed: () async {
+                if(path!=''){
+                  await Uploader(widget.data['id'], Cover!);
+                }
                 await WriteDetails();
                 Navigator.pop(context);
               },
@@ -78,35 +93,77 @@ class _EditProfileState extends State<EditProfile> {
           child: Column(
             children: [
               SizedBox(height: 10,),
-              Stack(
+              Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.transparent,
-                        image:DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(Background)
-                        )
-                      ),
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      children: [
+                        if (path == '') ...[
+                          GestureDetector(
+                            onTap: () async {
+                              Cover = await CoverArtSelecter();
+                              setState(() {
+                                path = Cover!.path.toString();
+                              });
+                            },
+                            child: CircleAvatar(
+                              radius: 45.0,
+                              backgroundImage:
+                              NetworkImage(profile!),
+                              backgroundColor: Colors.transparent,
+                            ),
+                          )
+                        ] else ...[
+                          GestureDetector(
+                            onTap: () async {
+                              Cover = await CoverArtSelecter();
+                              setState(() {
+                                path = Cover!.path.toString();
+                              });
+                            },
+                            child: CircleAvatar(
+                              radius: 45.0,
+                              backgroundImage: FileImage(
+                                File(path),
+                              ),
+                              backgroundColor: Colors.transparent,
+                            ),
+                          )
+                        ]
+                      ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60.0,left: 8),
-                        child: CircleAvatar(
-                          radius: 45.0,
-                          backgroundImage:
-                          NetworkImage(Profile),
-                          backgroundColor: Colors.transparent,
+                  SizedBox(width: 20,),
+                  Container(
+                    width: 200,
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: UsernameControl,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          decoration: InputDecoration(
+                              hintText: "Shown on your profile page",
+                              hintStyle: TextStyle(
+                                  color: Colors.grey[700]
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                  )
+                              )
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               SizedBox(height: 30,),
@@ -116,51 +173,7 @@ class _EditProfileState extends State<EditProfile> {
                     Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text("Username",
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16
-                            ),),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: TextField(
-                        controller: UsernameControl,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        decoration: InputDecoration(
-                            hintText: "Shown on your profile page",
-                            hintStyle: TextStyle(
-                                color: Colors.grey[700]
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                )
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                )
-                            )
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15,),
-              Container(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Text("About You",
                             style: TextStyle(
                                 color: Colors.grey[400],
@@ -170,7 +183,7 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextField(
                         controller: BioControl,
                         style: TextStyle(
@@ -199,7 +212,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
               SizedBox(height: 30,),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
                     Text("Your skills",
@@ -264,7 +277,7 @@ class _EditProfileState extends State<EditProfile> {
               ),
               SizedBox(height: 25,),
               Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
                     Text("Social Links",
@@ -277,98 +290,85 @@ class _EditProfileState extends State<EditProfile> {
               ),
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
-                          width: MediaQuery. of(context). size. width-10,
-                          child: TextField(
-                            controller: InstagramControl,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.left,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
-                              hintText: 'Instagram',
-                              hintStyle: TextStyle(color: Colors.grey[700]),
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Container(
+                      child: TextField(
+                        controller: InstagramControl,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              )
                           ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              )
+                          ),
+                          hintText: 'Instagram',
+                          hintStyle: TextStyle(color: Colors.grey[700]),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
-                          width: MediaQuery. of(context). size. width-10,
-                          child: TextField(
-                            controller: FacebookControl,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.left,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
-                              hintText: 'Facebook',
-                              hintStyle: TextStyle(color: Colors.grey[700]),
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Container(
+                      child: TextField(
+                        controller: FacebookControl,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              )
                           ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              )
+                          ),
+                          hintText: 'Facebook',
+                          hintStyle: TextStyle(color: Colors.grey[700]),
                         ),
                       ),
-                    ],
-                  ),Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
-                          width: MediaQuery. of(context). size. width-10,
-                          child: TextField(
-                            controller: OtherControl,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.left,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
-                              hintText: 'Other',
-                              hintStyle: TextStyle(color: Colors.grey[700]),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Container(
+                      child: TextField(
+                        controller: OtherControl,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              )
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              )
+                          ),
+                          hintText: 'Other',
+                          hintStyle: TextStyle(color: Colors.grey[700]),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 100,)
                 ],
               ),
             ],
@@ -384,14 +384,41 @@ class _EditProfileState extends State<EditProfile> {
     print(arr);
   }
 
+  Future<void> Uploader(String uid, File Cover) async {
+    try {
+      await firebase_storage.FirebaseStorage.instance
+          .ref('profilePic/$uid')
+          .putFile(Cover);
+    } catch (e) {
+      print(e);
+    }
+    String DPLink = await getUrl('profilePic/$uid');
+    usersRef.doc(widget.data['id']).update({
+      "avatarUrl": DPLink.toString(),
+    });
+  }
+
+  Future<String> getUrl(String s) async {
+    final ref = firebase_storage.FirebaseStorage.instance.ref().child(s);
+    var url = await ref.getDownloadURL();
+    return url;
+  }
+
   Future<void> WriteDetails() async {
     usersRef.doc(widget.data['id']).update({
       "username": UsernameControl.text,
-      "avatarUrl": 'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
       "bio": BioControl.text,
       "tag": '',
       "socialfb": FacebookControl.text,
       "socialig": InstagramControl.text,
     });
+  }
+
+  Future<File> CoverArtSelecter() async {
+    result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+    file = result!.files.first;
+    return (File(file.path.toString()));
   }
 }
