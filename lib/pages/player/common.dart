@@ -30,7 +30,7 @@ class _SeekBarState extends State<SeekBar> {
     super.didChangeDependencies();
 
     _sliderThemeData = SliderTheme.of(context).copyWith(
-      trackHeight: 2.0,
+      trackHeight: 1.0,
     );
   }
 
@@ -71,7 +71,7 @@ class _SeekBarState extends State<SeekBar> {
           data: _sliderThemeData.copyWith(
               inactiveTrackColor: Colors.transparent,
               activeTrackColor: Color(0xffFAEBD4),
-              trackHeight: 5.0,
+              trackHeight: 2.0,
               thumbColor: Color(0xffdbd4c5)),
           child: Slider(
             min: 0.0,
@@ -94,24 +94,24 @@ class _SeekBarState extends State<SeekBar> {
             },
           ),
         ),
-        Positioned(
-            right: 20.0,
-            top: 35.0,
-            child: RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                          .firstMatch("$_position")
-                          ?.group(1) ??
-                      '$_position',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: ' / '),
-              TextSpan(
-                  text: RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                          .firstMatch("$_duration")
-                          ?.group(1) ??
-                      '$_duration'),
-            ]))),
+        Padding(
+          padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+                RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
+                        .firstMatch("$_position")
+                        ?.group(1) ??
+                    '$_position',
+                style: TextStyle(color: Colors.white54)),
+            Text(
+                RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
+                        .firstMatch("$_duration")
+                        ?.group(1) ??
+                    '$_duration',
+                style: TextStyle(color: Colors.white54)),
+          ]),
+        ),
       ],
     );
   }
