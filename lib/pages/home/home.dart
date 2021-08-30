@@ -243,8 +243,7 @@ class _HomePageState extends State<HomePage> {
                             InkWell(
                                 child: CircleAvatar(
                                   radius: 20.0,
-                                  backgroundImage: NetworkImage(
-                                      'https://i.pinimg.com/474x/88/1a/1d/881a1d3e764e251d4f187389b47c9031.jpg'), //data!['avatarUrl']
+                                  backgroundImage: NetworkImage(data!['avatarUrl']), //data!['avatarUrl']
                                   backgroundColor: Colors.transparent,
                                 ),
                                 onTap: () {
@@ -272,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                                 pushNewScreen(context,
                                     screen: SongUpload(
                                       UPFcon: UPF,
-                                      uid: data!['id'],
+                                      uid: data['id'],
                                     ));
                                 // Navigator.pushNamed(context, '/UploadSong',
                                 //     arguments: {
@@ -316,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: "\n${data!['username']}",
+                                          text: "\n${data['username']}",
                                           style: TextStyle(
                                               letterSpacing: 0.2,
                                               fontWeight: FontWeight.bold,

@@ -362,7 +362,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 5.0),
                           child: Container(
-                            height:((song.length-1)*150),
+                            height:((song.length)*150),
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: song.length,
