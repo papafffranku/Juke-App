@@ -10,6 +10,7 @@ import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/community/communityPage.dart';
+import 'package:lessgoo/pages/explore/SearchPage.dart';
 
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
@@ -54,7 +55,7 @@ Future<void> main() async {
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
-      '/album': (context) => AlbumViewer(),
+      '/search': (context) => ExplorePage(),
       '/library': (context) => LibraryPage(),
       '/profile': (context) => ProfilePage(),
       '/community': (context) => communityPage(),

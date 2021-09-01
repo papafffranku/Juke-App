@@ -7,6 +7,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:lessgoo/pages/explore/SearchPage.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -31,55 +33,33 @@ class _ExplorePageState extends State<ExplorePage> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15.0, top: 20),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Explore",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold),
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Explore",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          pushNewScreen(context, screen: SearchPage());
+                        },
+                        icon: Icon(
+                          Icons.search,
+                          size: 35,
+                        ))
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  decoration: InputDecoration(
-                    hintText: 'Artists or songs',
-                    prefixIcon: Icon(
-                      CupertinoIcons.search,
-                      color: Colors.white,
-                    ),
-                    hintStyle: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white54,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                          width: 1,
-                          style: BorderStyle.none,
-                          color: Colors.white),
-                    ),
-                    filled: true,
-                    fillColor: Color(0xff1e1e2d),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 1),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
