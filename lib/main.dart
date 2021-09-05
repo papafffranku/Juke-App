@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Persist.dart';
-import 'package:lessgoo/Reference/anime.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/community/communityPage.dart';
@@ -14,6 +13,7 @@ import 'package:lessgoo/pages/explore/SearchPage.dart';
 
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
+import 'package:lessgoo/pages/home/chat/chat_page.dart';
 import 'package:lessgoo/pages/home/page_routes/artist_connect.dart';
 import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
@@ -56,9 +56,9 @@ Future<void> main() async {
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
       '/search': (context) => ExplorePage(),
-      '/library': (context) => LibraryPage(),
+      '/release': (context) => ReleaseFeed(),
       '/profile': (context) => ProfilePage(),
-      '/community': (context) => communityPage(),
+      '/chat': (context) => ChatLanding(),
     },
     debugShowCheckedModeBanner: false,
   ));

@@ -31,18 +31,24 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    userdeets=FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
-    songdeets=FirebaseFirestore.instance.collection('tracks').doc(uid).collection("publicSong").limit(3).snapshots();
+    userdeets =
+        FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
+    songdeets = FirebaseFirestore.instance
+        .collection('tracks')
+        .doc(uid)
+        .collection("publicSong")
+        .limit(3)
+        .snapshots();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder<DocumentSnapshot>(
       stream: userdeets,
-      builder:
-          (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text("Something went wrong");
         }
@@ -52,28 +58,29 @@ class _ProfilePageState extends State<ProfilePage> {
         if (snapshot.hasData) {
           var data = snapshot.data;
           return Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: Theme.of(context).backgroundColor,
             body: ColorfulSafeArea(
               child: SingleChildScrollView(
                 child: Stack(
                   children: [
-                    userContent(screenwidth,data!),
+                    userContent(screenwidth, data!),
+                    customTab(),
                     //main content
-                StreamBuilder<QuerySnapshot>(
-                    stream: songdeets,
-                    builder:
-                        (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return Text("Something went wrong");
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("Loading");
-                      }
-                      else {
-                        var song = snapshot.data!.docs;
-                        return mainContent(screenwidth, data, song);
-                      }
-                    })
+                    // StreamBuilder<QuerySnapshot>(
+                    //     stream: songdeets,
+                    //     builder:
+                    //         (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    //       if (snapshot.hasError) {
+                    //         return Text("Something went wrong");
+                    //       }
+                    //       if (snapshot.connectionState ==
+                    //           ConnectionState.waiting) {
+                    //         return Text("Loading");
+                    //       } else {
+                    //         var song = snapshot.data!.docs;
+                    //         return mainContent(screenwidth, data, song);
+                    //       }
+                    //     })
                   ],
                 ),
               ),
@@ -85,125 +92,122 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget userContent(double screenwidth, DocumentSnapshot<Object?> data){
+  Widget userContent(double screenwidth, DocumentSnapshot<Object?> data) {
     return Stack(
       children: [
-        Container(
-          height: 475,
-          width: screenwidth,
-          decoration: BoxDecoration(
-              color: Colors.black,
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(data['avatarUrl']))),
-        ),
-        Container //Gradient
-          (
-          height: 475,
-          decoration: BoxDecoration(
-              color: Colors.black,
-              gradient: LinearGradient(
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.2),
-                    Colors.black,
-                  ],
-                  stops: [
-                    0.0,
-                    1.0
-                  ])),
-        ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
-                    shape: BoxShape.circle),
-                child: IconButton(
+          padding: const EdgeInsets.only(top: 50),
+          child: Container(
+            height: 265,
+            width: screenwidth,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                color: Colors.black,
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: NetworkImage(data['avatarUrl']))),
+          ),
+        ),
+        Container(
+          color: Theme.of(context).backgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
                     onPressed: () {
-                      pushNewScreen(context,
-                          screen: ProfileSettings());
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back_ios),
+                    iconSize: 25,
+                    color: Colors.white),
+                IconButton(
+                    onPressed: () {
+                      pushNewScreen(context, screen: ProfileSettings());
                     },
                     icon: Icon(Icons.settings),
-                    iconSize: 30,
-                    color: Colors.white)),
+                    iconSize: 25,
+                    color: Colors.white),
+              ],
+            ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 300.0),
+          padding: const EdgeInsets.only(top: 300),
           child: Container(
             width: screenwidth,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      data['username'],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w800),
-                    ),
-                    SizedBox(width: 5),
-                  ],
-                ),
-                Text(
-                  "Singer, Producer",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.grey[400], fontSize: 18),
-                ),
-                SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.only(left: 18.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15, left: 15, bottom: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            data['songs'].toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Songs",
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16),
-                          ),
-                        ],
+                      Text(
+                        data['username'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w800),
                       ),
-                      SizedBox(
-                        width: 30,
+                      Spacer(),
+                      RawMaterialButton(
+                        onPressed: () {
+                          pushNewScreen(
+                            context,
+                            screen: EditProfile(
+                              data: data,
+                            ),
+                            withNavBar: true,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.slideUp,
+                          );
+                        },
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        child: Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Colors.black,
+                        ),
+                        shape: CircleBorder(),
                       ),
+                    ],
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    "Singer, Producer",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white54, fontSize: 18),
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
                       Column(
                         children: [
                           Text(
                             data['followers'].toString(),
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
                             "followers",
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16),
+                            style:
+                                TextStyle(color: Colors.white54, fontSize: 14),
                           ),
                         ],
                       ),
@@ -216,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             data['following'].toString(),
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700),
                           ),
                           SizedBox(
@@ -224,58 +228,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Text(
                             "following",
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16),
+                            style:
+                                TextStyle(color: Colors.white54, fontSize: 14),
                           ),
                         ],
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        print(data);
-                        pushNewScreen(
-                          context,
-                          screen: EditProfile(
-                            data: data,
-                          ),
-                          withNavBar: true,
-                          pageTransitionAnimation:
-                          PageTransitionAnimation.slideUp,
-                        );
-                      },
-                      child: Container(
-                        height: 25,
-                        width: 75,
-                        decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                            border: Border.all(
-                              color: Colors.white,
-                            )),
-                        child: Center(
-                          child: Text(
-                            "Edit",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
+                  SizedBox(height: 15),
+                ],
+              ),
             ),
           ),
         ),
@@ -283,11 +245,43 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget mainContent(double screenwidth, DocumentSnapshot<Object?> data, List<QueryDocumentSnapshot<Object?>> song){
+  Widget customTab() {
+    return Padding(
+        padding: const EdgeInsets.only(top: 460.0),
+        child: DefaultTabController(
+            length: 3,
+            child: Column(children: [
+              TabBar(
+                tabs: [
+                  Tab(
+                    text: 'Songs',
+                  ),
+                  Tab(
+                    text: 'Albums',
+                  ),
+                  Tab(
+                    text: 'About',
+                  )
+                ],
+              ),
+              Container(
+                color: Colors.blue,
+                height: 300,
+                child: TabBarView(children: [
+                  Text('1'),
+                  Text('1'),
+                  Text('1'),
+                ]),
+              )
+            ])));
+  }
+
+  Widget mainContent(double screenwidth, DocumentSnapshot<Object?> data,
+      List<QueryDocumentSnapshot<Object?>> song) {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 475.0),
+          padding: const EdgeInsets.only(top: 510.0),
           child: Container(
             color: Colors.black,
             width: screenwidth,
@@ -308,41 +302,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(
                           height: 30,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0),
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                        text: "View Private Songs ",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w700)
-                                    ),
-                                    WidgetSpan(
-                                      child: Icon(CupertinoIcons.forward, size: 25, color: CupertinoColors.systemBlue,),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
                         SizedBox(
                           height: 30,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('Top Songs',
                                   style: TextStyle(
@@ -359,15 +325,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         SizedBox(height: 10),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: Container(
-                            height:((song.length)*150),
+                            height: ((song.length) * 150),
                             child: ListView.builder(
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: song.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return trackTile(song[index]['SongName'], data['username'], song[index]['coverLink']);
+                                return trackTile(song[index]['SongName'],
+                                    data['username'], song[index]['coverLink']);
                               },
                             ),
                           ),
@@ -376,26 +342,22 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 20,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text('Albums',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 24,
-                                        fontWeight:
-                                        FontWeight.w700)),
+                                        fontWeight: FontWeight.w700)),
                                 Text('See All',
                                     style: TextStyle(
                                         color: Colors.white54,
                                         fontSize: 15,
-                                        fontWeight:
-                                        FontWeight.w400)),
+                                        fontWeight: FontWeight.w400)),
                               ],
                             ),
                           ),
@@ -454,8 +416,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           height: 20,
                         ),
                         Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {},
