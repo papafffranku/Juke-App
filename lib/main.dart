@@ -58,7 +58,7 @@ Future<void> main() async {
       '/search': (context) => ExplorePage(),
       '/release': (context) => ReleaseFeed(),
       '/profile': (context) => ProfilePage(),
-      '/chat': (context) => ChatLanding(),
+      '/explore': (context) => ExplorePage()
     },
     debugShowCheckedModeBanner: false,
   ));

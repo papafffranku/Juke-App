@@ -104,7 +104,7 @@ class _PersistState extends State<Persist> {
               curve: Curves.fastLinearToSlowEaseIn,
               duration: Duration(milliseconds: 400),
             ),
-            navBarStyle: NavBarStyle.style1,
+            navBarStyle: NavBarStyle.style12,
           ),
           Padding(
               padding: const EdgeInsets.only(bottom: 60),

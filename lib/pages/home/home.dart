@@ -229,6 +229,7 @@ class _HomePageState extends State<HomePage> {
               extendBodyBehindAppBar: true,
               backgroundColor: Color(0xff4E4B6E),
               body: ColorfulSafeArea(
+                color: Theme.of(context).accentColor,
                 child: CustomScrollView(
                     physics: ClampingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
@@ -243,15 +244,15 @@ class _HomePageState extends State<HomePage> {
                             InkWell(
                                 child: CircleAvatar(
                                   radius: 20.0,
-                                  backgroundImage: NetworkImage(data!['avatarUrl']), //data!['avatarUrl']
-                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: NetworkImage(
+                                      data!['avatarUrl']), //data!['avatarUrl']
                                 ),
                                 onTap: () {
                                   pushNewScreen(context, screen: ProfilePage());
                                 }),
                           ],
                         ),
-                        backgroundColor: Colors.black87,
+                        backgroundColor: Theme.of(context).accentColor,
                         pinned: true,
                         onStretchTrigger: () {
                           return Future<void>.value();

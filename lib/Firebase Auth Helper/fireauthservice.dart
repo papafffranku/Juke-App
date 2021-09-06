@@ -54,6 +54,8 @@ class fireauthhelp {
   createUserInFirestore(BuildContext context) async {
     final fyeuser = FirebaseAuth.instance.currentUser!;
     final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
+    List<String> indexedList =
+        await searchIndex(fyeuser.displayName.toString());
 
     if (!doc.exists) {
       usersRef.doc(fyeuser.uid).set({
@@ -70,6 +72,7 @@ class fireauthhelp {
         "followers": 0,
         "following": 0,
         "timestamp": timestamp,
+        "searchIndex": indexedList
       });
     }
   }
