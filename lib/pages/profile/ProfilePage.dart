@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Stack(
                   children: [
                     userContent(screenwidth, data!),
-                    customTab(),
+                    customTab(data),
                     //main content
                     // StreamBuilder<QuerySnapshot>(
                     //     stream: songdeets,
@@ -245,7 +245,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget customTab() {
+  Widget customTab(var data) {
     return Padding(
         padding: const EdgeInsets.only(top: 460.0),
         child: DefaultTabController(
@@ -254,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
               TabBar(
                 tabs: [
                   Tab(
-                    text: 'Songs',
+                    text: 'Tracks',
                   ),
                   Tab(
                     text: 'Albums',
@@ -265,49 +265,27 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               Container(
-                color: Colors.blue,
+                color: Theme.of(context).backgroundColor,
                 height: 300,
                 child: TabBarView(children: [
-                  Text('1'),
-                  Text('1'),
-                  Text('1'),
-                ]),
-              )
-            ])));
-  }
-
-  Widget mainContent(double screenwidth, DocumentSnapshot<Object?> data,
-      List<QueryDocumentSnapshot<Object?>> song) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 510.0),
-          child: Container(
-            color: Colors.black,
-            width: screenwidth,
-            child: Column(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Featured(
-                            'https://img.discogs.com/UB8uZXucpxGcbdrtqoVZFHWZ2Cw=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-10268904-1494414512-7307.jpeg.jpg',
-                            'Someone To Stay',
-                            'Vikram Sharma',
-                            '2021'),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Row(
+                  Column(children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Featured(
+                        'https://img.discogs.com/UB8uZXucpxGcbdrtqoVZFHWZ2Cw=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-10268904-1494414512-7307.jpeg.jpg',
+                        'Someone To Stay',
+                        'Vikram Sharma',
+                        '2021'),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('Top Songs',
@@ -320,125 +298,83 @@ class _ProfilePageState extends State<ProfilePage> {
                                       color: Colors.white54,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400)),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Container(
-                            height: ((song.length) * 150),
-                            child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: song.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return trackTile(song[index]['SongName'],
-                                    data['username'], song[index]['coverLink']);
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Albums',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w700)),
-                                Text('See All',
-                                    style: TextStyle(
-                                        color: Colors.white54,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400)),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Container(
-                              height: 200,
-                              //width: 120,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  albumTile(
-                                      'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
-                                      'Nectar',
-                                      '2021'),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  albumTile(
-                                      'https://daddykool.com/Photo/418464302795',
-                                      'Circles',
-                                      '2020'),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  albumTile(
-                                      'https://ichef.bbci.co.uk/news/976/cpsprodpb/61CC/production/_106763052_tdcc_cover-nc.jpg',
-                                      'Two Door Cinema Club',
-                                      '2019'),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  albumTile(
-                                      'https://vman.com/wp-content/uploads/sites/2/2019/10/699d9ba27c686b9e0f7858b6d778fb23.1000x1000x1.png',
-                                      'Dusk',
-                                      '2019'),
-                                ],
-                              )),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Bio(data['bio']),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Collabs(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                            ]))
+                  ]),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Container(
+                        height: 200,
+                        //width: 120,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
                           children: <Widget>[
-                            GestureDetector(
-                              onTap: () {},
-                              child: Icon(
-                                Icons.facebook_rounded,
-                                size: 40,
-                                color: Colors.white,
-                              ),
-                            ),
                             SizedBox(
-                              width: 24,
+                              width: 10,
                             ),
+                            albumTile(
+                                'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
+                                'Nectar',
+                                '2021'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            albumTile(
+                                'https://daddykool.com/Photo/418464302795',
+                                'Circles',
+                                '2020'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            albumTile(
+                                'https://ichef.bbci.co.uk/news/976/cpsprodpb/61CC/production/_106763052_tdcc_cover-nc.jpg',
+                                'Two Door Cinema Club',
+                                '2019'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            albumTile(
+                                'https://vman.com/wp-content/uploads/sites/2/2019/10/699d9ba27c686b9e0f7858b6d778fb23.1000x1000x1.png',
+                                'Dusk',
+                                '2019'),
                           ],
-                        ),
-                        SizedBox(height: 100)
-                      ],
-                    )), //details
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+                        )),
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Bio(data['bio']),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Collabs(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.facebook_rounded,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 24,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                ]),
+              )
+            ])));
   }
 }

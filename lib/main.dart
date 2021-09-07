@@ -43,10 +43,10 @@ Future<void> main() async {
       brightness: Brightness.dark,
       primaryColor: Color(0xff101011),
       backgroundColor: Color(0xff101011),
-      accentColor: Color(0xff4E4B6E),
+      accentColor: Color(0xff6F61B3),
       fontFamily: GoogleFonts.lato().fontFamily,
     ),
-    initialRoute: '/ok',
+    initialRoute: '/profile',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),

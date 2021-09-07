@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
 
             return Scaffold(
               extendBodyBehindAppBar: true,
-              backgroundColor: Color(0xff4E4B6E),
+              backgroundColor: Theme.of(context).accentColor,
               body: ColorfulSafeArea(
                 color: Theme.of(context).accentColor,
                 child: CustomScrollView(
@@ -293,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                             StretchMode.blurBackground,
                           ],
                           background: Container(
-                            color: Color(0xff4E4B6E),
+                            color: Theme.of(context).accentColor,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 15, top: 65, right: 10),
