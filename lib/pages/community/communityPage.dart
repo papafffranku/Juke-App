@@ -16,7 +16,25 @@ class _CommunityPageState extends State<CommunityPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: ColorfulSafeArea(
-          child: landingPageHeader(context, 'Community', false)),
+          child: Column(
+        children: [
+          landingPageHeader(context, 'Community', false),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: Text(
+                  'In Progress',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white54),
+                ),
+              ),
+            ),
+          )
+        ],
+      )),
     );
   }
 }
