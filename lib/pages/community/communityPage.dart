@@ -188,7 +188,7 @@ class _communityPageState extends State<communityPage> {
                                             text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: "View Additional info ",
+                                                  text: "Quick Access details ",
                                                 ),
                                                 WidgetSpan(
                                                   child: Icon(CupertinoIcons.forward, size: 18,color: Colors.blue,),
