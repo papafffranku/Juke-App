@@ -40,13 +40,12 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     theme: ThemeData(
-      brightness: Brightness.dark,
-      primaryColor: Color(0xff101011),
-      backgroundColor: Color(0xff101011),
-      accentColor: Color(0xff6F61B3),
-      fontFamily: GoogleFonts.lato().fontFamily,
-    ),
-    initialRoute: '/profile',
+        brightness: Brightness.dark,
+        primaryColor: Color(0xff101011),
+        backgroundColor: Color(0xff101011),
+        accentColor: Color(0xff8E35EF),
+        fontFamily: GoogleFonts.rubik().fontFamily),
+    initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),

@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lessgoo/pages/explore/SearchPage.dart';
+import 'package:lessgoo/pages/widgets/landingpageheader.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ExplorePage extends StatefulWidget {
@@ -26,195 +27,158 @@ class _ExplorePageState extends State<ExplorePage> {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: ColorfulSafeArea(
-            child: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: ListView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Explore",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+            child: ListView(children: [
+          landingPageHeader(context, "Explore", CupertinoIcons.search),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
+            child: Column(
+              children: [
+                Container(
+                    width: double.infinity,
+                    height: sHeight / 5,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                'https://images.unsplash.com/photo-1515210986222-9a86ccb8f4a9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1054&q=80'))),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Rising Artists',
+                          style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                    )),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                        width: sWidth / 3,
+                        height: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            color: Color(0xffFAEBD4)),
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Charts',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).backgroundColor),
+                            ),
                           ),
-                        ),
-                        IconButton(
-                            onPressed: () {
-                              pushNewScreen(context, screen: SearchPage());
-                            },
-                            icon: Icon(
-                              Icons.search,
-                              size: 35,
-                            ))
-                      ],
+                        )),
+                    SizedBox(
+                      width: 10,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15.0, vertical: 15),
-                    child: Column(
-                      children: [
-                        Container(
-                            width: double.infinity,
-                            height: sHeight / 5,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        'https://images.unsplash.com/photo-1515210986222-9a86ccb8f4a9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1054&q=80'))),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Rising Artists',
-                                  style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
+                    Expanded(
+                      child: Container(
+                          height: 150,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                      'https://images.unsplash.com/photo-1556139930-c23fa4a4f934?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'))),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Genres',
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
                               ),
-                            )),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Container(
-                                width: sWidth / 3,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                    color: Color(0xffFAEBD4)),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Charts',
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .backgroundColor),
-                                    ),
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 10,
                             ),
-                            Expanded(
-                              child: Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              'https://images.unsplash.com/photo-1556139930-c23fa4a4f934?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'))),
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Genres',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Container(
-                                width: (sWidth / 2) - 30,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff655C7F),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Top\nSongs',
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                )),
-                            SizedBox(width: 10),
-                            Expanded(
-                              child: Container(
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xff4E4B6E),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Top\nAlbums',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                            width: double.infinity,
-                            height: sHeight / 5,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                        'https://images.unsplash.com/photo-1444990689320-bd2a7a839644?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1507&q=80'))),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'New',
-                                  style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).backgroundColor),
-                                ),
-                              ),
-                            )),
-                      ],
+                          )),
                     ),
-                  )
-                ]))));
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Container(
+                        width: (sWidth / 2) - 30,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          color: Color(0xff655C7F),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Top\nSongs',
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        )),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Container(
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: Color(0xff4E4B6E),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Top\nAlbums',
+                                style: TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Container(
+                    width: double.infinity,
+                    height: sHeight / 5,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                                'https://images.unsplash.com/photo-1444990689320-bd2a7a839644?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1507&q=80'))),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'New',
+                          style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).backgroundColor),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          )
+        ])));
   }
 }

@@ -29,8 +29,8 @@ class _PersistState extends State<Persist> {
     return [
       HomePage(homePlayer: _player),
       ExplorePage(),
-      communityPage(),
-      ProfilePage(),
+      CommunityPage(),
+      CommunityPage()
     ];
   }
 
