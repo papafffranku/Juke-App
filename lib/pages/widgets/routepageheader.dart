@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-AppBar routePageAppBar(BuildContext context, String title) {
+AppBar routePageAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: Theme.of(context).accentColor,
-    title: Text(title),
+    //backgroundColor: Theme.of(context).accentColor,
     automaticallyImplyLeading: false,
     elevation: 0,
     leading: IconButton(
@@ -14,19 +13,16 @@ AppBar routePageAppBar(BuildContext context, String title) {
   );
 }
 
-Widget routeHeader() {
+Widget routeHeader(String title) {
   return Container(
-    child: Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            'Releases',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ],
     ),
   );
 }

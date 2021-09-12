@@ -26,12 +26,26 @@ class _ReleaseFeedState extends State<ReleaseFeed> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: routePageAppBar(context, 'Releases'),
+        appBar: routePageAppBar(context),
         body: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
+              child: Row(
+                children: [
+                  routeHeader('Releases'),
+                  Spacer(),
+                  Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          shape: BoxShape.circle),
+                      child: IconButton(
+                          onPressed: () {}, icon: Icon(Icons.shuffle)))
+                ],
+              ),
+            ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.only(top: 20.0),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: StaggeredGridView.countBuilder(
@@ -43,7 +57,7 @@ class _ReleaseFeedState extends State<ReleaseFeed> {
                         return tileDisplay(imageList[index]);
                       },
                       staggeredTileBuilder: (index) {
-                        return StaggeredTile.count(1, index.isEven ? 1 : 1.5);
+                        return StaggeredTile.count(1, index.isEven ? 1.2 : 1.5);
                       }),
                 ),
               ),
@@ -53,45 +67,38 @@ class _ReleaseFeedState extends State<ReleaseFeed> {
   }
 
   Widget tileDisplay(String img) {
-    return Container(
-      decoration: BoxDecoration(),
-      child: Stack(children: [
-        Positioned.fill(
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            child: FadeInImage.memoryNetwork(
-              placeholder: kTransparentImage,
-              image: img,
-              fit: BoxFit.cover,
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            child: Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: img,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15)),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.8),
-                    ],
-                  )),
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-                child: Text(
-                  'Gimme Love \nJoji',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                ),
-              )),
-        )
-      ]),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10.0,
+              ),
+              child: Text(
+                'Gimme Love \nJoji',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+              ),
+            ),
+            Spacer(),
+            Icon(Icons.favorite_border, size: 20)
+          ],
+        ),
+      ],
     );
   }
 }

@@ -4,8 +4,10 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:lessgoo/pages/widgets/landingpageheader.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
+
 class communityPage extends StatefulWidget {
   const communityPage({Key? key}) : super(key: key);
 
@@ -16,7 +18,7 @@ class communityPage extends StatefulWidget {
 class _communityPageState extends State<communityPage> {
   bool expanded = false;
   late List<dynamic> users;
-  int count=0;
+  int count = 0;
 
   @override
   void initState() {
@@ -35,52 +37,50 @@ class _communityPageState extends State<communityPage> {
 
   @override
   Widget build(BuildContext context) {
-
     double screenwidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
 
-    return ColorfulSafeArea(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Connect",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              FutureBuilder<QuerySnapshot>(future: usersRef.get(),
-                  builder: (context, snapshot){
-                    if(!snapshot.hasData){
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: ColorfulSafeArea(
+        child: ListView(
+          children: [
+            landingPageHeader(context, 'Connect', false),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: FutureBuilder<QuerySnapshot>(
+                  future: usersRef.get(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
                       return Center(
                         child: CircularProgressIndicator(),
                       );
-                    }
-                    else{
-                      final List username = snapshot.data!.docs.map((doc) => doc['username']).toList();
-                      final List picture= snapshot.data!.docs.map((doc) => doc['avatarUrl']).toList();
-                      final List email= snapshot.data!.docs.map((doc) => doc['email']).toList();
-                      final List songs= snapshot.data!.docs.map((doc) => doc['email']).toList();
-                      final List tag= snapshot.data!.docs.map((doc) => doc['songs']).toList();
+                    } else {
+                      final List username = snapshot.data!.docs
+                          .map((doc) => doc['username'])
+                          .toList();
+                      final List picture = snapshot.data!.docs
+                          .map((doc) => doc['avatarUrl'])
+                          .toList();
+                      final List email = snapshot.data!.docs
+                          .map((doc) => doc['email'])
+                          .toList();
+                      final List songs = snapshot.data!.docs
+                          .map((doc) => doc['email'])
+                          .toList();
+                      final List tag = snapshot.data!.docs
+                          .map((doc) => doc['songs'])
+                          .toList();
                       print(username);
                       return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
-                          transitionBuilder: (Widget child, Animation<double> animation) {
-                            return ScaleTransition(child: child, scale: animation);
+                          transitionBuilder:
+                              (Widget child, Animation<double> animation) {
+                            return ScaleTransition(
+                                child: child, scale: animation);
                           },
                           child: Column(
                             children: [
@@ -93,22 +93,28 @@ class _communityPageState extends State<communityPage> {
                                       width: screenwidth,
                                       decoration: BoxDecoration(
                                           color: Colors.black,
-                                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)),
                                           image: DecorationImage(
                                               fit: BoxFit.cover,
-                                              image: NetworkImage(picture[count]))),
+                                              image: NetworkImage(
+                                                  picture[count]))),
                                     ),
                                     Container //Gradient
-                                      (
+                                        (
                                       height: 475,
                                       decoration: BoxDecoration(
                                           color: Colors.black,
-                                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)),
                                           gradient: LinearGradient(
                                               begin: FractionalOffset.topCenter,
-                                              end: FractionalOffset.bottomCenter,
+                                              end:
+                                                  FractionalOffset.bottomCenter,
                                               colors: [
-                                                Theme.of(context).accentColor.withOpacity(0.2),
+                                                Theme.of(context)
+                                                    .accentColor
+                                                    .withOpacity(0.2),
                                                 Theme.of(context).accentColor,
                                               ],
                                               stops: [
@@ -117,13 +123,15 @@ class _communityPageState extends State<communityPage> {
                                               ])),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 320.0),
+                                      padding:
+                                          const EdgeInsets.only(top: 320.0),
                                       child: Container(
                                         width: screenwidth,
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   username[count],
@@ -131,7 +139,8 @@ class _communityPageState extends State<communityPage> {
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 30,
-                                                      fontWeight: FontWeight.w800),
+                                                      fontWeight:
+                                                          FontWeight.w800),
                                                 ),
                                                 SizedBox(width: 5),
                                               ],
@@ -140,26 +149,30 @@ class _communityPageState extends State<communityPage> {
                                               tag[count].toString(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.grey[400], fontSize: 18),
+                                                  color: Colors.grey[400],
+                                                  fontSize: 18),
                                             ),
                                             SizedBox(height: 15),
                                             Text(
                                               "On the lookout for: ",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.grey[400], fontSize: 18),
+                                                  color: Colors.grey[400],
+                                                  fontSize: 18),
                                             ),
                                             Text(
                                               "Producers",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.white, fontSize: 18),
+                                                  color: Colors.white,
+                                                  fontSize: 18),
                                             ),
                                             Text(
                                               "Singers",
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  color: Colors.white, fontSize: 18),
+                                                  color: Colors.white,
+                                                  fontSize: 18),
                                             ),
                                           ],
                                         ),
@@ -172,15 +185,15 @@ class _communityPageState extends State<communityPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
-                                    },
+                                    onTap: () {},
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Theme.of(context).accentColor,
                                         borderRadius: BorderRadius.only(
                                           bottomLeft: Radius.circular(10),
                                           bottomRight: Radius.circular(10),
-                                        ),),
+                                        ),
+                                      ),
                                       child: Center(
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -191,7 +204,11 @@ class _communityPageState extends State<communityPage> {
                                                   text: "Quick Access details ",
                                                 ),
                                                 WidgetSpan(
-                                                  child: Icon(CupertinoIcons.forward, size: 18,color: Colors.blue,),
+                                                  child: Icon(
+                                                    CupertinoIcons.forward,
+                                                    size: 18,
+                                                    color: Colors.blue,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -202,45 +219,58 @@ class _communityPageState extends State<communityPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 20,),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {},
-                                    child: Icon(CupertinoIcons.chat_bubble_2_fill, color: Colors.white),
+                                    child: Icon(
+                                        CupertinoIcons.chat_bubble_2_fill,
+                                        color: Colors.white),
                                     style: ElevatedButton.styleFrom(
                                       shape: CircleBorder(),
                                       padding: EdgeInsets.all(20),
                                       primary: Colors.green, // <-- Button color
-                                      onPrimary: Colors.green, // <-- Splash color
+                                      onPrimary:
+                                          Colors.green, // <-- Splash color
                                     ),
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   Container(
                                     height: 100,
                                     width: 100,
                                     child: Stack(
                                       children: [
                                         PlayMusic(),
-                                        Center(child: Icon(Icons.play_arrow_rounded,color: Theme.of(context).accentColor,))
+                                        Center(
+                                            child: Icon(
+                                          Icons.play_arrow_rounded,
+                                          color: Theme.of(context).accentColor,
+                                        ))
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   ElevatedButton(
                                     onPressed: () {
                                       setState(() {
-                                        if(count==username.length-1){
-                                          count=0;
-                                        }
-                                        else{
+                                        if (count == username.length - 1) {
+                                          count = 0;
+                                        } else {
                                           count++;
                                           print(count);
                                         }
                                       });
                                     },
-                                    child: Icon(CupertinoIcons.shuffle, color: Colors.white),
+                                    child: Icon(CupertinoIcons.shuffle,
+                                        color: Colors.white),
                                     style: ElevatedButton.styleFrom(
                                       shape: CircleBorder(),
                                       padding: EdgeInsets.all(20),
@@ -251,21 +281,20 @@ class _communityPageState extends State<communityPage> {
                                 ],
                               ),
                             ],
-                          )
-                      );
+                          ));
                     }
-                  }
-              ),
-
-              SizedBox(height: 10,),
-            ],
-          ),
+                  }),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget card(double screenwidth, username, picture, email, song, tag){
+  Widget card(double screenwidth, username, picture, email, song, tag) {
     return Stack(
       children: [
         Container(
@@ -275,11 +304,10 @@ class _communityPageState extends State<communityPage> {
               color: Colors.black,
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
               image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(picture))),
+                  fit: BoxFit.cover, image: NetworkImage(picture))),
         ),
         Container //Gradient
-          (
+            (
           height: 475,
           decoration: BoxDecoration(
               color: Colors.black,
@@ -319,27 +347,23 @@ class _communityPageState extends State<communityPage> {
                 Text(
                   tag.toString(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.grey[400], fontSize: 18),
+                  style: TextStyle(color: Colors.grey[400], fontSize: 18),
                 ),
                 SizedBox(height: 15),
                 Text(
                   "On the lookout for: ",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.grey[400], fontSize: 18),
+                  style: TextStyle(color: Colors.grey[400], fontSize: 18),
                 ),
                 Text(
                   "Producers",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 18),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
                 Text(
                   "Singers",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 18),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ],
             ),

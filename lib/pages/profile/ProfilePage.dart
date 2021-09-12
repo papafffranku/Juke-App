@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Padding(
           padding: const EdgeInsets.only(top: 50),
           child: Container(
-            height: 265,
+            height: 450,
             width: screenwidth,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -135,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 300),
+          padding: const EdgeInsets.only(top: 450),
           child: Container(
             width: screenwidth,
             decoration: BoxDecoration(
@@ -247,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget customTab(var data) {
     return Padding(
-        padding: const EdgeInsets.only(top: 460.0),
+        padding: const EdgeInsets.only(top: 610.0),
         child: DefaultTabController(
             length: 3,
             child: Column(children: [
