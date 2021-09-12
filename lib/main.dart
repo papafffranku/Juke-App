@@ -14,7 +14,7 @@ import 'package:lessgoo/pages/explore/SearchPage.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
 import 'package:lessgoo/pages/home/chat/chat_page.dart';
-import 'package:lessgoo/pages/home/page_routes/artist_connect.dart';
+
 import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/Hello.dart';
@@ -43,14 +43,13 @@ Future<void> main() async {
         brightness: Brightness.dark,
         primaryColor: Color(0xff101011),
         backgroundColor: Color(0xff101011),
-        accentColor: Color(0xff8E35EF),
+        accentColor: Color(0xff655C7F),
         fontFamily: GoogleFonts.rubik().fontFamily),
     initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
       '/display': (context) => Display(),
-      '/connect': (context) => ArtistConnect(),
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),

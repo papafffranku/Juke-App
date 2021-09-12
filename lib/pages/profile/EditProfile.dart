@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,10 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-
 class EditProfile extends StatefulWidget {
   final data;
-  const EditProfile({Key? key, required this.data,}) : super(key: key);
+
+  const EditProfile({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -23,9 +25,21 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
+    TagData();
     super.initState();
   }
 
+  void TagData(){
+    List<bool> arr123= widget.data['tag'];
+
+    setState(() {
+      singerValue=arr123[0];
+      producerValue=arr123[0];
+      instrumentValue=arr123[0];
+      engineValue=arr123[0];
+      coverValue=arr123[0];
+    });
+  }
 
   //controllers
   final TextEditingController UsernameControl = TextEditingController();
@@ -38,49 +52,48 @@ class _EditProfileState extends State<EditProfile> {
   bool producerValue = false;
   bool instrumentValue = false;
   bool engineValue = false;
+  bool coverValue = false;
 
   String? profile;
-  bool profileStatus=false;
+  bool profileStatus = false;
 
   File? Cover;
   String path = '';
   FilePickerResult? result;
   late PlatformFile file;
 
+
   @override
   Widget build(BuildContext context) {
 
-    UsernameControl.text=widget.data['username'];
-    BioControl.text=widget.data['bio'];
-    InstagramControl.text=widget.data['socialig'];
-    FacebookControl.text=widget.data['socialfb'];
+    UsernameControl.text = widget.data['username'];
+    BioControl.text = widget.data['bio'];
+    InstagramControl.text = widget.data['socialig'];
+    FacebookControl.text = widget.data['socialfb'];
 
-    profile=widget.data['avatarUrl'];
+    profile = widget.data['avatarUrl'];
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('Edit Profile',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 25
-            )),
+            style: TextStyle(color: Colors.white, fontSize: 25)),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: CupertinoButton(
               onPressed: () async {
-                if(path!=''){
+                if (path != '') {
                   await Uploader(widget.data['id'], Cover!);
                 }
                 await WriteDetails();
                 Navigator.pop(context);
               },
-              child: Text("Save",
-              style: TextStyle(
-                fontSize: 18
-              ),),
+              child: Text(
+                "Save",
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ),
         ], //<Widget>[]
@@ -91,7 +104,9 @@ class _EditProfileState extends State<EditProfile> {
         child: SafeArea(
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   Padding(
@@ -108,8 +123,7 @@ class _EditProfileState extends State<EditProfile> {
                             },
                             child: CircleAvatar(
                               radius: 45.0,
-                              backgroundImage:
-                              NetworkImage(profile!),
+                              backgroundImage: NetworkImage(profile!),
                               backgroundColor: Colors.transparent,
                             ),
                           )
@@ -133,7 +147,9 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Container(
                     width: 200,
                     child: Column(
@@ -145,27 +161,24 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           decoration: InputDecoration(
                               hintText: "Shown on your profile page",
-                              hintStyle: TextStyle(
-                                  color: Colors.grey[700]
-                              ),
+                              hintStyle: TextStyle(color: Colors.grey[700]),
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              ),
+                                color: Colors.white,
+                              )),
                               focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Colors.white,
-                                  )
-                              )
-                          ),
+                                color: Colors.white,
+                              ))),
                         ),
                       ],
                     ),
                   )
                 ],
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Container(
                 child: Column(
                   children: [
@@ -173,11 +186,11 @@ class _EditProfileState extends State<EditProfile> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 15),
-                          child: Text("About You",
+                          child: Text(
+                            "About You",
                             style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 16
-                            ),),
+                                color: Colors.grey[400], fontSize: 16),
+                          ),
                         ),
                       ],
                     ),
@@ -189,44 +202,44 @@ class _EditProfileState extends State<EditProfile> {
                           color: Colors.white,
                         ),
                         decoration: InputDecoration(
-                          hintText: "Tell others a little bit about yourself",
-                            hintStyle: TextStyle(
-                              color: Colors.grey[700]
-                            ),
+                            hintText: "Tell others a little bit about yourself",
+                            hintStyle: TextStyle(color: Colors.grey[700]),
                             enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.white,
-                                )
-                            ),
+                              color: Colors.white,
+                            )),
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.white,
-                                )
-                            )
-                        ),
+                              color: Colors.white,
+                            ))),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
-                    Text("Your skills",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),),
-                    Icon(CupertinoIcons.forward,color: Colors.white,)
+                    Text(
+                      "Your skills",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    Icon(
+                      CupertinoIcons.forward,
+                      color: Colors.white,
+                    )
                   ],
                 ),
               ),
               Column(
                 children: [
                   Theme(
-                    data: ThemeData(unselectedWidgetColor: CupertinoColors.white),
+                    data:
+                        ThemeData(unselectedWidgetColor: CupertinoColors.white),
                     child: Column(
                       children: [
                         CheckboxListTile(
@@ -237,8 +250,8 @@ class _EditProfileState extends State<EditProfile> {
                             activeColor: Colors.blue,
                             checkColor: Colors.black,
                             value: singerValue,
-                            onChanged: (singerValue) =>
-                                setState(() => this.singerValue = singerValue!)),
+                            onChanged: (singerValue) => setState(
+                                () => this.singerValue = singerValue!)),
                         CheckboxListTile(
                             title: Text(
                               'Producer',
@@ -247,8 +260,8 @@ class _EditProfileState extends State<EditProfile> {
                             activeColor: Colors.blue,
                             checkColor: Colors.black,
                             value: producerValue,
-                            onChanged: (producerValue) =>
-                                setState(() => this.producerValue = producerValue!)),
+                            onChanged: (producerValue) => setState(
+                                () => this.producerValue = producerValue!)),
                         CheckboxListTile(
                             title: Text(
                               'Instrumentalist',
@@ -257,8 +270,8 @@ class _EditProfileState extends State<EditProfile> {
                             activeColor: Colors.blue,
                             checkColor: Colors.black,
                             value: instrumentValue,
-                            onChanged: (instrumentValue) =>
-                                setState(() => this.instrumentValue = instrumentValue!)),
+                            onChanged: (instrumentValue) => setState(
+                                () => this.instrumentValue = instrumentValue!)),
                         CheckboxListTile(
                             title: Text(
                               'Audio Engineer',
@@ -267,23 +280,34 @@ class _EditProfileState extends State<EditProfile> {
                             activeColor: Colors.blue,
                             checkColor: Colors.black,
                             value: engineValue,
-                            onChanged: (engineValue) =>
-                                setState(() => this.engineValue = engineValue!)),
+                            onChanged: (engineValue) => setState(
+                                () => this.engineValue = engineValue!)),
+                        CheckboxListTile(
+                            title: Text(
+                              'Cover Artist',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            activeColor: Colors.blue,
+                            checkColor: Colors.black,
+                            value: coverValue,
+                            onChanged: (coverValue) => setState(
+                                    () => this.coverValue = coverValue!)),
                       ],
                     ),
                   )
                 ],
               ),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   children: [
-                    Text("Social Links",
-                    style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 16
-                    ),),
+                    Text(
+                      "Social Links",
+                      style: TextStyle(color: Colors.grey[400], fontSize: 16),
+                    ),
                   ],
                 ),
               ),
@@ -301,14 +325,12 @@ class _EditProfileState extends State<EditProfile> {
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
+                            color: Colors.white,
+                          )),
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
+                            color: Colors.white,
+                          )),
                           hintText: 'Instagram',
                           hintStyle: TextStyle(color: Colors.grey[700]),
                         ),
@@ -327,14 +349,12 @@ class _EditProfileState extends State<EditProfile> {
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
+                            color: Colors.white,
+                          )),
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
+                            color: Colors.white,
+                          )),
                           hintText: 'Facebook',
                           hintStyle: TextStyle(color: Colors.grey[700]),
                         ),
@@ -353,21 +373,26 @@ class _EditProfileState extends State<EditProfile> {
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
+                            color: Colors.white,
+                          )),
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Colors.white,
-                              )
-                          ),
+                            color: Colors.white,
+                          )),
                           hintText: 'Other',
                           hintStyle: TextStyle(color: Colors.grey[700]),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 100,)
+                  SizedBox(
+                    height: 100,
+                  ),
+                  CupertinoButton(
+                      child: Text('value'),
+                      onPressed: () {
+                        tagProcess();
+                      })
                 ],
               ),
             ],
@@ -375,12 +400,6 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
-  }
-
-  //get tags
-  void tagGet(){
-    arr=[singerValue,producerValue,instrumentValue,engineValue];
-    print(arr);
   }
 
   Future<void> Uploader(String uid, File Cover) async {
@@ -404,10 +423,11 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> WriteDetails() async {
+    arr = [singerValue, producerValue, instrumentValue, engineValue, coverValue];
     usersRef.doc(widget.data['id']).update({
       "username": UsernameControl.text,
       "bio": BioControl.text,
-      "tag": '',
+      "tag": arr,
       "socialfb": FacebookControl.text,
       "socialig": InstagramControl.text,
     });
@@ -420,4 +440,29 @@ class _EditProfileState extends State<EditProfile> {
     file = result!.files.first;
     return (File(file.path.toString()));
   }
+
+  void tagProcess(){
+    arr = [singerValue, producerValue, instrumentValue, engineValue, coverValue];
+    print(arr);
+    String tagger='';
+    print(arr.length);
+    for(int i=0;i<=arr.length-1;i++){
+      if(arr[i]==true){
+        if(i==0){
+          tagger=' Singer ';
+          print(tagger.toString());
+        }else if(i==1){
+          tagger=tagger+' Producer ';
+        }else if(i==2){
+          tagger=tagger+' Instrumentalist ';
+        }else if(i==3){
+          tagger=tagger+' Audio Engineer ';
+        }else if(i==4){
+          tagger=tagger+' Cover Artist ';
+        }
+      }
+    }
+    print(tagger);
+  }
+
 }
