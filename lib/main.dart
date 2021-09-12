@@ -10,6 +10,8 @@ import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 
 import 'package:lessgoo/pages/explore/explore.dart';
+import 'package:lessgoo/pages/album/view_album.dart';
+import 'package:lessgoo/pages/home/chat/chat_page.dart';
 
 import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/Hello.dart';
