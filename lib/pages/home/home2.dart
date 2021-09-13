@@ -96,24 +96,51 @@ class _NewHomeState extends State<NewHome> {
   Widget releaseBlock(
       String imgUrl, String profilePic, String artistName, String name) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.symmetric(vertical: 15.0),
       child: Column(
         children: [
-          InkWell(
-            onTap: () => pushNewScreen(context, screen: PostPreview()),
-            child: Container(
-              width: double.infinity,
-              height: 400,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(imgUrl),
-                    fit: BoxFit.cover,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 50.0),
+                child: InkWell(
+                  onTap: () => pushNewScreen(context, screen: PostPreview()),
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(imgUrl),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-            ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(profilePic),
+                      ),
+                      SizedBox(height: 10),
+                      RotatedBox(
+                          quarterTurns: 1,
+                          child: Text(artistName,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)))
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(top: 10.0, left: 35, right: 50),
             child: Row(
               children: [
                 // CircleAvatar(
@@ -131,11 +158,7 @@ class _NewHomeState extends State<NewHome> {
                     Text(
                       name,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-                    ),
-                    Text(
-                      'by $artistName',
-                      style: TextStyle(color: Colors.white54, fontSize: 14),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
                   ],
                 ),
