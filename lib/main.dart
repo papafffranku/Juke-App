@@ -12,6 +12,7 @@ import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
 import 'package:lessgoo/pages/home/chat/chat_page.dart';
+import 'package:lessgoo/pages/home/home2.dart';
 
 import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
 import 'package:lessgoo/Hello.dart';
@@ -40,7 +41,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff101011),
         accentColor: Color(0xff6001d2),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/newHome',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -51,7 +52,7 @@ Future<void> main() async {
       '/search': (context) => ExplorePage(),
       '/release': (context) => ReleaseFeed(),
       '/profile': (context) => ProfilePage(),
-      '/chat': (context) => ChatRoom()
+      '/newHome': (context) => NewHome()
     },
     debugShowCheckedModeBanner: false,
   ));
