@@ -38,7 +38,7 @@ Future<void> main() async {
         brightness: Brightness.dark,
         primaryColor: Color(0xff101011),
         backgroundColor: Color(0xff101011),
-        accentColor: Color(0xff655C7F),
+        accentColor: Color(0xff6001d2),
         fontFamily: GoogleFonts.rubik().fontFamily),
     initialRoute: '/ok',
     routes: {
@@ -51,7 +51,7 @@ Future<void> main() async {
       '/search': (context) => ExplorePage(),
       '/release': (context) => ReleaseFeed(),
       '/profile': (context) => ProfilePage(),
-      '/explore': (context) => ExplorePage()
+      '/chat': (context) => ChatRoom()
     },
     debugShowCheckedModeBanner: false,
   ));

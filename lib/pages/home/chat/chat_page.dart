@@ -1,53 +1,27 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ChatLanding extends StatefulWidget {
-  const ChatLanding({Key? key}) : super(key: key);
+class ChatRoom extends StatefulWidget {
+  const ChatRoom({Key? key}) : super(key: key);
 
   @override
-  _ChatLandingState createState() => _ChatLandingState();
+  _ChatRoomState createState() => _ChatRoomState();
 }
 
-class _ChatLandingState extends State<ChatLanding> {
+class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios)),
-      ),
       body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Chat',
-                  style: TextStyle(
-                      letterSpacing: 1.2,
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(CupertinoIcons.search, size: 25))
-              ],
-            ),
-          ),
-          SizedBox(height: 30),
-        ],
-      )),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 80.0),
+          child: Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)))),
+        ),
+      ),
     );
   }
 }

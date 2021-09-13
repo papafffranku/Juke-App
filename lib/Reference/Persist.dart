@@ -7,7 +7,6 @@ import 'package:lessgoo/pages/community/communityPage.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
-import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class Persist extends StatefulWidget {
@@ -42,25 +41,25 @@ class _PersistState extends State<Persist> {
         ),
         title: ("Home"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: CupertinoColors.white,
+        inactiveColorPrimary: Colors.white54,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.search),
         title: ("Explore"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: CupertinoColors.white,
+        inactiveColorPrimary: Colors.white54,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.infinite),
         title: ("Connect"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: CupertinoColors.white,
+        inactiveColorPrimary: Colors.white54,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.group_solid),
         title: ("Community"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: CupertinoColors.white,
+        inactiveColorPrimary: Colors.white54,
       ),
     ];
   }
@@ -71,9 +70,6 @@ class _PersistState extends State<Persist> {
   Widget build(BuildContext context) {
     _controller = PersistentTabController(initialIndex: 0);
     double screenwidth = MediaQuery.of(context).size.width;
-    double screenheight = MediaQuery.of(context).size.height;
-    String imagis =
-        'https://images.complex.com/complex/images/c_fill,f_auto,g_center,w_1200/fl_lossy,pg_1/hcjrqlvc6dfhpjxob9nt/cudi';
 
     return Scaffold(
       extendBodyBehindAppBar: true,

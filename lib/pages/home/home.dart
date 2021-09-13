@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/models/TrailModel.dart';
@@ -235,11 +236,10 @@ class _HomePageState extends State<HomePage> {
                       SliverAppBar //QuickAccess Bar
                           (
                         automaticallyImplyLeading: false,
-                        leading: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(width: 15),
-                          ],
+                        title: SvgPicture.asset(
+                          'lib/assets/juke_title.svg',
+                          height: 25,
+                          placeholderBuilder: (context) => Icon(Icons.error),
                         ),
                         backgroundColor: Theme.of(context).accentColor,
                         pinned: true,
@@ -249,10 +249,16 @@ class _HomePageState extends State<HomePage> {
                         actions: [
                           IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.notifications_none_rounded)),
+                              icon: Icon(
+                                Icons.notifications_none_rounded,
+                                color: Theme.of(context).backgroundColor,
+                              )),
                           IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.message_outlined)),
+                              icon: Icon(
+                                Icons.message_outlined,
+                                color: Theme.of(context).backgroundColor,
+                              )),
                           SizedBox(width: 10),
                           InkWell(
                               child: CircleAvatar(
@@ -285,11 +291,10 @@ class _HomePageState extends State<HomePage> {
                                       width: sWidth * 0.45,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                          //color: Color(0xffFAEBD4),
-                                          borderRadius:
-                                              BorderRadius.circular(13),
-                                          border:
-                                              Border.all(color: Colors.white)),
+                                        borderRadius: BorderRadius.circular(13),
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                      ),
                                       child: Center(
                                           child: RichText(
                                               text: TextSpan(
@@ -317,11 +322,10 @@ class _HomePageState extends State<HomePage> {
                                       width: sWidth * 0.425,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                          //color: Color(0xffFAEBD4),
-                                          borderRadius:
-                                              BorderRadius.circular(13),
-                                          border:
-                                              Border.all(color: Colors.white)),
+                                        color:
+                                            Theme.of(context).backgroundColor,
+                                        borderRadius: BorderRadius.circular(13),
+                                      ),
                                       child: Center(
                                           child: Padding(
                                         padding:
@@ -431,13 +435,13 @@ class _HomePageState extends State<HomePage> {
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                         color:
-                                                            Color(0xff1a1a1c),
+                                                            Color(0xff262629),
                                                         borderRadius:
                                                             BorderRadius.all(
                                                                 Radius.circular(
                                                                     15))),
-                                                    width: sWidth * 0.4,
-                                                    height: 40,
+                                                    width: sWidth * 0.9,
+                                                    height: 50,
                                                     child: Center(
                                                       child: Text('Upload',
                                                           style: TextStyle(
@@ -456,13 +460,13 @@ class _HomePageState extends State<HomePage> {
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                         color:
-                                                            Color(0xff1a1a1c),
+                                                            Color(0xff262629),
                                                         borderRadius:
                                                             BorderRadius.all(
                                                                 Radius.circular(
                                                                     15))),
-                                                    width: sWidth * 0.4,
-                                                    height: 40,
+                                                    width: sWidth * 0.9,
+                                                    height: 50,
                                                     child: Center(
                                                       child: Text(
                                                           'View Profile',
