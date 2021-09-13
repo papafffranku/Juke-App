@@ -103,12 +103,12 @@ class _NewHomeState extends State<NewHome> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 50.0),
+                padding: const EdgeInsets.only(left: 15.0),
                 child: InkWell(
                   onTap: () => pushNewScreen(context, screen: PostPreview()),
                   child: Container(
-                    width: 300,
-                    height: 300,
+                    width: 330,
+                    height: 330,
                     decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(imgUrl),
@@ -124,7 +124,7 @@ class _NewHomeState extends State<NewHome> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CircleAvatar(
-                        radius: 20,
+                        radius: 25,
                         backgroundImage: NetworkImage(profilePic),
                       ),
                       SizedBox(height: 10),
@@ -140,7 +140,7 @@ class _NewHomeState extends State<NewHome> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 35, right: 50),
+            padding: const EdgeInsets.only(top: 10.0, right: 50),
             child: Row(
               children: [
                 // CircleAvatar(
