@@ -55,6 +55,7 @@ class fireauthhelp {
     final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
     List<String> indexedList =
         await searchIndex(fyeuser.displayName.toString());
+    indexedList.add(fyeuser.displayName.toString());
 
     if (!doc.exists) {
       usersRef.doc(fyeuser.uid).set({
