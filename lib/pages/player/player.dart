@@ -62,10 +62,10 @@ class _PlayerState extends State<Player> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: StreamBuilder<SequenceState?>(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: StreamBuilder<SequenceState?>(
             stream: _player.sequenceStateStream,
             builder: (context, snapshot) {
               final state = snapshot.data;
@@ -75,12 +75,11 @@ class _PlayerState extends State<Player> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(
-                            'https://images.complex.com/complex/image/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/m7ll2zgzoxostwcoswzi.png'))),
+                        image: NetworkImage(metadata.artUri.toString()))),
                 child: Container(
                   color: Theme.of(context).backgroundColor.withOpacity(0.8),
                   child: GlassContainer(
-                    blur: 10,
+                    blur: 30,
                     opacity: 0.01,
                     border: Border.all(
                       color: Colors.white.withOpacity(0),
@@ -139,7 +138,7 @@ class _PlayerState extends State<Player> {
                                     image: DecorationImage(
                                       fit: BoxFit.contain,
                                       image: NetworkImage(
-                                          'https://images.complex.com/complex/image/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/m7ll2zgzoxostwcoswzi.png'),
+                                          metadata.artUri.toString()),
                                     ),
                                   ),
                                   height: 330,

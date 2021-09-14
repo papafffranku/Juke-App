@@ -31,7 +31,9 @@ class _PostPreviewState extends State<PostPreview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Column()),
-    );
+        // body: SafeArea(child: VideoPlayerFullScreenWidget(controller:controller)),
+        );
   }
 }
+
+VideoPlayerFullScreenWidget() {}

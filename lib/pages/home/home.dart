@@ -9,7 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/models/TrailModel.dart';
-import 'package:lessgoo/pages/home/page_routes/release_feed.dart';
+import 'package:lessgoo/pages/home/page_routes/page_preview.dart';
+
 import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/pages/player/player.dart';
@@ -225,276 +226,58 @@ class _HomePageState extends State<HomePage> {
             var data = snapshot.data;
 
             return Scaffold(
-              extendBodyBehindAppBar: true,
-              backgroundColor: Theme.of(context).accentColor,
-              body: ColorfulSafeArea(
-                color: Theme.of(context).accentColor,
-                child: CustomScrollView(
-                    physics: ClampingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    slivers: <Widget>[
-                      SliverAppBar //QuickAccess Bar
-                          (
-                        automaticallyImplyLeading: false,
-                        title: SvgPicture.asset(
-                          'lib/assets/juke_title.svg',
-                          height: 25,
-                          placeholderBuilder: (context) => Icon(Icons.error),
-                        ),
-                        backgroundColor: Theme.of(context).accentColor,
-                        pinned: true,
-                        onStretchTrigger: () {
-                          return Future<void>.value();
-                        },
-                        actions: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.notifications_none_rounded,
-                                color: Theme.of(context).backgroundColor,
-                              )),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.message_outlined,
-                                color: Theme.of(context).backgroundColor,
-                              )),
-                          SizedBox(width: 10),
-                          InkWell(
-                              child: CircleAvatar(
-                                radius: 15.0,
-                                backgroundImage: NetworkImage(
-                                    data!['avatarUrl']), //data!['avatarUrl']
-                              ),
-                              onTap: () {
-                                pushNewScreen(context, screen: ProfilePage());
-                              }),
-                          SizedBox(width: 15),
-                        ],
-                        expandedHeight: 120.0,
-                        flexibleSpace: FlexibleSpaceBar(
-                          stretchModes: const <StretchMode>[
-                            StretchMode.blurBackground,
-                          ],
-                          background: Container(
-                            color: Theme.of(context).accentColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15, top: 65, right: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InkWell(
-                                    child: Container(
-                                      width: sWidth * 0.45,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(13),
-                                        color:
-                                            Theme.of(context).backgroundColor,
-                                      ),
-                                      child: Center(
-                                          child: RichText(
-                                              text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                              child: Icon(
-                                            CupertinoIcons.music_albums,
-                                            size: 16,
-                                          )),
-                                          TextSpan(
-                                              text: '  Library',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
-                                      ))),
-                                    ),
-                                    onTap: () {
-                                      pushNewScreen(context,
-                                          screen: LibraryPage());
-                                    },
-                                  ),
-                                  InkWell(
-                                    child: Container(
-                                      width: sWidth * 0.425,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color:
-                                            Theme.of(context).backgroundColor,
-                                        borderRadius: BorderRadius.circular(13),
-                                      ),
-                                      child: Center(
-                                          child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10.0),
-                                        child: RichText(
-                                            text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                                child: Icon(
-                                              CupertinoIcons.list_bullet,
-                                              size: 16,
-                                            )),
-                                            TextSpan(
-                                                text: '  Playlists',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                          ],
-                                        )),
-                                      )),
-                                    ),
-                                    onTap: () {
-                                      pushNewScreen(context,
-                                          screen: LibraryPage());
-                                    },
-                                  ),
-                                ],
-                              ),
+                extendBodyBehindAppBar: true,
+                backgroundColor: Colors.black,
+                body: NestedScrollView(
+                    floatHeaderSlivers: true,
+                    headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                          SliverAppBar //QuickAccess Bar
+                              (
+                            title: SvgPicture.asset(
+                              'lib/assets/juke_title.svg',
+                              height: 25,
+                              placeholderBuilder: (context) =>
+                                  Icon(Icons.error),
                             ),
+                            backgroundColor: Theme.of(context).backgroundColor,
+                            floating: true,
+                            onStretchTrigger: () {
+                              return Future<void>.value();
+                            },
+                            actions: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.add,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.notifications_none_rounded,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.message_outlined,
+                                  )),
+                              SizedBox(width: 10),
+                              InkWell(
+                                  child: CircleAvatar(
+                                    radius: 15.0,
+                                    backgroundImage: NetworkImage(data![
+                                        'avatarUrl']), //data!['avatarUrl']
+                                  ),
+                                  onTap: () {
+                                    pushNewScreen(context,
+                                        screen: ProfilePage());
+                                  }),
+                              SizedBox(width: 15),
+                            ],
                           ),
-                        ),
-                      ),
-                      SliverList(
-                          delegate: SliverChildListDelegate([
-                        Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 20),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Hello, ${data['username']}',
-                                        style: TextStyle(
-                                            letterSpacing: 1.2,
-                                            color: Colors.white,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(height: 15),
-                                      SizedBox(height: 15),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  child: Text('',
-                                                      style: TextStyle(
-                                                          fontSize: 30)),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            child: Column(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () async {
-                                                    result = await FilePicker
-                                                        .platform
-                                                        .pickFiles(
-                                                      type: FileType.custom,
-                                                      allowedExtensions: [
-                                                        'mp3'
-                                                      ],
-                                                    );
-                                                    file = result!.files.first;
-                                                    // ignore: non_constant_identifier_names
-                                                    final File UPF = File(
-                                                        file.path.toString());
-                                                    print(file.name);
-                                                    print(file.size);
-                                                    pushNewScreen(context,
-                                                        screen: SongUpload(
-                                                          UPFcon: UPF,
-                                                          uid: data['id'],
-                                                        ));
-                                                    // Navigator.pushNamed(context, '/UploadSong',
-                                                    //     arguments: {
-                                                    //       'UPF': UPF,
-                                                    //     });
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xff262629),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    15))),
-                                                    width: sWidth * 0.9,
-                                                    height: 50,
-                                                    child: Center(
-                                                      child: Text('Upload',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 15),
-                                                InkWell(
-                                                  onTap: () {
-                                                    pushNewScreen(context,
-                                                        screen: ProfilePage());
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xff262629),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    15))),
-                                                    width: sWidth * 0.9,
-                                                    height: 50,
-                                                    child: Center(
-                                                      child: Text(
-                                                          'View Profile',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500)),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 15),
-                                trailSection(),
-                                releaseSection(),
-                                SizedBox(height: 70),
-                              ],
-                            )),
-                      ])),
-                    ]),
-              ),
-            );
+                        ],
+                    body: ListView(
+                      children: [trailSection(), releaseSection()],
+                    )));
           } else {
             return Container(
               color: Theme.of(context).backgroundColor,
@@ -507,108 +290,137 @@ class _HomePageState extends State<HomePage> {
   Widget releaseSection() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 10),
-          child: Column(
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15.0),
+              child: Text(
+                'Releases',
+                style: TextStyle(
+                    letterSpacing: 1.2,
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        releaseBlock(
+            'https://www.sleek-mag.com/wp-content/uploads/2016/08/AlbumCovers_Blonde-1200x1200.jpg',
+            'https://miro.medium.com/max/640/1*HEvh6wLy-z4wwt9aEatUOw@2x.png',
+            'Frank Ocean',
+            'White Ferrari'),
+        releaseBlock(
+            'https://static.billboard.com/files/media/Young-Thug-Jeffery-2016-billboard-1240-compressed.jpg',
+            'https://pbs.twimg.com/media/E9WZEsxXEAMw4vO.jpg',
+            'Young Thug',
+            'Twister Nightmares'),
+        releaseBlock(
+            'https://cdn.mos.cms.futurecdn.net/g6MkYufocsYc3ToH85v2th-970-80.jpg.webp',
+            'https://pyxis.nymag.com/v1/imgs/c6a/835/176402f7714503041d300b0af28af3ec2e-beyonce-dj-khaled.rsquare.w1200.jpg',
+            'Beyonce',
+            'Lemonade'),
+      ],
+    );
+  }
+
+  Widget releaseBlock(
+      String imgUrl, String profilePic, String artistName, String name) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      child: Column(
+        children: [
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Releases',
-                    style: TextStyle(
-                        letterSpacing: 1.2,
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: InkWell(
+                  onTap: () {
+                    pushNewScreen(context,
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                        screen: Player(
+                            player: widget.homePlayer,
+                            playlist: ConcatenatingAudioSource(children: [
+                              AudioSource.uri(
+                                  Uri.parse(
+                                      'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2F%5BMP3DOWNLOAD.TO%5D%20Frank%20Ocean%20-%20White%20Ferrari-320k.mp3?alt=media&token=765b1c81-0ebb-4e42-883c-1cf43b09dfb1'),
+                                  tag: MediaItem(
+                                      id: '1',
+                                      title: 'White Ferrari',
+                                      artist: 'Frank Ocean',
+                                      artUri: Uri.parse(imgUrl)))
+                            ])));
+                  },
+                  child: Container(
+                    width: 320,
+                    height: 320,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(imgUrl),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        pushNewScreen(context, screen: ReleaseFeed());
-                      },
-                      child: Text('see all',
-                          style: TextStyle(color: Colors.white54)))
-                ],
+                ),
               ),
-              Text(
-                "find out what's new",
-                style: TextStyle(
-                    letterSpacing: 1.3,
-                    color: Colors.white54,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w300),
-              ),
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(profilePic),
+                      ),
+                      SizedBox(height: 10),
+                      RotatedBox(
+                          quarterTurns: 1,
+                          child: Text(artistName,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)))
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
-        ),
-        SizedBox(height: 15),
-        Container(
-          height: 180,
-          child: ListView //New Releases
-              (
-            scrollDirection: Axis.horizontal,
-            children: [
-              SizedBox(width: 15),
-              InkWell(
-                onTap: () {
-                  pushNewScreen(context,
-                      withNavBar: false,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                      screen: Player(
-                          player: widget.homePlayer,
-                          playlist: ConcatenatingAudioSource(children: [
-                            AudioSource.uri(
-                                Uri.parse(
-                                    'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2FJoji_-_Gimme_Love.mp3?alt=media&token=6a5d7b4f-0e88-4ed7-802f-ae60ccc2b418'),
-                                tag: MediaItem(
-                                    id: '1',
-                                    title: 'Gimme Love',
-                                    artist: 'Joji',
-                                    artUri: Uri.parse(
-                                        'https://images.complex.com/complex/image/upload/c_fill,dpr_auto,f_auto,fl_lossy,g_face,q_auto,w_1280/m7ll2zgzoxostwcoswzi.png')))
-                          ])));
-                },
-                child: artistRelease(
-                    'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
-                    'Gimme Love',
-                    'Joji',
-                    'single'),
-              ),
-              SizedBox(width: 15),
-              artistRelease(
-                  'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png',
-                  'After Hours',
-                  'The Weeknd',
-                  'album'),
-              SizedBox(width: 15),
-              artistRelease(
-                  'https://upload.wikimedia.org/wikipedia/en/b/b8/Mura_Masa_album.jpg',
-                  'Mura Masa',
-                  'Mura Masa',
-                  'album'),
-              SizedBox(width: 15),
-              artistRelease(
-                  'https://images.genius.com/3e19af5cd67d794b62e6b0fe59de0cde.500x500x1.jpg',
-                  'Between Days',
-                  'Far Caspian',
-                  'single'),
-              SizedBox(width: 15),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, right: 50),
+            child: Row(
+              children: [
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'album',
+                      style: TextStyle(color: Theme.of(context).accentColor),
+                    ),
+                    Text(
+                      name,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                IconButton(onPressed: () {}, icon: Icon(Icons.favorite_outline))
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget trailSection() {
     return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
+      color: Colors.pink,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10),
