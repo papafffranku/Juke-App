@@ -418,7 +418,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget trailSection() {
     return Container(
-      color: Colors.pink,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -8,6 +8,7 @@ import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/pages/explore/SearchPage.dart';
 
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/album/view_album.dart';
@@ -39,7 +40,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xff669999),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/search',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -47,8 +48,8 @@ Future<void> main() async {
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
-      '/search': (context) => ExplorePage(),
       '/profile': (context) => ProfilePage(),
+      '/search': (context) => SearchPage(),
     },
     debugShowCheckedModeBanner: false,
   ));

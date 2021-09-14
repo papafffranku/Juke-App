@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lessgoo/pages/home/tools/album_tile.dart';
-import 'package:lessgoo/pages/home/tools/track_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/Settings.dart';
