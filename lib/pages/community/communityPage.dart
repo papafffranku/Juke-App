@@ -202,6 +202,9 @@ class _communityPageState extends State<communityPage> {
                                               children: [
                                                 TextSpan(
                                                   text: "Quick Access details ",
+                                                  style: TextStyle(
+                                                    color: Colors.blue
+                                                  )
                                                 ),
                                                 WidgetSpan(
                                                   child: Icon(

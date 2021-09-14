@@ -326,7 +326,7 @@ class _HomePageState extends State<HomePage> {
                 'Releases',
                 style: TextStyle(
                     letterSpacing: 1.2,
-                    color: Colors.white,
+                    color: Theme.of(context).accentColor,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
               ),
@@ -459,7 +459,7 @@ class _HomePageState extends State<HomePage> {
                   'Trails',
                   style: TextStyle(
                       letterSpacing: 1.2,
-                      color: Colors.white,
+                      color: Theme.of(context).accentColor,
                       fontSize: 25,
                       fontWeight: FontWeight.bold),
                 ),
