@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +10,14 @@ import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/explore/SearchPage.dart';
-
-import 'package:lessgoo/pages/explore/explore.dart';
-import 'package:lessgoo/pages/album/view_album.dart';
-import 'package:lessgoo/pages/home/chat/chat_page.dart';
-
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
+final followersRef = FirebaseFirestore.instance.collection('followers');
+final followingRef = FirebaseFirestore.instance.collection('following');
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -49,7 +47,7 @@ Future<void> main() async {
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
       '/profile': (context) => ProfilePage(),
-      '/search': (context) => SearchPage(),
+      '/other': (context) => SearchPage(),
     },
     debugShowCheckedModeBanner: false,
   ));

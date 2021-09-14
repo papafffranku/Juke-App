@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                   onPressed: () {},
                                   icon: Icon(
-                                    Icons.message_outlined,
+                                    CupertinoIcons.chat_bubble_2,
                                   )),
                               SizedBox(width: 10),
                               InkWell(

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lessgoo/main.dart';
 import 'package:lessgoo/pages/home/tools/album_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
@@ -21,6 +23,9 @@ class OtherProfile extends StatefulWidget {
 }
 
 class _OtherProfileState extends State<OtherProfile> {
+  bool isFollowing = false;
+  int followerCount = 0;
+  int followingCount = 0;
   Stream<DocumentSnapshot<Object?>>? userdeets;
   Stream<QuerySnapshot<Object?>>? songdeets;
   Stream<DocumentSnapshot<Object?>>? private;
@@ -38,6 +43,41 @@ class _OtherProfileState extends State<OtherProfile> {
         .limit(3)
         .snapshots();
     super.initState();
+    getFollowers();
+    getFollowing();
+    checkIfFollowing();
+  }
+
+  getFollowing() async {
+    QuerySnapshot snapshot = await followersRef
+        .doc(widget.searchID)
+        .collection('userFollowing')
+        .get();
+    setState(() {
+      followingCount = snapshot.docs.length;
+    });
+  }
+
+  getFollowers() async {
+    QuerySnapshot snapshot = await followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .get();
+    setState(() {
+      followerCount = snapshot.docs.length;
+    });
+  }
+
+  checkIfFollowing() async {
+    DocumentSnapshot doc = await followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    setState(() {
+      isFollowing = doc.exists;
+    });
   }
 
   @override
@@ -155,32 +195,33 @@ class _OtherProfileState extends State<OtherProfile> {
                             fontWeight: FontWeight.w800),
                       ),
                       Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: TextButton(
-                          onPressed: () {},
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ))),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10),
-                            child: Text(
-                              'Follow',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      buildFollowButton()
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 15.0),
+                      //   child: TextButton(
+                      //     onPressed: () {},
+                      //     style: ButtonStyle(
+                      //         backgroundColor: MaterialStateProperty.all<Color>(
+                      //             Colors.white),
+                      //         shape: MaterialStateProperty.all<
+                      //                 RoundedRectangleBorder>(
+                      //             RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.circular(20.0),
+                      //         ))),
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(
+                      //           vertical: 5.0, horizontal: 10),
+                      //       child: Text(
+                      //         'Follow',
+                      //         style: TextStyle(
+                      //           fontWeight: FontWeight.bold,
+                      //           fontSize: 14,
+                      //           color: Colors.black,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(width: 5),
@@ -196,7 +237,7 @@ class _OtherProfileState extends State<OtherProfile> {
                       Column(
                         children: [
                           Text(
-                            data['followers'].toString(),
+                            followerCount.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -218,7 +259,7 @@ class _OtherProfileState extends State<OtherProfile> {
                       Column(
                         children: [
                           Text(
-                            data['following'].toString(),
+                            followingCount.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -377,5 +418,85 @@ class _OtherProfileState extends State<OtherProfile> {
                 ]),
               )
             ])));
+  }
+
+  Widget buildFollowButton() {
+    if (isFollowing) {
+      return buildButton(text: "Unfollow", function: handleUnfollowUser);
+    } else if (!isFollowing) {
+      return buildButton(text: "Follow", function: handleFollowUser);
+    } else
+      return SizedBox();
+  }
+
+  handleUnfollowUser() {
+    setState(() {
+      isFollowing = false;
+    });
+
+    // remove follower
+    followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    followingRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('userFollowing')
+        .doc(widget.searchID)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+  }
+  // remove following
+
+  handleFollowUser() {
+    setState(() {
+      isFollowing = true;
+    });
+    // Make user follow another profile by updating their followers collection
+    followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({});
+    // Adding the other profile to user's following collection
+    followingRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('userFollowing')
+        .doc(widget.searchID)
+        .set({});
+  }
+
+  Widget buildButton({required String text, function}) {
+    return Container(
+      child: TextButton(
+        onPressed: function,
+        child: Container(
+            height: 40,
+            width: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Colors.white,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                  child: Text(
+                text,
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              )),
+            )),
+      ),
+    );
   }
 }
