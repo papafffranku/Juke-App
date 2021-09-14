@@ -226,7 +226,6 @@ class _HomePageState extends State<HomePage> {
             var data = snapshot.data;
 
             return Scaffold(
-                extendBodyBehindAppBar: true,
                 backgroundColor: Colors.black,
                 body: NestedScrollView(
                     floatHeaderSlivers: true,
@@ -246,7 +245,27 @@ class _HomePageState extends State<HomePage> {
                             },
                             actions: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    result =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.custom,
+                                      allowedExtensions: ['mp3'],
+                                    );
+                                    file = result!.files.first;
+                                    // ignore: non_constant_identifier_names
+                                    final File UPF = File(file.path.toString());
+                                    print(file.name);
+                                    print(file.size);
+                                    pushNewScreen(context,
+                                        screen: SongUpload(
+                                          UPFcon: UPF,
+                                          uid: data!['id'],
+                                        ));
+                                    // Navigator.pushNamed(context, '/UploadSong',
+                                    //     arguments: {
+                                    //       'UPF': UPF,
+                                    //     });
+                                  },
                                   icon: Icon(
                                     Icons.add,
                                   )),
@@ -275,8 +294,17 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ],
-                    body: ListView(
-                      children: [trailSection(), releaseSection()],
+                    body: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 15,
+                          ),
+                          trailSection(),
+                          releaseSection()
+                        ],
+                      ),
                     )));
           } else {
             return Container(
@@ -422,7 +450,6 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: Column(

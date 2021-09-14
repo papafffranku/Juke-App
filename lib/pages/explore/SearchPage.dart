@@ -20,6 +20,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -62,7 +63,7 @@ class _SearchPageState extends State<SearchPage> {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
                         {
-                          return CircularProgressIndicator();
+                          return Center(child: CircularProgressIndicator());
                         }
 
                       case ConnectionState.none:
