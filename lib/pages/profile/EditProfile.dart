@@ -30,15 +30,24 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   void TagData(){
-    List<bool> arr123= widget.data['tag'];
+    List arr123= widget.data['tag'];
 
     setState(() {
-      singerValue=arr123[0];
-      producerValue=arr123[0];
-      instrumentValue=arr123[0];
-      engineValue=arr123[0];
-      coverValue=arr123[0];
+      singerValue=boolcheck(arr123[0].toString());
+      producerValue=boolcheck(arr123[1].toString());
+      instrumentValue=boolcheck(arr123[2].toString());
+      engineValue=boolcheck(arr123[3].toString());
+      coverValue=boolcheck(arr123[4].toString());
     });
+  }
+
+  bool boolcheck(arr123){
+    if(arr123=='true'){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   //controllers
