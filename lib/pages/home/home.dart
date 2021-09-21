@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import 'package:lessgoo/PopUp/CustomRectTween.dart';
+import 'package:lessgoo/PopUp/HeroDialogRoute.dart';
 import 'package:lessgoo/models/TrailModel.dart';
 import 'package:lessgoo/pages/home/page_routes/page_preview.dart';
 
@@ -15,7 +17,9 @@ import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
 import 'package:lessgoo/pages/library/library_landing.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
+import 'package:lessgoo/pages/trails/Trail_landing.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 List<Trails> trailList = [
@@ -57,9 +61,9 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.homePlayer}) : super(key: key);
 }
 
+const String _heroAddTodo = 'add-todo-hero';
+
 class _HomePageState extends State<HomePage> {
-  FilePickerResult? result;
-  late PlatformFile file;
   Stream<DocumentSnapshot<Object?>>? docStream;
 
   Widget playlister(String imgUrl, String playlistName, String playlistDesc) {
@@ -244,31 +248,23 @@ class _HomePageState extends State<HomePage> {
                               return Future<void>.value();
                             },
                             actions: [
-                              IconButton(
-                                  onPressed: () async {
-                                    result =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.custom,
-                                      allowedExtensions: ['mp3'],
-                                    );
-                                    file = result!.files.first;
-                                    // ignore: non_constant_identifier_names
-                                    final File UPF = File(file.path.toString());
-                                    print(file.name);
-                                    print(file.size);
-                                    pushNewScreen(context,
-                                        screen: SongUpload(
-                                          UPFcon: UPF,
-                                          uid: data!['id'],
-                                        ));
-                                    // Navigator.pushNamed(context, '/UploadSong',
-                                    //     arguments: {
-                                    //       'UPF': UPF,
-                                    //     });
-                                  },
-                                  icon: Icon(
-                                    Icons.add,
-                                  )),
+                              Hero(
+                                tag: _heroAddTodo,
+                                createRectTween: (begin, end) {
+                                  return CustomRectTween(begin: begin, end: end);
+                                },
+                                child: IconButton(
+                                    onPressed: () {
+                                      String id=data!['id'];
+                                      Navigator.of(context).push(HeroDialogRoute(builder: (context) {
+                                        return _AddTodoPopupCard(id: id);
+                                      }));
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.add,
+                                      color: Theme.of(context).accentColor,
+                                    )),
+                              ),
                               IconButton(
                                   onPressed: () {},
                                   icon: Icon(
@@ -497,5 +493,214 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+  }
+}
+
+class _AddTodoPopupCard extends StatefulWidget {
+  final id;
+  const _AddTodoPopupCard({Key? key, this.id}) : super(key: key);
+
+  @override
+  __AddTodoPopupCardState createState() => __AddTodoPopupCardState();
+}
+
+class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
+  FilePickerResult? result;
+  late PlatformFile file;
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Hero(
+          tag: _heroAddTodo,
+          createRectTween: (begin, end) {
+            return CustomRectTween(begin: begin, end: end);
+          },
+          child: Material(
+            color: Theme.of(context).accentColor,
+            elevation: 2,
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 25,right:25,top:30,bottom:8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap:() async {
+                        result = await FilePicker.platform.pickFiles(
+                          type: FileType.image
+                        );
+                        file = result!.files.first;
+                        final File UPF = File(file.path.toString());
+                        Color backgroundColor = await getImagePalette(FileImage(UPF));
+                        String nextColor = backgroundColor.toString();
+                        print(nextColor);
+                        var newNextColor=int.parse(nextColor.substring(10,11));
+                        newNextColor=newNextColor+2;
+                        nextColor='0xff'+newNextColor.toString()+nextColor.substring(11,16);
+                        Color otherColor = new Color(int.parse(nextColor));
+                        print(otherColor.toString());
+                        pushNewScreen(context,
+                            screen: Trail_landing(
+                              UPFcon: UPF,
+                              uid: widget.id,
+                              background: backgroundColor,
+                              nextColor: otherColor
+                            ));
+                      },
+                      child: Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: Colors.black
+                        ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Center(
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Create a ",
+                                      style: TextStyle(
+                                          letterSpacing: 1.2,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    TextSpan(
+                                      text: "Trail",
+                                      style: TextStyle(
+                                          letterSpacing: 1.2,
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap:() async {
+                        result =
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['mp3'],
+                        );
+                        file = result!.files.first;
+                        final File UPF = File(file.path.toString());
+                        pushNewScreen(context,
+                            screen: SongUpload(
+                              UPFcon: UPF,
+                              uid: widget.id,
+                            ));
+                        },
+                      child: Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: Colors.black
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Upload a ",
+                                    style: TextStyle(
+                                        letterSpacing: 1.2,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  TextSpan(
+                                    text: "Song",
+                                    style: TextStyle(
+                                        letterSpacing: 1.2,
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          color: Colors.black
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Center(
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Upload an ",
+                                  style: TextStyle(
+                                      letterSpacing: 1.2,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                TextSpan(
+                                  text: "Album",
+                                  style: TextStyle(
+                                      letterSpacing: 1.2,
+                                      color: Theme.of(context).accentColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: Theme.of(context).accentColor
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Center(
+                            child: Icon(Icons.cancel_rounded,size: 25,color: Colors.black,)
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<Color> getImagePalette (ImageProvider imageProvider) async {
+    final PaletteGenerator paletteGenerator = await PaletteGenerator
+        .fromImageProvider(imageProvider);
+    return paletteGenerator.dominantColor!.color;
   }
 }

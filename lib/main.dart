@@ -6,12 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
+import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/explore/SearchPage.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
+import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
 
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
@@ -48,6 +50,8 @@ Future<void> main() async {
       '/success': (context) => SuccessUpload(),
       '/profile': (context) => ProfilePage(),
       '/other': (context) => SearchPage(),
+      '/hero': (context) => Heropop(),
+      '/trailtry': (context) => TextOverImage(),
     },
     debugShowCheckedModeBanner: false,
   ));
