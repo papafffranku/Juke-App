@@ -10,6 +10,8 @@ import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/pages/chat/chat_landing.dart';
+import 'package:lessgoo/pages/chat/chat_search.dart';
 import 'package:lessgoo/pages/explore/SearchPage.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
@@ -20,6 +22,9 @@ import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 final storageRef = FirebaseStorage.instance.ref();
 final followersRef = FirebaseFirestore.instance.collection('followers');
 final followingRef = FirebaseFirestore.instance.collection('following');
+final userRef = FirebaseFirestore.instance.collection('users');
+final chatroomRef = FirebaseFirestore.instance.collection('chatroom');
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -40,7 +45,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xffEFDC6D),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/chat',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -52,6 +57,7 @@ Future<void> main() async {
       '/other': (context) => SearchPage(),
       '/hero': (context) => Heropop(),
       '/trailtry': (context) => TextOverImage(),
+      '/chat': (context) => ChatSearch(),
     },
     debugShowCheckedModeBanner: false,
   ));

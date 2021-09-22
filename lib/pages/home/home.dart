@@ -350,6 +350,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget releaseBlock(
       String imgUrl, String profilePic, String artistName, String name) {
+    bool selected = true;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.0),
       child: Column(
@@ -359,35 +361,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: InkWell(
-                  onTap: () {
-                    pushNewScreen(context,
-                        withNavBar: false,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                        screen: Player(
-                            player: widget.homePlayer,
-                            playlist: ConcatenatingAudioSource(children: [
-                              AudioSource.uri(
-                                  Uri.parse(
-                                      'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2F%5BMP3DOWNLOAD.TO%5D%20Frank%20Ocean%20-%20White%20Ferrari-320k.mp3?alt=media&token=765b1c81-0ebb-4e42-883c-1cf43b09dfb1'),
-                                  tag: MediaItem(
-                                      id: '1',
-                                      title: 'White Ferrari',
-                                      artist: 'Frank Ocean',
-                                      artUri: Uri.parse(imgUrl)))
-                            ])));
-                  },
-                  child: Container(
-                    width: 320,
-                    height: 320,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(imgUrl),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                  ),
+                child: Container(
+                  width: 320,
+                  height: 320,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(imgUrl),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
                 ),
               ),
               Expanded(
@@ -415,7 +397,35 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(top: 10.0, right: 50),
             child: Row(
               children: [
-                SizedBox(width: 20),
+                SizedBox(width: 10),
+                IconButton(
+                  onPressed: () {
+                    selected = !selected;
+
+                    pushNewScreen(context,
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                        screen: Player(
+                            player: widget.homePlayer,
+                            playlist: ConcatenatingAudioSource(children: [
+                              AudioSource.uri(
+                                  Uri.parse(
+                                      'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2F%5BMP3DOWNLOAD.TO%5D%20Frank%20Ocean%20-%20White%20Ferrari-320k.mp3?alt=media&token=765b1c81-0ebb-4e42-883c-1cf43b09dfb1'),
+                                  tag: MediaItem(
+                                      id: '1',
+                                      title: 'White Ferrari',
+                                      artist: 'Frank Ocean',
+                                      artUri: Uri.parse(imgUrl)))
+                            ])));
+                  },
+                  icon: Icon(
+                      selected
+                          ? Icons.play_circle_fill_rounded
+                          : Icons.pause_circle_filled_rounded,
+                      size: 40),
+                ),
+                SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -426,7 +436,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       name,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     ),
                   ],
                 ),

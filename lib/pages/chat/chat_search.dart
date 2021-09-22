@@ -1,22 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/main.dart';
+import 'package:lessgoo/methods/database.dart';
+import 'package:lessgoo/pages/chat/chatter.dart';
 import 'package:lessgoo/pages/profile/OtherProfile.dart';
-import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class ChatSearch extends StatefulWidget {
+  const ChatSearch({Key? key}) : super(key: key);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _ChatSearchState createState() => _ChatSearchState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _ChatSearchState extends State<ChatSearch> {
+  String currentUser = FirebaseAuth.instance.currentUser!.uid.toString();
   TextEditingController textEditingController = TextEditingController();
   final database = FirebaseFirestore.instance;
   String? searchString;
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  createChatRoomandStart(String otherUser) {
+    String chatRoomId = getChatRoomId(otherUser, currentUser);
+    List<String> users = [otherUser, currentUser];
+    Map<String, dynamic> chatRoomMap = {
+      "userId": users,
+      "chatroomId": chatRoomId
+    };
+    databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
+    pushNewScreen(context, screen: Chatter(chatroomId: chatRoomId));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,17 +95,16 @@ class _SearchPageState extends State<SearchPage> {
                         return new ListView(
                           children: snapshot.data!.docs
                               .map((DocumentSnapshot document) {
-                            return InkWell(
-                              onTap: () => pushNewScreen(context,
-                                  screen: OtherProfile(
-                                    searchID: document['id'].toString(),
-                                  )),
-                              child: ListTile(
-                                title: Text(document['username']),
-                                leading: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(document['avatarUrl']),
-                                ),
+                            return ListTile(
+                              trailing: TextButton(
+                                  onPressed: () {
+                                    createChatRoomandStart(document.id);
+                                  },
+                                  child: Text('Message')),
+                              title: Text(document['username']),
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(document['avatarUrl']),
                               ),
                             );
                           }).toList(),
@@ -104,5 +118,13 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
+  }
+
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
   }
 }

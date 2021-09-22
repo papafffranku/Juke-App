@@ -421,8 +421,10 @@ class _OtherProfileState extends State<OtherProfile> {
   }
 
   Widget buildFollowButton() {
-    if (isFollowing) {
-      return buildButton(text: "Unfollow", function: handleUnfollowUser);
+    if (widget.searchID == FirebaseAuth.instance.currentUser!.uid) {
+      return buildButton(text: "Edit", function: handleUnfollowUser);
+    } else if (isFollowing) {
+      return buildButton(text: "Following", function: handleUnfollowUser);
     } else if (!isFollowing) {
       return buildButton(text: "Follow", function: handleFollowUser);
     } else
@@ -477,25 +479,30 @@ class _OtherProfileState extends State<OtherProfile> {
   }
 
   Widget buildButton({required String text, function}) {
-    return Container(
-      child: TextButton(
-        onPressed: function,
-        child: Container(
-            height: 40,
-            width: 80,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  child: Text(
-                text,
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: Container(
+        child: TextButton(
+          onPressed: function,
+          child: Container(
+              height: 40,
+              width: 90,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: text == 'Following'
+                    ? Theme.of(context).accentColor
+                    : Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    child: Text(
+                  text,
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                )),
               )),
-            )),
+        ),
       ),
     );
   }
