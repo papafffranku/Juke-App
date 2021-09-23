@@ -11,6 +11,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/PopUp/CustomRectTween.dart';
 import 'package:lessgoo/PopUp/HeroDialogRoute.dart';
 import 'package:lessgoo/models/TrailModel.dart';
+import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/pages/home/page_routes/page_preview.dart';
 
 import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
@@ -251,12 +252,14 @@ class _HomePageState extends State<HomePage> {
                               Hero(
                                 tag: _heroAddTodo,
                                 createRectTween: (begin, end) {
-                                  return CustomRectTween(begin: begin, end: end);
+                                  return CustomRectTween(
+                                      begin: begin, end: end);
                                 },
                                 child: IconButton(
                                     onPressed: () {
-                                      String id=data!['id'];
-                                      Navigator.of(context).push(HeroDialogRoute(builder: (context) {
+                                      String id = data!['id'];
+                                      Navigator.of(context).push(
+                                          HeroDialogRoute(builder: (context) {
                                         return _AddTodoPopupCard(id: id);
                                       }));
                                     },
@@ -271,7 +274,10 @@ class _HomePageState extends State<HomePage> {
                                     Icons.notifications_none_rounded,
                                   )),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    pushNewScreen(context,
+                                        screen: ChatLanding());
+                                  },
                                   icon: Icon(
                                     CupertinoIcons.chat_bubble_2,
                                   )),
@@ -531,42 +537,44 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
             color: Theme.of(context).accentColor,
             elevation: 2,
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(left: 25,right:25,top:30,bottom:8),
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, top: 30, bottom: 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     GestureDetector(
-                      onTap:() async {
-                        result = await FilePicker.platform.pickFiles(
-                          type: FileType.image
-                        );
+                      onTap: () async {
+                        result = await FilePicker.platform
+                            .pickFiles(type: FileType.image);
                         file = result!.files.first;
                         final File UPF = File(file.path.toString());
-                        Color backgroundColor = await getImagePalette(FileImage(UPF));
+                        Color backgroundColor =
+                            await getImagePalette(FileImage(UPF));
                         String nextColor = backgroundColor.toString();
                         print(nextColor);
-                        var newNextColor=int.parse(nextColor.substring(10,11));
-                        newNextColor=newNextColor+2;
-                        nextColor='0xff'+newNextColor.toString()+nextColor.substring(11,16);
+                        var newNextColor =
+                            int.parse(nextColor.substring(10, 11));
+                        newNextColor = newNextColor + 2;
+                        nextColor = '0xff' +
+                            newNextColor.toString() +
+                            nextColor.substring(11, 16);
                         Color otherColor = new Color(int.parse(nextColor));
                         print(otherColor.toString());
                         pushNewScreen(context,
                             screen: Trail_landing(
-                              UPFcon: UPF,
-                              uid: widget.id,
-                              background: backgroundColor,
-                              nextColor: otherColor
-                            ));
+                                UPFcon: UPF,
+                                uid: widget.id,
+                                background: backgroundColor,
+                                nextColor: otherColor));
                       },
                       child: Container(
                         width: 200,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: Colors.black
-                        ),
+                            color: Colors.black),
                         child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Center(
@@ -591,15 +599,15 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                                   ],
                                 ),
                               ),
-                            )
-                        ),
+                            )),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     GestureDetector(
-                      onTap:() async {
-                        result =
-                            await FilePicker.platform.pickFiles(
+                      onTap: () async {
+                        result = await FilePicker.platform.pickFiles(
                           type: FileType.custom,
                           allowedExtensions: ['mp3'],
                         );
@@ -610,28 +618,62 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                               UPFcon: UPF,
                               uid: widget.id,
                             ));
-                        },
+                      },
                       child: Container(
                         width: 200,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: Colors.black
-                        ),
+                            color: Colors.black),
                         child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Center(
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Upload a ",
+                                      style: TextStyle(
+                                          letterSpacing: 1.2,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    TextSpan(
+                                      text: "Song",
+                                      style: TextStyle(
+                                          letterSpacing: 1.2,
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: 200,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          color: Colors.black),
+                      child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Center(
                             child: RichText(
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "Upload a ",
+                                    text: "Upload an ",
                                     style: TextStyle(
                                         letterSpacing: 1.2,
                                         fontSize: 20,
                                         fontWeight: FontWeight.normal),
                                   ),
                                   TextSpan(
-                                    text: "Song",
+                                    text: "Album",
                                     style: TextStyle(
                                         letterSpacing: 1.2,
                                         color: Theme.of(context).accentColor,
@@ -641,60 +683,28 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                                 ],
                               ),
                             ),
-                          )
-                        ),
-                      ),
+                          )),
                     ),
-                    SizedBox(height: 10,),
-                    Container(
-                      width: 200,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          color: Colors.black
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Center(
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "Upload an ",
-                                  style: TextStyle(
-                                      letterSpacing: 1.2,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.normal),
-                                ),
-                                TextSpan(
-                                  text: "Album",
-                                  style: TextStyle(
-                                      letterSpacing: 1.2,
-                                      color: Theme.of(context).accentColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.pop(context);
                       },
                       child: Container(
                         width: 200,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: Theme.of(context).accentColor
-                        ),
+                            color: Theme.of(context).accentColor),
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Center(
-                            child: Icon(Icons.cancel_rounded,size: 25,color: Colors.black,)
-                          ),
+                              child: Icon(
+                            Icons.cancel_rounded,
+                            size: 25,
+                            color: Colors.black,
+                          )),
                         ),
                       ),
                     ),
@@ -708,9 +718,9 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
     );
   }
 
-  Future<Color> getImagePalette (ImageProvider imageProvider) async {
-    final PaletteGenerator paletteGenerator = await PaletteGenerator
-        .fromImageProvider(imageProvider);
+  Future<Color> getImagePalette(ImageProvider imageProvider) async {
+    final PaletteGenerator paletteGenerator =
+        await PaletteGenerator.fromImageProvider(imageProvider);
     return paletteGenerator.dominantColor!.color;
   }
 }

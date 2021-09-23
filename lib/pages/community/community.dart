@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+import 'package:lessgoo/pages/widgets/landingpageheader.dart';
+
+class CommunityPage extends StatefulWidget {
+  const CommunityPage({Key? key}) : super(key: key);
+
+  @override
+  _CommunityPageState createState() => _CommunityPageState();
+}
+
+class _CommunityPageState extends State<CommunityPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child: Container(
+            child: Column(
+              children: [
+                landingPageHeader(context, 'Community', false),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: GroupTile(),
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+class GroupTile extends StatelessWidget {
+  const GroupTile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Color(0xff0d0d0d),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      width: double.infinity,
+      height: 170,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'feedback',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Get feedback on your ideas or give feedbacks to other tracks.',
+              style: TextStyle(color: Colors.white54),
+            ),
+            SizedBox(height: 15),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      '34k',
+                      style: TextStyle(),
+                    ),
+                    Text(
+                      'members',
+                      style: TextStyle(color: Colors.white54, fontSize: 14),
+                    )
+                  ],
+                ),
+                SizedBox(width: 20),
+                Column(
+                  children: [
+                    Text(
+                      '102',
+                      style: TextStyle(),
+                    ),
+                    Text(
+                      'posts',
+                      style: TextStyle(color: Colors.white54, fontSize: 14),
+                    )
+                  ],
+                ),
+                Spacer(),
+                TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      '+ Join',
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor, fontSize: 16),
+                    ))
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

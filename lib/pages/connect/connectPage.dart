@@ -8,14 +8,14 @@ import 'package:lessgoo/pages/widgets/landingpageheader.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
 
-class communityPage extends StatefulWidget {
-  const communityPage({Key? key}) : super(key: key);
+class connectPage extends StatefulWidget {
+  const connectPage({Key? key}) : super(key: key);
 
   @override
-  _communityPageState createState() => _communityPageState();
+  _connectPageState createState() => _connectPageState();
 }
 
-class _communityPageState extends State<communityPage> {
+class _connectPageState extends State<connectPage> {
   bool expanded = false;
   late List<dynamic> users;
   int count = 0;
@@ -41,7 +41,7 @@ class _communityPageState extends State<communityPage> {
     double screenheight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.black,
       body: ColorfulSafeArea(
         child: ListView(
           children: [
@@ -201,11 +201,10 @@ class _communityPageState extends State<communityPage> {
                                             text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: "Quick Access details ",
-                                                  style: TextStyle(
-                                                    color: Colors.blue
-                                                  )
-                                                ),
+                                                    text:
+                                                        "Quick Access details ",
+                                                    style: TextStyle(
+                                                        color: Colors.blue)),
                                                 WidgetSpan(
                                                   child: Icon(
                                                     CupertinoIcons.forward,

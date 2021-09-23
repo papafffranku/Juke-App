@@ -63,6 +63,8 @@ class _ChatterState extends State<Chatter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
           child: Stack(
@@ -77,10 +79,13 @@ class _ChatterState extends State<Chatter> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: messageController,
-                          decoration: InputDecoration(
-                              hintText: "Message", border: InputBorder.none),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: TextField(
+                            controller: messageController,
+                            decoration: InputDecoration(
+                                hintText: "Message", border: InputBorder.none),
+                          ),
                         ),
                       ),
                       IconButton(
@@ -110,9 +115,23 @@ class MessageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 8),
       width: MediaQuery.of(context).size.width,
       alignment: isSentbyUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: isSentbyUser
+                  ? [
+                      const Color(0xff007EF4),
+                      const Color(0xff2A75BC),
+                    ]
+                  : [
+                      const Color(0x1AFFFFFF),
+                      const Color(0x1AFFFFFF),
+                    ]),
+        ),
         child: Text(message),
       ),
     );

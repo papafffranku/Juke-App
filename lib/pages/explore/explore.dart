@@ -25,7 +25,7 @@ class _ExplorePageState extends State<ExplorePage> {
     double sHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.black,
         body: ColorfulSafeArea(
             child: ListView(children: [
           landingPageHeader(context, "Explore", CupertinoIcons.search),

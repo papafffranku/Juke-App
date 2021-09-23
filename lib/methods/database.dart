@@ -2,11 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lessgoo/main.dart';
 
 class DatabaseMethods {
-  getUserbyUsername(String userId) async {
-    return await FirebaseFirestore.instance
-        .collection("users")
-        .where("id", isEqualTo: userId)
-        .get();
+  getUserbyUserId(String userId) {
+    return FirebaseFirestore.instance.collection('users').doc(userId).get();
   }
 
   createChatRoom(String chatroomId, chatroomMap) {
@@ -31,5 +28,9 @@ class DatabaseMethods {
         .collection("chats")
         .orderBy("timestamp", descending: false)
         .snapshots();
+  }
+
+  getChatRooms(String userId) async {
+    return chatroomRef.where("userId", arrayContains: userId).snapshots();
   }
 }
