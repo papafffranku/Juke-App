@@ -12,6 +12,8 @@ class DatabaseMethods {
     });
   }
 
+  addUserTile(String userId, usertileMap) {}
+
   addConversation(String chatroomId, messageMap) {
     chatroomRef
         .doc(chatroomId)

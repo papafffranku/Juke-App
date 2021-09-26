@@ -118,21 +118,41 @@ class MessageTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 8),
       width: MediaQuery.of(context).size.width,
       alignment: isSentbyUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: isSentbyUser
-                  ? [
-                      const Color(0xff007EF4),
-                      const Color(0xff2A75BC),
-                    ]
-                  : [
-                      const Color(0x1AFFFFFF),
-                      const Color(0x1AFFFFFF),
-                    ]),
-        ),
-        child: Text(message),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          isSentbyUser
+              ? Container()
+              : Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.pink,
+                    ),
+                    SizedBox(width: 10)
+                  ],
+                ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              gradient: LinearGradient(
+                  colors: isSentbyUser
+                      ? [
+                          Theme.of(context).accentColor,
+                          const Color(0xff2A75BC),
+                        ]
+                      : [
+                          const Color(0x1AFFFFFF),
+                          const Color(0x1AFFFFFF),
+                        ]),
+            ),
+            child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width / 2,
+                ),
+                child: Text(message)),
+          ),
+        ],
       ),
     );
   }

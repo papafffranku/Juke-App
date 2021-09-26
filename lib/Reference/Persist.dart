@@ -75,7 +75,7 @@ class _PersistState extends State<Persist> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           PersistentTabView(
@@ -83,7 +83,7 @@ class _PersistState extends State<Persist> {
             controller: _controller,
             screens: _buildScreens(),
             items: _navBarsItems(),
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Colors.black,
             handleAndroidBackButtonPress: true,
             resizeToAvoidBottomInset: true,
             stateManagement: true,

@@ -68,9 +68,7 @@ class _ChatLandingState extends State<ChatLanding> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: routePageAppBar(
-          context: context,
-          icon: CupertinoIcons.search,
-          function: _onSearchTap),
+          context: context, icon: CupertinoIcons.add, function: _onSearchTap),
       body: SafeArea(
           child: Column(
         children: [

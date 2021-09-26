@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,10 +11,9 @@ import 'package:lessgoo/PopUp/CustomRectTween.dart';
 import 'package:lessgoo/PopUp/HeroDialogRoute.dart';
 import 'package:lessgoo/models/TrailModel.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
-import 'package:lessgoo/pages/home/page_routes/page_preview.dart';
 
 import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
-import 'package:lessgoo/pages/library/library_landing.dart';
+
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/trails/Trail_landing.dart';

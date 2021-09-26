@@ -25,6 +25,7 @@ final followersRef = FirebaseFirestore.instance.collection('followers');
 final followingRef = FirebaseFirestore.instance.collection('following');
 final userRef = FirebaseFirestore.instance.collection('users');
 final chatroomRef = FirebaseFirestore.instance.collection('chatroom');
+final usertileRef = FirebaseFirestore.instance.collection('userstile');
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
