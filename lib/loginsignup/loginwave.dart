@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:lessgoo/Firebase%20Auth%20Helper/fireauthservice.dart';
 import 'package:lessgoo/loginsignup/UI/wavewidget.dart';
-import 'package:shimmer/shimmer.dart';
 
 class abc extends StatefulWidget {
   const abc({Key? key}) : super(key: key);
@@ -63,7 +62,9 @@ class _abcState extends State<abc> {
                             height: 1,
                           ),
                         ),
-                        SizedBox(height: 5,),
+                        SizedBox(
+                          height: 5,
+                        ),
                         SizedBox(
                           width: double.infinity,
                           child: DefaultTextStyle(
@@ -181,7 +182,8 @@ class _abcState extends State<abc> {
             style: ElevatedButton.styleFrom(
                 shape: CircleBorder(), primary: Colors.white),
             child: Icon(
-              CupertinoIcons.arrow_right,color: Colors.purple,
+              CupertinoIcons.arrow_right,
+              color: Colors.purple,
             ),
             onPressed: () {},
           ),
@@ -202,7 +204,7 @@ class _abcState extends State<abc> {
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
         InkWell(
-          onTap: (){
+          onTap: () {
             print('new acc');
           },
           child: Text(

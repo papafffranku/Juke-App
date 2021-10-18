@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/main.dart';
 import 'package:lessgoo/methods/database.dart';
+import 'package:lessgoo/models/UserModel.dart';
 import 'package:lessgoo/pages/chat/chat_search.dart';
 import 'package:lessgoo/pages/chat/chatter.dart';
 import 'package:lessgoo/pages/widgets/routepageheader.dart';
@@ -32,7 +34,7 @@ class _ChatLandingState extends State<ChatLanding> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return ChatRoomsTile(
-                    userName: (snapshot.data.docs[index]
+                    userId: (snapshot.data.docs[index]
                         .data()['chatroomId']
                         .toString()
                         .replaceAll("_", "")
@@ -86,49 +88,57 @@ class _ChatLandingState extends State<ChatLanding> {
 }
 
 class ChatRoomsTile extends StatelessWidget {
-  final String userName;
+  final String userId;
   final String chatRoomId;
 
-  ChatRoomsTile({required this.userName, required this.chatRoomId});
+  ChatRoomsTile({required this.userId, required this.chatRoomId});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         pushNewScreen(context,
-            screen: Chatter(chatroomId: chatRoomId), withNavBar: false);
+            screen: Chatter(
+              chatroomId: chatRoomId,
+              other_user: userId,
+            ),
+            withNavBar: false);
       },
-      child: Container(
-        color: Colors.black26,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Row(
-          children: [
-            Container(
-              height: 30,
-              width: 30,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(30)),
-              child: Text(userName.substring(0, 1),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontFamily: 'OverpassRegular',
-                      fontWeight: FontWeight.w300)),
-            ),
-            SizedBox(
-              width: 12,
-            ),
-            Text(userName,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
-          ],
-        ),
-      ),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: userRef.snapshots(),
+          builder: (context, snapshot) {
+            return Container(
+              color: Colors.black26,
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                    child: Text(userId.substring(0, 1),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: 'OverpassRegular',
+                            fontWeight: FontWeight.w300)),
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Text(userId,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'OverpassRegular',
+                          fontWeight: FontWeight.w300))
+                ],
+              ),
+            );
+          }),
     );
   }
 }

@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lessgoo/models/UserModel.dart';
 import 'package:lessgoo/pages/home/tools/album_tile.dart';
 import 'package:lessgoo/pages/home/tools/track_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
-import 'package:lessgoo/pages/profile/ProfilePage.dart';
+
 import 'package:lessgoo/pages/profile/Settings.dart';
 import 'package:lessgoo/pages/profile/trackwidget/bio.dart';
 import 'package:lessgoo/pages/profile/trackwidget/collab.dart';
@@ -289,22 +288,7 @@ class _NewDetailState extends State<NewDetail> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 5.0),
                                       child: Column(
-                                        children: [
-                                          trackTile(
-                                              'Vinland Saga',
-                                              'Vikram Sharma',
-                                              'https://i1.sndcdn.com/artworks-000573835055-8owmgt-t500x500.jpg'),
-                                          trackTile(
-                                              'Orange Soda',
-                                              'Vikram Sharma',
-                                              'https://upload.wikimedia.org/wikipedia/en/thumb/a/a6/Baby_Keem_-_Orange_Soda.png/220px-Baby_Keem_-_Orange_Soda.png'),
-                                          trackTile('Bad', 'Vikram Sharma',
-                                              'https://s.abcnews.com/images/Entertainment/MJ-bad-1987-170831_4x5_992.jpg'),
-                                          trackTile(
-                                              'Sinnerman',
-                                              'Vikram Sharma',
-                                              'https://m.media-amazon.com/images/I/811Fs99RivL._SS500_.jpg'),
-                                        ],
+                                        children: [],
                                       ),
                                     ),
                                     SizedBox(

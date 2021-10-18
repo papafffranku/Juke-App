@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:lessgoo/pages/profile/OtherProfile.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -82,7 +81,7 @@ class _SearchPageState extends State<SearchPage> {
                               .map((DocumentSnapshot document) {
                             return InkWell(
                               onTap: () => pushNewScreen(context,
-                                  screen: OtherProfile(
+                                  screen: ProfilePage(
                                     searchID: document['id'].toString(),
                                   )),
                               child: ListTile(

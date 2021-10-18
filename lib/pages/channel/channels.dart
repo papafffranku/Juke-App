@@ -1,31 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/widgets/landingpageheader.dart';
+import 'package:lessgoo/pages/widgets/routepageheader.dart';
 
-class CommunityPage extends StatefulWidget {
-  const CommunityPage({Key? key}) : super(key: key);
+class ChannelPage extends StatefulWidget {
+  const ChannelPage({Key? key}) : super(key: key);
 
   @override
-  _CommunityPageState createState() => _CommunityPageState();
+  _ChannelPageState createState() => _ChannelPageState();
 }
 
-class _CommunityPageState extends State<CommunityPage> {
+class _ChannelPageState extends State<ChannelPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.black,
-        body: SafeArea(
-          child: Container(
-            child: Column(
-              children: [
-                landingPageHeader(context, 'Community', false),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GroupTile(),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          backgroundColor: Colors.black,
+          body: SafeArea(
+              child: Column(
+            children: [
+              landingPageHeader(context, 'Channels', false, false),
+              TabBar(tabs: [
+                Tab(
+                  child: Text('All'),
+                ),
+                Tab(
+                  child: Text('Joined'),
                 )
-              ],
-            ),
-          ),
-        ));
+              ]),
+              SizedBox(height: 15),
+              Expanded(
+                child: Container(
+                  child: TabBarView(
+                    children: [
+                      Column(
+                        children: [
+                          GroupTile(),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          GroupTile(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ))),
+    );
   }
 }
 
@@ -38,7 +62,7 @@ class GroupTile extends StatelessWidget {
       decoration: BoxDecoration(
           color: Color(0xff0d0d0d),
           borderRadius: BorderRadius.all(Radius.circular(20))),
-      width: double.infinity,
+      width: MediaQuery.of(context).size.width - 20,
       height: 170,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -85,7 +109,9 @@ class GroupTile extends StatelessWidget {
                   ],
                 ),
                 Spacer(),
-                TextButton(
+                OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Theme.of(context).accentColor)),
                     onPressed: () {},
                     child: Text(
                       '+ Join',

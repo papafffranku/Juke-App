@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:lessgoo/pages/community/community.dart';
+import 'package:lessgoo/main.dart';
+import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/home/home.dart';
@@ -18,20 +19,13 @@ class Persist extends StatefulWidget {
 }
 
 class _PersistState extends State<Persist> {
-  late AudioPlayer _player;
   @override
   void initState() {
-    _player = AudioPlayer();
     super.initState();
   }
 
   List<Widget> _buildScreens() {
-    return [
-      HomePage(homePlayer: _player),
-      ExplorePage(),
-      connectPage(),
-      CommunityPage()
-    ];
+    return [HomePage(), ExplorePage(), ConnectPage(), ChannelPage()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -105,7 +99,7 @@ class _PersistState extends State<Persist> {
           ),
           Padding(
               padding: const EdgeInsets.only(bottom: 60),
-              child: miniplayer(_player, screenwidth))
+              child: miniplayer(audioPlayer, screenwidth))
         ],
       ),
     );
@@ -113,7 +107,7 @@ class _PersistState extends State<Persist> {
 
   Widget miniplayer(AudioPlayer trackData, double screenwidth) {
     return StreamBuilder<SequenceState?>(
-        stream: _player.sequenceStateStream,
+        stream: audioPlayer.sequenceStateStream,
         builder: (context, snapshot) {
           final state = snapshot.data;
           if (state?.sequence.isEmpty ?? true) return SizedBox();
@@ -187,7 +181,7 @@ class _PersistState extends State<Persist> {
 
   Widget buttonControl() {
     return StreamBuilder<PlayerState>(
-      stream: _player.playerStateStream,
+      stream: audioPlayer.playerStateStream,
       builder: (context, snapshot) {
         final playerState = snapshot.data;
         final processingState = playerState?.processingState;
@@ -206,20 +200,20 @@ class _PersistState extends State<Persist> {
           return IconButton(
             icon: Icon(Icons.play_circle_filled),
             iconSize: 35,
-            onPressed: _player.play,
+            onPressed: audioPlayer.play,
           );
         } else if (processingState != ProcessingState.completed) {
           return IconButton(
             icon: Icon(Icons.pause_circle_filled),
             iconSize: 35,
-            onPressed: _player.pause,
+            onPressed: audioPlayer.pause,
           );
         } else {
           return IconButton(
             icon: Icon(Icons.replay),
             iconSize: 35,
-            onPressed: () => _player.seek(Duration.zero,
-                index: _player.effectiveIndices!.first),
+            onPressed: () => audioPlayer.seek(Duration.zero,
+                index: audioPlayer.effectiveIndices!.first),
           );
         }
       },
@@ -230,6 +224,6 @@ class _PersistState extends State<Persist> {
     pushNewScreen(context,
         withNavBar: false,
         pageTransitionAnimation: PageTransitionAnimation.cupertino,
-        screen: Player(player: _player, playlist: null));
+        screen: Player(player: audioPlayer, playlist: null));
   }
 }

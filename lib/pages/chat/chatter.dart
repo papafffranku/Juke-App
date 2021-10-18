@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lessgoo/methods/database.dart';
 
 class Chatter extends StatefulWidget {
   final String chatroomId;
-  const Chatter({Key? key, required this.chatroomId}) : super(key: key);
+  final String other_user;
+  const Chatter({Key? key, required this.chatroomId, required this.other_user})
+      : super(key: key);
 
   @override
   _ChatterState createState() => _ChatterState();
@@ -27,6 +30,7 @@ class _ChatterState extends State<Chatter> {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   return MessageTile(
+                    time: snapshot.data.docs[index].data()["timestamp"],
                     message: snapshot.data.docs[index].data()["message"],
                     isSentbyUser: snapshot.data.docs[index].data()["sentBy"] ==
                         FirebaseAuth.instance.currentUser!.uid,
@@ -42,7 +46,7 @@ class _ChatterState extends State<Chatter> {
       Map<String, dynamic> messageMap = {
         "message": messageController.text,
         "sentBy": userId,
-        "timestamp": DateTime.now().millisecondsSinceEpoch
+        "timestamp": DateTime.now()
       };
       databaseMethods.addConversation(widget.chatroomId, messageMap);
       messageController.text = "";
@@ -63,7 +67,9 @@ class _ChatterState extends State<Chatter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.other_user),
+      ),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(
@@ -75,7 +81,11 @@ class _ChatterState extends State<Chatter> {
                 child: Container(
                   height: 60,
                   width: double.infinity,
-                  color: Colors.pink,
+                  decoration: BoxDecoration(
+                      color: Color(0xff1f1e1e),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
                   child: Row(
                     children: [
                       Expanded(
@@ -106,14 +116,20 @@ class _ChatterState extends State<Chatter> {
 }
 
 class MessageTile extends StatelessWidget {
+  final Timestamp time;
   final String message;
   final bool isSentbyUser;
   const MessageTile(
-      {Key? key, required this.message, required this.isSentbyUser})
+      {Key? key,
+      required this.message,
+      required this.isSentbyUser,
+      required this.time})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DateTime dateTime = time.toDate();
+    String dateString = DateFormat('hh:mm a').format(dateTime);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       width: MediaQuery.of(context).size.width,
@@ -121,36 +137,42 @@ class MessageTile extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          isSentbyUser
-              ? Container()
-              : Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.pink,
-                    ),
-                    SizedBox(width: 10)
-                  ],
-                ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               gradient: LinearGradient(
                   colors: isSentbyUser
                       ? [
-                          Theme.of(context).accentColor,
-                          const Color(0xff2A75BC),
+                          const Color(0xffd0b517),
+                          const Color(0xffcab016),
                         ]
                       : [
-                          const Color(0x1AFFFFFF),
-                          const Color(0x1AFFFFFF),
+                          const Color(0xff1f1e1e),
+                          const Color(0xff1f1e1e),
                         ]),
             ),
-            child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width / 2,
+            child: Row(
+              children: [
+                Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width / 1.5,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        message,
+                      ),
+                    )),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    dateString,
+                    style: TextStyle(color: Colors.white54, fontSize: 9),
+                  ),
                 ),
-                child: Text(message)),
+              ],
+            ),
           ),
         ],
       ),

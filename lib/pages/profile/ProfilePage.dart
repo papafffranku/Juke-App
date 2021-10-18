@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lessgoo/main.dart';
+import 'package:lessgoo/models/TrackModel.dart';
 import 'package:lessgoo/pages/home/tools/album_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
@@ -14,31 +16,89 @@ import 'package:lessgoo/pages/profile/trackwidget/featured_track.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final String searchID;
+  const ProfilePage({Key? key, required this.searchID}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String Background =
-      'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
+  bool isFollowing = false;
+  int followerCount = 0;
+  int trackCount = 0;
+  int followingCount = 0;
   Stream<DocumentSnapshot<Object?>>? userdeets;
   Stream<QuerySnapshot<Object?>>? songdeets;
   Stream<DocumentSnapshot<Object?>>? private;
-  final uid = FirebaseAuth.instance.currentUser!.uid;
+  bool? isLoading;
+  List<Track> tracks = [];
 
   @override
   void initState() {
-    userdeets =
-        FirebaseFirestore.instance.collection('users').doc(uid).snapshots();
+    userdeets = FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.searchID)
+        .snapshots();
     songdeets = FirebaseFirestore.instance
         .collection('tracks')
-        .doc(uid)
+        .doc(widget.searchID)
         .collection("publicSong")
         .limit(3)
         .snapshots();
     super.initState();
+    getFollowers();
+    getFollowing();
+    checkIfFollowing();
+    getTrackList();
+  }
+
+  getTrackList() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot = await tracksRef
+        .doc(widget.searchID)
+        .collection('publicSong')
+        .orderBy('timestamp', descending: true)
+        .get();
+    setState(() {
+      isLoading = false;
+      trackCount = snapshot.docs.length;
+      tracks = snapshot.docs.map((doc) => Track.fromDocument(doc)).toList();
+    });
+  }
+
+  getFollowing() async {
+    QuerySnapshot snapshot = await followersRef
+        .doc(widget.searchID)
+        .collection('userFollowing')
+        .get();
+    setState(() {
+      followingCount = snapshot.docs.length;
+    });
+  }
+
+  getFollowers() async {
+    QuerySnapshot snapshot = await followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .get();
+    setState(() {
+      followerCount = snapshot.docs.length;
+    });
+  }
+
+  checkIfFollowing() async {
+    DocumentSnapshot doc = await followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    setState(() {
+      isFollowing = doc.exists;
+    });
   }
 
   @override
@@ -62,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: SingleChildScrollView(
                 child: Stack(
                   children: [
-                    userContent(screenwidth, data!),
+                    userContent(screenwidth, data!, widget.searchID),
                     customTab(data),
                     //main content
                     // StreamBuilder<QuerySnapshot>(
@@ -91,7 +151,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget userContent(double screenwidth, DocumentSnapshot<Object?> data) {
+  Widget userContent(
+      double screenwidth, DocumentSnapshot<Object?> data, String otherUserId) {
+    bool isCurrentUser = FirebaseAuth.instance.currentUser!.uid == otherUserId;
     return Stack(
       children: [
         Padding(
@@ -124,9 +186,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.white),
                 IconButton(
                     onPressed: () {
-                      pushNewScreen(context, screen: ProfileSettings());
+                      isCurrentUser
+                          ? pushNewScreen(context, screen: ProfileSettings())
+                          : Container();
                     },
-                    icon: Icon(Icons.settings),
+                    icon: isCurrentUser
+                        ? Icon(Icons.settings)
+                        : Icon(Icons.more_vert_rounded),
                     iconSize: 25,
                     color: Colors.white),
               ],
@@ -158,27 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: FontWeight.w800),
                       ),
                       Spacer(),
-                      RawMaterialButton(
-                        onPressed: () {
-                          pushNewScreen(
-                            context,
-                            screen: EditProfile(
-                              data: data,
-                            ),
-                            withNavBar: true,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.slideUp,
-                          );
-                        },
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        child: Icon(
-                          Icons.edit,
-                          size: 20,
-                          color: Colors.black,
-                        ),
-                        shape: CircleBorder(),
-                      ),
+                      buildFollowButton(data)
                     ],
                   ),
                   SizedBox(width: 5),
@@ -194,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Column(
                         children: [
                           Text(
-                            data['followers'].toString(),
+                            followerCount.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -216,7 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Column(
                         children: [
                           Text(
-                            data['following'].toString(),
+                            followingCount.toString(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -244,19 +290,23 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  trackList() {
+    if (isLoading!) {
+      return CircularProgressIndicator();
+    }
+    return Column(children: tracks);
+  }
+
   Widget customTab(var data) {
     return Padding(
-        padding: const EdgeInsets.only(top: 610.0),
+        padding: const EdgeInsets.only(top: 600.0),
         child: DefaultTabController(
-            length: 3,
+            length: 2,
             child: Column(children: [
               TabBar(
                 tabs: [
                   Tab(
                     text: 'Tracks',
-                  ),
-                  Tab(
-                    text: 'Albums',
                   ),
                   Tab(
                     text: 'About',
@@ -265,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Container(
                 color: Theme.of(context).backgroundColor,
-                height: 300,
+                height: 400,
                 child: TabBarView(children: [
                   Column(children: [
                     SizedBox(
@@ -283,11 +333,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 30,
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Top Songs',
+                              Text('Tracks',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 24,
@@ -295,49 +345,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               Text('See All',
                                   style: TextStyle(
                                       color: Colors.white54,
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w400)),
-                            ]))
+                            ])),
+                    SizedBox(height: 10),
+                    trackList()
                   ]),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Container(
-                        height: 200,
-                        //width: 120,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            SizedBox(
-                              width: 10,
-                            ),
-                            albumTile(
-                                'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
-                                'Nectar',
-                                '2021'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            albumTile(
-                                'https://daddykool.com/Photo/418464302795',
-                                'Circles',
-                                '2020'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            albumTile(
-                                'https://ichef.bbci.co.uk/news/976/cpsprodpb/61CC/production/_106763052_tdcc_cover-nc.jpg',
-                                'Two Door Cinema Club',
-                                '2019'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            albumTile(
-                                'https://vman.com/wp-content/uploads/sites/2/2019/10/699d9ba27c686b9e0f7858b6d778fb23.1000x1000x1.png',
-                                'Dusk',
-                                '2019'),
-                          ],
-                        )),
-                  ),
                   Column(
                     children: [
                       SizedBox(
@@ -375,5 +388,115 @@ class _ProfilePageState extends State<ProfilePage> {
                 ]),
               )
             ])));
+  }
+
+  Widget userEdit(dynamic data) {
+    return RawMaterialButton(
+      onPressed: () {
+        pushNewScreen(
+          context,
+          screen: EditProfile(
+            data: data,
+          ),
+          withNavBar: true,
+          pageTransitionAnimation: PageTransitionAnimation.slideUp,
+        );
+      },
+      elevation: 2.0,
+      fillColor: Colors.white,
+      child: Icon(
+        Icons.edit,
+        size: 20,
+        color: Colors.black,
+      ),
+      shape: CircleBorder(),
+    );
+  }
+
+  Widget buildFollowButton(dynamic data) {
+    if (widget.searchID == FirebaseAuth.instance.currentUser!.uid) {
+      return userEdit(data);
+    } else if (isFollowing) {
+      return buildButton(text: "Following", function: handleUnfollowUser);
+    } else if (!isFollowing) {
+      return buildButton(text: "Follow", function: handleFollowUser);
+    } else
+      return SizedBox();
+  }
+
+  handleUnfollowUser() {
+    setState(() {
+      isFollowing = false;
+    });
+
+    // remove follower
+    followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    followingRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('userFollowing')
+        .doc(widget.searchID)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+  }
+  // remove following
+
+  handleFollowUser() {
+    setState(() {
+      isFollowing = true;
+    });
+    // Make user follow another profile by updating their followers collection
+    followersRef
+        .doc(widget.searchID)
+        .collection('userFollowers')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({});
+    // Adding the other profile to user's following collection
+    followingRef
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('userFollowing')
+        .doc(widget.searchID)
+        .set({});
+  }
+
+  Widget buildButton({required String text, function}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0),
+      child: Container(
+        child: TextButton(
+          onPressed: function,
+          child: Container(
+              height: 40,
+              width: 90,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: text == 'Following'
+                    ? Theme.of(context).accentColor
+                    : Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    child: Text(
+                  text,
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                )),
+              )),
+        ),
+      ),
+    );
   }
 }

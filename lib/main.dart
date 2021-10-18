@@ -4,18 +4,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
-import 'package:lessgoo/pages/chat/chat_search.dart';
-import 'package:lessgoo/pages/community/community.dart';
-import 'package:lessgoo/pages/explore/SearchPage.dart';
 import 'package:lessgoo/Hello.dart';
-import 'package:lessgoo/pages/profile/ProfilePage.dart';
+
 import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
 
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
@@ -26,7 +25,9 @@ final followingRef = FirebaseFirestore.instance.collection('following');
 final userRef = FirebaseFirestore.instance.collection('users');
 final chatroomRef = FirebaseFirestore.instance.collection('chatroom');
 final usertileRef = FirebaseFirestore.instance.collection('userstile');
-
+final tracksRef = FirebaseFirestore.instance.collection('tracks');
+final likesRef = FirebaseFirestore.instance.collection('likes');
+final audioPlayer = AudioPlayer();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -55,11 +56,11 @@ Future<void> main() async {
       '/persist': (context) => Persist(),
       '/new': (context) => NewDetail(),
       '/success': (context) => SuccessUpload(),
-      '/profile': (context) => ProfilePage(),
-      '/other': (context) => CommunityPage(),
+      '/other': (context) => ChannelPage(),
       '/hero': (context) => Heropop(),
       '/trailtry': (context) => TextOverImage(),
       '/chat': (context) => ChatLanding(),
+      '/channel': (context) => ChannelPage(),
     },
     debugShowCheckedModeBanner: false,
   ));

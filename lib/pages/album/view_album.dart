@@ -129,13 +129,7 @@ class _AlbumViewerState extends State<AlbumViewer> {
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  trackTile('Ew', 'Joji', 'coverart'),
-                  trackTile('Modus', 'Joji', 'coverart'),
-                  trackTile('Daylight', 'Joji', 'coverart'),
-                  trackTile('Run', 'Joji', 'coverart'),
-                  trackTile('Tick Tock', 'Joji', 'coverart'),
-                ],
+                children: [],
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lessgoo/main.dart';
+import 'package:lessgoo/pages/connect/connectPage.dart';
 
 class DatabaseMethods {
   getUserbyUserId(String userId) {
@@ -11,6 +12,7 @@ class DatabaseMethods {
       print(e.toString());
     });
   }
+
 
   addUserTile(String userId, usertileMap) {}
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/methods/database.dart';
 import 'package:lessgoo/pages/chat/chatter.dart';
-import 'package:lessgoo/pages/profile/OtherProfile.dart';
+import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ChatSearch extends StatefulWidget {
@@ -29,7 +29,8 @@ class _ChatSearchState extends State<ChatSearch> {
       "chatroomId": chatRoomId
     };
     databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
-    pushNewScreen(context, screen: Chatter(chatroomId: chatRoomId));
+    pushNewScreen(context,
+        screen: Chatter(chatroomId: chatRoomId, other_user: otherUser));
   }
 
   @override

@@ -9,6 +9,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/PopUp/CustomRectTween.dart';
 import 'package:lessgoo/PopUp/HeroDialogRoute.dart';
+import 'package:lessgoo/main.dart';
 import 'package:lessgoo/models/TrailModel.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 
@@ -16,10 +17,13 @@ import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
 
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
+
 import 'package:lessgoo/pages/trails/Trail_landing.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+final currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
 List<Trails> trailList = [
   Trails(
@@ -54,10 +58,8 @@ List<Trails> trailList = [
 ];
 
 class HomePage extends StatefulWidget {
-  final AudioPlayer homePlayer;
-
   State<HomePage> createState() => _HomePageState();
-  const HomePage({Key? key, required this.homePlayer}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 }
 
 const String _heroAddTodo = 'add-todo-hero';
@@ -213,8 +215,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double sWidth = MediaQuery.of(context).size.width;
-    ConcatenatingAudioSource _playlist;
-    AudioPlayer _player = widget.homePlayer;
 
     return StreamBuilder<DocumentSnapshot>(
         stream: docStream,
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             return Text("Something went wrong");
           }
           if (snapshot.hasData && !snapshot.data!.exists) {
-            return HomePage(homePlayer: _player);
+            return HomePage();
           }
           if (snapshot.hasData) {
             var data = snapshot.data;
@@ -288,7 +288,10 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   onTap: () {
                                     pushNewScreen(context,
-                                        screen: ProfilePage());
+                                        screen: ProfilePage(
+                                          searchID: FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                        ));
                                   }),
                               SizedBox(width: 15),
                             ],
@@ -411,7 +414,7 @@ class _HomePageState extends State<HomePage> {
                         pageTransitionAnimation:
                             PageTransitionAnimation.cupertino,
                         screen: Player(
-                            player: widget.homePlayer,
+                            player: audioPlayer,
                             playlist: ConcatenatingAudioSource(children: [
                               AudioSource.uri(
                                   Uri.parse(

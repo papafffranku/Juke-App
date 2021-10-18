@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/explore/SearchPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-Widget landingPageHeader(BuildContext context, String title, var actionButton) {
+Widget landingPageHeader(
+    BuildContext context, String title, var actionButton, var action) {
   return Padding(
     padding: const EdgeInsets.only(top: 10),
     child: Padding(
@@ -13,13 +14,15 @@ Widget landingPageHeader(BuildContext context, String title, var actionButton) {
           Text(
             title,
             style: TextStyle(
-                color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
           ),
           actionButton != false
               ? IconButton(
-                  onPressed: () {
-                    pushNewScreen(context, screen: SearchPage());
-                  },
+                  onPressed: action != false
+                      ? () {
+                          pushNewScreen(context, screen: action);
+                        }
+                      : () {},
                   icon: Icon(
                     actionButton,
                     size: 35,

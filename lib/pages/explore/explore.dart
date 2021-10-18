@@ -28,7 +28,8 @@ class _ExplorePageState extends State<ExplorePage> {
         backgroundColor: Colors.black,
         body: ColorfulSafeArea(
             child: ListView(children: [
-          landingPageHeader(context, "Explore", CupertinoIcons.search),
+          landingPageHeader(
+              context, "Explore", CupertinoIcons.search, SearchPage()),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15),
             child: Column(
