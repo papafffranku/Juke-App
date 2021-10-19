@@ -29,23 +29,10 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
   }
 
-  void TagData(){
-    List arr123= widget.data['tag'];
-
-    setState(() {
-      singerValue=boolcheck(arr123[0].toString());
-      producerValue=boolcheck(arr123[1].toString());
-      instrumentValue=boolcheck(arr123[2].toString());
-      engineValue=boolcheck(arr123[3].toString());
-      coverValue=boolcheck(arr123[4].toString());
-    });
-  }
-
-  bool boolcheck(arr123){
-    if(arr123=='true'){
+  bool boolcheck(arr123) {
+    if (arr123 == 'true') {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
@@ -71,10 +58,20 @@ class _EditProfileState extends State<EditProfile> {
   FilePickerResult? result;
   late PlatformFile file;
 
+  void TagData() {
+    List arr123 = widget.data['tag'];
+
+    setState(() {
+      singerValue = boolcheck(arr123[0].toString());
+      producerValue = boolcheck(arr123[1].toString());
+      instrumentValue = boolcheck(arr123[2].toString());
+      engineValue = boolcheck(arr123[3].toString());
+      coverValue = boolcheck(arr123[4].toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     UsernameControl.text = widget.data['username'];
     BioControl.text = widget.data['bio'];
     InstagramControl.text = widget.data['socialig'];
@@ -299,8 +296,8 @@ class _EditProfileState extends State<EditProfile> {
                             activeColor: Colors.blue,
                             checkColor: Colors.black,
                             value: coverValue,
-                            onChanged: (coverValue) => setState(
-                                    () => this.coverValue = coverValue!)),
+                            onChanged: (coverValue) =>
+                                setState(() => this.coverValue = coverValue!)),
                       ],
                     ),
                   )
@@ -432,7 +429,13 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> WriteDetails() async {
-    arr = [singerValue, producerValue, instrumentValue, engineValue, coverValue];
+    arr = [
+      singerValue,
+      producerValue,
+      instrumentValue,
+      engineValue,
+      coverValue
+    ];
     usersRef.doc(widget.data['id']).update({
       "username": UsernameControl.text,
       "bio": BioControl.text,
@@ -450,28 +453,33 @@ class _EditProfileState extends State<EditProfile> {
     return (File(file.path.toString()));
   }
 
-  void tagProcess(){
-    arr = [singerValue, producerValue, instrumentValue, engineValue, coverValue];
+  void tagProcess() {
+    arr = [
+      singerValue,
+      producerValue,
+      instrumentValue,
+      engineValue,
+      coverValue
+    ];
     print(arr);
-    String tagger='';
+    String tagger = '';
     print(arr.length);
-    for(int i=0;i<=arr.length-1;i++){
-      if(arr[i]==true){
-        if(i==0){
-          tagger=' Singer ';
+    for (int i = 0; i <= arr.length - 1; i++) {
+      if (arr[i] == true) {
+        if (i == 0) {
+          tagger = ' Singer ';
           print(tagger.toString());
-        }else if(i==1){
-          tagger=tagger+' Producer ';
-        }else if(i==2){
-          tagger=tagger+' Instrumentalist ';
-        }else if(i==3){
-          tagger=tagger+' Audio Engineer ';
-        }else if(i==4){
-          tagger=tagger+' Cover Artist ';
+        } else if (i == 1) {
+          tagger = tagger + ' Producer ';
+        } else if (i == 2) {
+          tagger = tagger + ' Instrumentalist ';
+        } else if (i == 3) {
+          tagger = tagger + ' Audio Engineer ';
+        } else if (i == 4) {
+          tagger = tagger + ' Cover Artist ';
         }
       }
     }
     print(tagger);
   }
-
 }

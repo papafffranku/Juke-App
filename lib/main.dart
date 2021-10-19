@@ -19,6 +19,8 @@ import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
 
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 
+import 'Reference/anime.dart';
+
 final storageRef = FirebaseStorage.instance.ref();
 final followersRef = FirebaseFirestore.instance.collection('followers');
 final followingRef = FirebaseFirestore.instance.collection('following');
@@ -27,6 +29,8 @@ final chatroomRef = FirebaseFirestore.instance.collection('chatroom');
 final usertileRef = FirebaseFirestore.instance.collection('userstile');
 final tracksRef = FirebaseFirestore.instance.collection('tracks');
 final likesRef = FirebaseFirestore.instance.collection('likes');
+final timelineRef = FirebaseFirestore.instance.collection('timeline');
+final activityfeedRef = FirebaseFirestore.instance.collection('activityfeed');
 final audioPlayer = AudioPlayer();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +65,7 @@ Future<void> main() async {
       '/trailtry': (context) => TextOverImage(),
       '/chat': (context) => ChatLanding(),
       '/channel': (context) => ChannelPage(),
+      '/anime': (context) => anime(),
     },
     debugShowCheckedModeBanner: false,
   ));

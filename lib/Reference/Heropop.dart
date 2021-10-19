@@ -14,6 +14,7 @@ class Heropop extends StatefulWidget {
 }
 
 class _HeropopState extends State<Heropop> {
+  String name = 'vikram sharma';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +28,8 @@ class _HeropopState extends State<Heropop> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(HeroDialogRoute(builder: (context) {
+                    Navigator.of(context)
+                        .push(HeroDialogRoute(builder: (context) {
                       return const _AddTodoPopupCard();
                     }));
                   },
@@ -50,13 +52,34 @@ class _HeropopState extends State<Heropop> {
                 ),
                 CupertinoButton.filled(
                   onPressed: () {
-                    Navigator.of(context).push(HeroDialogRoute(builder: (context) {
+                    Navigator.of(context)
+                        .push(HeroDialogRoute(builder: (context) {
                       return const _AddTodoPopupCard();
                     }));
                   },
                   child: Text("Click"),
                 ),
-                SizedBox(height: 30,),
+                SizedBox(
+                  height: 30,
+                ),
+                GestureDetector(
+                  child: Text(name),
+                  onTap: () {
+                    List arr = name.split('');
+                    List arr1 = [];
+                    String split = '';
+                    List splitname = name.split(' ');
+                    print(splitname);
+                    for (int i = 0; i <= name.length - 1; i++) {
+                      split = split + arr[i];
+                      arr1.add(split);
+                      print(arr1);
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 30,
+                ),
                 Container(
                   color: Colors.black,
                   child: Padding(
@@ -66,9 +89,9 @@ class _HeropopState extends State<Heropop> {
                         Container(
                           width: 200,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                              color: Theme.of(context).accentColor
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              color: Theme.of(context).accentColor),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Row(
@@ -94,13 +117,15 @@ class _HeropopState extends State<Heropop> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           width: 200,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                              color: Colors.black26
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              color: Colors.black26),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Row(
@@ -201,5 +226,3 @@ class _AddTodoPopupCard extends StatelessWidget {
     );
   }
 }
-
-

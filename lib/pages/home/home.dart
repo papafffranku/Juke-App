@@ -11,6 +11,7 @@ import 'package:lessgoo/PopUp/CustomRectTween.dart';
 import 'package:lessgoo/PopUp/HeroDialogRoute.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/models/TrailModel.dart';
+import 'package:lessgoo/pages/activityfeed/activityfeed.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 
 import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
@@ -267,7 +268,10 @@ class _HomePageState extends State<HomePage> {
                                     )),
                               ),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    pushNewScreen(context,
+                                        screen: ActivityFeed());
+                                  },
                                   icon: Icon(
                                     Icons.notifications_none_rounded,
                                   )),
@@ -566,10 +570,12 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                         print(otherColor.toString());
                         pushNewScreen(context,
                             screen: Trail_landing(
-                                UPFcon: UPF,
-                                uid: widget.id,
-                                background: backgroundColor,
-                                nextColor: otherColor));
+                              UPFcon: UPF,
+                              uid: widget.id,
+                              background: backgroundColor,
+                              nextColor: otherColor,
+                              number: '1',
+                            ));
                       },
                       child: Container(
                         width: 200,
