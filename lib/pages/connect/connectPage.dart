@@ -79,10 +79,12 @@ class _ConnectPageState extends State<ConnectPage> {
                           duration: const Duration(milliseconds: 300),
                           transitionBuilder:
                               (Widget child, Animation<double> animation) {
-                            return ScaleTransition(
-                                child: child, scale: animation);
+                            return FadeTransition(
+                                opacity: animation,
+                                child: child);
                           },
                           child: Container(
+                            key: ValueKey<int>(count),
                             child: Container(
                               child: Column(
                                 children: [

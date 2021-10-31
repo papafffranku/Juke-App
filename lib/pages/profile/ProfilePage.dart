@@ -399,7 +399,7 @@ class _ProfilePageState extends State<ProfilePage> {
             data: data,
           ),
           withNavBar: true,
-          pageTransitionAnimation: PageTransitionAnimation.slideUp,
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
         );
       },
       elevation: 2.0,
