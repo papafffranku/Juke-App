@@ -65,11 +65,8 @@ class _ChatSearchState extends State<ChatSearch> {
                 Expanded(
                     child: StreamBuilder<QuerySnapshot>(
                   stream: (searchString == null || searchString!.trim() == '')
-                      ? FirebaseFirestore.instance
-                          .collection('users')
-                          .snapshots()
-                      : FirebaseFirestore.instance
-                          .collection('users')
+                      ? userRef.snapshots()
+                      : userRef
                           .where('searchIndex', arrayContains: searchString)
                           .snapshots(),
                   builder: (context, snapshot) {

@@ -104,40 +104,54 @@ class ChatRoomsTile extends StatelessWidget {
             ),
             withNavBar: false);
       },
-      child: StreamBuilder<QuerySnapshot>(
-          stream: userRef.snapshots(),
+      child: FutureBuilder<DocumentSnapshot>(
+          future: userRef.doc(userId).get(),
           builder: (context, snapshot) {
-            return Container(
-              color: Colors.black26,
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              child: Row(
-                children: [
-                  Container(
-                    height: 30,
-                    width: 30,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(30)),
-                    child: Text(userId.substring(0, 1),
-                        textAlign: TextAlign.center,
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+
+            if (snapshot.hasError) {
+              return CircularProgressIndicator();
+            }
+
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return Text("Document does not exist");
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Container(
+                color: Colors.black26,
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                          data['avatarUrl'],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(data['username'],
+                        textAlign: TextAlign.start,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                             fontFamily: 'OverpassRegular',
-                            fontWeight: FontWeight.w300)),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Text(userId,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'OverpassRegular',
-                          fontWeight: FontWeight.w300))
-                ],
-              ),
-            );
+                            fontWeight: FontWeight.w300))
+                  ],
+                ),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
           }),
     );
   }

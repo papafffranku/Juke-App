@@ -278,6 +278,7 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                   onPressed: () {
                                     pushNewScreen(context,
+                                        withNavBar: false,
                                         screen: ChatLanding());
                                   },
                                   icon: Icon(

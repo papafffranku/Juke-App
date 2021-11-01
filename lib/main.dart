@@ -31,6 +31,7 @@ final tracksRef = FirebaseFirestore.instance.collection('tracks');
 final likesRef = FirebaseFirestore.instance.collection('likes');
 final timelineRef = FirebaseFirestore.instance.collection('timeline');
 final activityfeedRef = FirebaseFirestore.instance.collection('activityfeed');
+final userbanenrRef = FirebaseFirestore.instance.collection('userbanner');
 final audioPlayer = AudioPlayer();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
