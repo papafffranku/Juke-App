@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,6 +16,7 @@ import 'package:lessgoo/pages/activityfeed/activityfeed.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 
 import 'package:lessgoo/pages/home/page_routes/trail_view.dart';
+import 'package:lessgoo/pages/home/timeline.dart';
 
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
@@ -205,7 +207,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  final uid = FirebaseAuth.instance.currentUser!.uid;
+  final uid = currentUserId;
   @override
   void initState() {
     docStream =
@@ -294,8 +296,7 @@ class _HomePageState extends State<HomePage> {
                                   onTap: () {
                                     pushNewScreen(context,
                                         screen: ProfilePage(
-                                          searchID: FirebaseAuth
-                                              .instance.currentUser!.uid,
+                                          searchID: currentUserId,
                                         ));
                                   }),
                               SizedBox(width: 15),
@@ -310,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                             height: 15,
                           ),
                           trailSection(),
-                          releaseSection()
+                          Timeline()
                         ],
                       ),
                     )));
