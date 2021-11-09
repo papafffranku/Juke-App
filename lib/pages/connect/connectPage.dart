@@ -134,12 +134,10 @@ class _ConnectPageState extends State<ConnectPage> {
 
   String tagProcess(arr) {
     String tagger = '';
-    print(arr.length);
     for (int i = 0; i <= arr.length - 1; i++) {
       if (arr[i].toString() == 'true') {
         if (i == 0) {
           tagger = ' Singer ';
-          print(tagger.toString());
         } else if (i == 1) {
           tagger = tagger + ' Producer ';
         } else if (i == 2) {
@@ -173,8 +171,6 @@ class _ConnectPageState extends State<ConnectPage> {
             );
           } else {
             var abx=snapshot.data!.docs..shuffle();
-            print('shuffled');
-            print(abx[1].data());
             final List username =
                 snapshot.data!.docs.map((doc) => doc['username']).toList();
             final List bio =
@@ -185,7 +181,6 @@ class _ConnectPageState extends State<ConnectPage> {
                 snapshot.data!.docs.map((doc) => doc['tag']).toList();
             final List lookout =
                 snapshot.data!.docs.map((doc) => doc['lookout']).toList();
-            print(username);
             return AnimatedSwitcher(
                 switchInCurve: Curves.decelerate,
                 switchOutCurve: Curves.easeOutBack,
@@ -322,7 +317,6 @@ class _ConnectPageState extends State<ConnectPage> {
                                               count++;
                                               x++;
                                               swipes=x.toString();
-                                              print(count);
                                             }
                                           });
                                         },
