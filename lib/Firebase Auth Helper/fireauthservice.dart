@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class fireauthhelp {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final usersRef = FirebaseFirestore.instance.collection('users');
-  final DateTime timestamp = DateTime.now();
 
   //google auth
   final googleSignIn = GoogleSignIn();
@@ -41,6 +40,8 @@ class fireauthhelp {
   createUserInFirestore(BuildContext context) async {
     final fyeuser = FirebaseAuth.instance.currentUser!;
     final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
+    DateTime timestamp = DateTime.now();
+    DateTime past = timestamp.subtract(new Duration(days: 2));
 
     List arr = [false, false, false, false, false];
     if (!doc.exists) {
@@ -58,7 +59,8 @@ class fireauthhelp {
         "songs": 0,
         "followers": 0,
         "following": 0,
-        "timestamp": timestamp
+        "timestamp": timestamp,
+        "swipe":past
       });
     }
   }

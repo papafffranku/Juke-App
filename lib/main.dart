@@ -9,11 +9,13 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
+import 'package:lessgoo/Reference/timer.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/Hello.dart';
+import 'package:lessgoo/pages/connect/connectPage.dart';
 
 import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
 
@@ -53,7 +55,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xffEFDC6D),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/timer',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -67,6 +69,7 @@ Future<void> main() async {
       '/chat': (context) => ChatLanding(),
       '/channel': (context) => ChannelPage(),
       '/anime': (context) => anime(),
+      '/timer': (context) => ConnectPage(),
     },
     debugShowCheckedModeBanner: false,
   ));

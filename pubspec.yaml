@@ -62,6 +62,8 @@ dependencies:
   intl: ^0.17.0
   onboarding: ^2.1.0
   screenshot: ^1.2.3
+  cloud_functions: ^3.0.5
+  timeago: ^3.1.0
 
 dev_dependencies:
   flutter_test:
