@@ -391,13 +391,6 @@ class _ConnectPageState extends State<ConnectPage> {
                                           .secondary,
                                       fontSize: 25),
                                 ),
-                                CupertinoButton(
-                                    child: Text('yo bo'),
-                                    onPressed: () {
-                                      setState(() {
-                                        check = false;
-                                      });
-                                    }),
                                 SizedBox(
                                   height: 8,
                                 ),
