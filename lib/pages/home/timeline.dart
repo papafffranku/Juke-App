@@ -23,11 +23,15 @@ class _TimelineState extends State<Timeline> {
     QuerySnapshot snapshot = await timelineRef
         .doc(currentUserId)
         .collection('timelinePosts')
-        .orderBy('timeStamp', descending: true)
+        .orderBy('timestamp', descending: true)
         .get();
+
+    int trackCount = snapshot.docs.length;
+    print(trackCount);
 
     List<Track> tracks =
         snapshot.docs.map((doc) => Track.fromDocument(doc)).toList();
+    print(tracks);
 
     setState(() {
       this.tracks = tracks;
@@ -40,7 +44,7 @@ class _TimelineState extends State<Timeline> {
     } else if (tracks.isEmpty) {
       return Text('No Posts');
     } else {
-      return ListView(children: tracks);
+      return Column(children: tracks);
     }
   }
 
