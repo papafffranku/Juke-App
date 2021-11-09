@@ -65,7 +65,9 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       isLoading = false;
       trackCount = snapshot.docs.length;
+      print(trackCount);
       tracks = snapshot.docs.map((doc) => Track.fromDocument(doc)).toList();
+      print(tracks);
     });
   }
 
@@ -293,8 +295,11 @@ class _ProfilePageState extends State<ProfilePage> {
   trackList() {
     if (isLoading!) {
       return CircularProgressIndicator();
+    } else if (tracks.isEmpty) {
+      print(tracks);
+      return Text('No tracks');
     }
-    return Column(children: tracks);
+    return Container(color: Colors.pink, child: Column(children: tracks));
   }
 
   Widget customTab(var data) {

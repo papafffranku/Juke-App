@@ -54,7 +54,7 @@ class _ConnectPageState extends State<ConnectPage> {
     double screenheight = MediaQuery.of(context).size.height;
     CollectionReference usersref =
         FirebaseFirestore.instance.collection('users');
-    int sleft=10-int.parse(swipes);
+    int sleft = 10 - int.parse(swipes);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -63,12 +63,14 @@ class _ConnectPageState extends State<ConnectPage> {
           children: [
             landingPageHeader(context, 'Connect', Icons.filter_list, false),
             Center(
-                child: Text('Swipes left: '+sleft.toString(),style: TextStyle(color: Theme.of(context).colorScheme.secondary),)
-            ),
+                child: Text(
+              'Swipes left: ' + sleft.toString(),
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            )),
             SizedBox(
               height: 10,
             ),
-            if (check == true && sleft>0) ...[
+            if (check == true && sleft > 0) ...[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: swipe(screenwidth),
@@ -170,7 +172,7 @@ class _ConnectPageState extends State<ConnectPage> {
               child: CircularProgressIndicator(),
             );
           } else {
-            var abx=snapshot.data!.docs..shuffle();
+            var abx = snapshot.data!.docs..shuffle();
             final List username =
                 snapshot.data!.docs.map((doc) => doc['username']).toList();
             final List bio =
@@ -310,13 +312,13 @@ class _ConnectPageState extends State<ConnectPage> {
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
-                                            int x=int.parse(swipes);
+                                            int x = int.parse(swipes);
                                             if (count == username.length - 1) {
                                               count = 0;
                                             } else {
                                               count++;
                                               x++;
-                                              swipes=x.toString();
+                                              swipes = x.toString();
                                             }
                                           });
                                         },
@@ -376,7 +378,8 @@ class _ConnectPageState extends State<ConnectPage> {
                                     )
                                   ],
                                 ),
-                                Text(bio[count].toString(),style: TextStyle(fontSize: 18)),
+                                Text(bio[count].toString(),
+                                    style: TextStyle(fontSize: 18)),
                                 SizedBox(
                                   height: 10,
                                 ),
@@ -398,7 +401,10 @@ class _ConnectPageState extends State<ConnectPage> {
                                 SizedBox(
                                   height: 8,
                                 ),
-                                Text(tagProcess(lookout[count]),style: TextStyle(fontSize: 18),),
+                                Text(
+                                  tagProcess(lookout[count]),
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               ],
                             ),
                           ),

@@ -439,7 +439,7 @@ class _SongUploadState extends State<SongUpload> {
     String songLink = await getUrl('track/$song_key');
     String coverLink = await getUrl('cover/$cover_key');
     await dbsong(song_key, upf1, cover_key, SongNameController.text,
-        SongDescController.text, uid, songLink, coverLink);
+        SongDescController.text, uid, songLink, coverLink, {});
   }
 
   Future<void> dbsong(
@@ -450,7 +450,8 @@ class _SongUploadState extends State<SongUpload> {
       String desc,
       String uid,
       String songLink,
-      String coverLink) async {
+      String coverLink,
+      Map likes) async {
     final DateTime timestamp = DateTime.now();
 
     if (prv == true) {
@@ -466,7 +467,8 @@ class _SongUploadState extends State<SongUpload> {
         "songLink": songLink,
         "coverLink": coverLink,
         "privacy": 'private',
-        "timestamp": timestamp
+        "timestamp": timestamp,
+        "likes": likes
       });
     } else {
       await tracksRef
@@ -481,7 +483,8 @@ class _SongUploadState extends State<SongUpload> {
         "songLink": songLink,
         "coverLink": coverLink,
         "privacy": 'public',
-        "timestamp": timestamp
+        "timestamp": timestamp,
+        "likes": likes
       });
     }
   }
