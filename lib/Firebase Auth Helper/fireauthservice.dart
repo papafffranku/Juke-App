@@ -60,7 +60,8 @@ class fireauthhelp {
         "followers": 0,
         "following": 0,
         "timestamp": timestamp,
-        "swipe":past
+        "swipe":past,
+        "swipeno":'1'
       });
     }
   }
