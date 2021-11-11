@@ -78,9 +78,12 @@ class _ChatLandingState extends State<ChatLanding> {
             padding: const EdgeInsets.all(15.0),
             child: routeHeader(title: 'Chats'),
           ),
-          Container(
-            child: chatRoomList(),
+          Expanded(
+            child: Container(
+              child: chatRoomList(),
+            ),
           ),
+          SizedBox(height: 10,)
         ],
       )),
     );
@@ -107,8 +110,6 @@ class ChatRoomsTile extends StatelessWidget {
       child: FutureBuilder<DocumentSnapshot>(
           future: userRef.doc(userId).get(),
           builder: (context, snapshot) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
 
             if (snapshot.hasError) {
               return CircularProgressIndicator();
@@ -119,6 +120,9 @@ class ChatRoomsTile extends StatelessWidget {
             }
 
             if (snapshot.connectionState == ConnectionState.done) {
+
+              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+
               return Container(
                 color: Colors.black26,
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -150,7 +154,7 @@ class ChatRoomsTile extends StatelessWidget {
                 ),
               );
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );

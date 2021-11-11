@@ -13,7 +13,7 @@ class Timeline extends StatefulWidget {
 }
 
 class _TimelineState extends State<Timeline> {
-  late List<TrackTimeline> tracks;
+  List<TrackTimeline>? tracks;
   @override
   void initState() {
     getTimeline();
@@ -42,10 +42,10 @@ class _TimelineState extends State<Timeline> {
   buildTimeline() {
     if (tracks == null) {
       return CircularProgressIndicator();
-    } else if (tracks.isEmpty) {
+    } else if (tracks!.isEmpty) {
       return Text('No Posts');
     } else {
-      return Column(children: tracks);
+      return Column(children: tracks!);
     }
   }
 
