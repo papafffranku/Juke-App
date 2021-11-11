@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/models/TrackModel.dart';
-import 'package:lessgoo/pages/home/tools/album_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/Settings.dart';
@@ -299,7 +298,7 @@ class _ProfilePageState extends State<ProfilePage> {
       print(tracks);
       return Text('No tracks');
     }
-    return Container(color: Colors.pink, child: Column(children: tracks));
+    return Container(child: Column(children: tracks));
   }
 
   Widget customTab(var data) {

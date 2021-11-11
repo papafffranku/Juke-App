@@ -8,7 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../main.dart';
 
-class Track extends StatefulWidget {
+class TrackTimeline extends StatefulWidget {
   final String id;
   final String Artist;
   final String SongDesc;
@@ -17,7 +17,7 @@ class Track extends StatefulWidget {
   final String songLink;
   final dynamic likes;
 
-  Track(
+  TrackTimeline(
       {required this.id,
       required this.Artist,
       required this.SongDesc,
@@ -26,8 +26,8 @@ class Track extends StatefulWidget {
       required this.songLink,
       required this.likes});
 
-  factory Track.fromDocument(DocumentSnapshot doc) {
-    return Track(
+  factory TrackTimeline.fromDocument(DocumentSnapshot doc) {
+    return TrackTimeline(
       id: doc['id'],
       Artist: doc['Artist'],
       SongDesc: doc['SongDesc'],
@@ -54,7 +54,7 @@ class Track extends StatefulWidget {
   }
 
   @override
-  _TrackState createState() => _TrackState(
+  _TrackTimelineState createState() => _TrackTimelineState(
       Artist: this.Artist,
       coverLink: this.coverLink,
       id: this.id,
@@ -65,7 +65,7 @@ class Track extends StatefulWidget {
       likeCount: getLikeCount(this.likes));
 }
 
-class _TrackState extends State<Track> {
+class _TrackTimelineState extends State<TrackTimeline> {
   final String id;
   final String Artist;
   final String SongDesc;
@@ -76,7 +76,7 @@ class _TrackState extends State<Track> {
   Map likes;
   late bool isLiked;
 
-  _TrackState(
+  _TrackTimelineState(
       {required this.id,
       required this.Artist,
       required this.SongDesc,
@@ -246,102 +246,9 @@ class _TrackState extends State<Track> {
     );
   }
 
-  Widget trackTile(
-      String songUrl, String trackname, String artistname, String coverart) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15.0, top: 8, bottom: 5),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Row(children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                image: DecorationImage(
-                  image: NetworkImage(coverart),
-                  fit: BoxFit.cover,
-                )),
-          ),
-          SizedBox(width: 10),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                pushNewScreen(context,
-                    withNavBar: false,
-                    screen: Player(
-                        player: audioPlayer,
-                        playlist: ConcatenatingAudioSource(children: [
-                          AudioSource.uri(Uri.parse(songUrl),
-                              tag: MediaItem(
-                                  id: '1',
-                                  title: trackname,
-                                  artist: artistname,
-                                  artUri: Uri.parse(coverart)))
-                        ])));
-              },
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      trackname,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      child: Text(
-                        'sfffffsffFfgojjfoinipgnjrndnoenijrepjnfenpinfpnepin',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.4),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w200),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: 100,
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                    onTap: handletrackLikes,
-                    splashColor: Colors.transparent,
-                    child: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                      color: isLiked
-                          ? Theme.of(context).accentColor
-                          : Colors.white,
-                    )),
-                InkWell(
-                    onTap: () {},
-                    splashColor: Colors.transparent,
-                    child: Icon(
-                      Icons.more_vert_rounded,
-                      color: Colors.white,
-                    )),
-              ],
-            ),
-          ),
-        ]),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     isLiked = (likes[currentUserId] == true);
-    return trackTile(songLink, SongName, Artist, coverLink);
+    return releaseBlock(coverLink, coverLink, Artist, SongName);
   }
 }

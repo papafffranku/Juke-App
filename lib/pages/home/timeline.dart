@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/models/TrackModel.dart';
+import 'package:lessgoo/models/TrackModelRelease.dart';
 import 'package:lessgoo/pages/home/home.dart';
 
 class Timeline extends StatefulWidget {
@@ -12,7 +13,7 @@ class Timeline extends StatefulWidget {
 }
 
 class _TimelineState extends State<Timeline> {
-  late List<Track> tracks;
+  late List<TrackTimeline> tracks;
   @override
   void initState() {
     getTimeline();
@@ -29,8 +30,8 @@ class _TimelineState extends State<Timeline> {
     int trackCount = snapshot.docs.length;
     print(trackCount);
 
-    List<Track> tracks =
-        snapshot.docs.map((doc) => Track.fromDocument(doc)).toList();
+    List<TrackTimeline> tracks =
+        snapshot.docs.map((doc) => TrackTimeline.fromDocument(doc)).toList();
     print(tracks);
 
     setState(() {

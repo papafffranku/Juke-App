@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lessgoo/pages/home/tools/album_tile.dart';
-import 'package:lessgoo/pages/home/tools/track_tile.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 
 import 'package:lessgoo/pages/profile/Settings.dart';
@@ -330,31 +328,6 @@ class _NewDetailState extends State<NewDetail> {
                                               SizedBox(
                                                 width: 10,
                                               ),
-                                              albumTile(
-                                                  'https://upload.wikimedia.org/wikipedia/en/1/1b/Joji_-_Nectar.png',
-                                                  'Nectar',
-                                                  '2021'),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              albumTile(
-                                                  'https://daddykool.com/Photo/418464302795',
-                                                  'Circles',
-                                                  '2020'),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              albumTile(
-                                                  'https://ichef.bbci.co.uk/news/976/cpsprodpb/61CC/production/_106763052_tdcc_cover-nc.jpg',
-                                                  'Two Door Cinema Club',
-                                                  '2019'),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              albumTile(
-                                                  'https://vman.com/wp-content/uploads/sites/2/2019/10/699d9ba27c686b9e0f7858b6d778fb23.1000x1000x1.png',
-                                                  'Dusk',
-                                                  '2019'),
                                             ],
                                           )),
                                     ),

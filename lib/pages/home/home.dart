@@ -310,7 +310,11 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(
                             height: 15,
                           ),
-                          trailSection(),
+                          //trailSection(),
+                          releaseSection(),
+                          SizedBox(
+                            height: 15,
+                          ),
                           Timeline()
                         ],
                       ),
@@ -325,141 +329,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget releaseSection() {
-    return Column(
+    return Row(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text(
-                'Releases',
-                style: TextStyle(
-                    letterSpacing: 1.2,
-                    color: Theme.of(context).accentColor,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: Text(
+            'Releases',
+            style: TextStyle(
+                letterSpacing: 1.2,
+                color: Theme.of(context).accentColor,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
+          ),
         ),
-        releaseBlock(
-            'https://www.sleek-mag.com/wp-content/uploads/2016/08/AlbumCovers_Blonde-1200x1200.jpg',
-            'https://miro.medium.com/max/640/1*HEvh6wLy-z4wwt9aEatUOw@2x.png',
-            'Frank Ocean',
-            'White Ferrari'),
-        releaseBlock(
-            'https://static.billboard.com/files/media/Young-Thug-Jeffery-2016-billboard-1240-compressed.jpg',
-            'https://pbs.twimg.com/media/E9WZEsxXEAMw4vO.jpg',
-            'Young Thug',
-            'Twister Nightmares'),
-        releaseBlock(
-            'https://cdn.mos.cms.futurecdn.net/g6MkYufocsYc3ToH85v2th-970-80.jpg.webp',
-            'https://pyxis.nymag.com/v1/imgs/c6a/835/176402f7714503041d300b0af28af3ec2e-beyonce-dj-khaled.rsquare.w1200.jpg',
-            'Beyonce',
-            'Lemonade'),
       ],
-    );
-  }
-
-  Widget releaseBlock(
-      String imgUrl, String profilePic, String artistName, String name) {
-    bool selected = true;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15.0),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Container(
-                  width: 320,
-                  height: 320,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(imgUrl),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(profilePic),
-                      ),
-                      SizedBox(height: 10),
-                      RotatedBox(
-                          quarterTurns: 1,
-                          child: Text(artistName,
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold)))
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, right: 50),
-            child: Row(
-              children: [
-                SizedBox(width: 10),
-                IconButton(
-                  onPressed: () {
-                    selected = !selected;
-
-                    pushNewScreen(context,
-                        withNavBar: false,
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                        screen: Player(
-                            player: audioPlayer,
-                            playlist: ConcatenatingAudioSource(children: [
-                              AudioSource.uri(
-                                  Uri.parse(
-                                      'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2F%5BMP3DOWNLOAD.TO%5D%20Frank%20Ocean%20-%20White%20Ferrari-320k.mp3?alt=media&token=765b1c81-0ebb-4e42-883c-1cf43b09dfb1'),
-                                  tag: MediaItem(
-                                      id: '1',
-                                      title: 'White Ferrari',
-                                      artist: 'Frank Ocean',
-                                      artUri: Uri.parse(imgUrl)))
-                            ])));
-                  },
-                  icon: Icon(
-                      selected
-                          ? Icons.play_circle_fill_rounded
-                          : Icons.pause_circle_filled_rounded,
-                      size: 40),
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'album',
-                      style: TextStyle(color: Theme.of(context).accentColor),
-                    ),
-                    Text(
-                      name,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.favorite_outline))
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
