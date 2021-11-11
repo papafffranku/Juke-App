@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class fireauthhelp {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final usersRef = FirebaseFirestore.instance.collection('users');
+  final bannerRef = FirebaseFirestore.instance.collection('banner');
 
   //google auth
   final googleSignIn = GoogleSignIn();
@@ -62,6 +63,13 @@ class fireauthhelp {
         "timestamp": timestamp,
         "swipe":past,
         "swipeno":'1'
+      });
+
+      bannerRef.doc(fyeuser.uid).set({
+        "id": fyeuser.uid,
+        "username": fyeuser.displayName,
+        "avatarUrl":
+            'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
       });
     }
   }

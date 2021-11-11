@@ -36,6 +36,7 @@ class _animeState extends State<anime> {
   late PlatformFile file;
   final uid = FirebaseAuth.instance.currentUser!.uid;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference banner = FirebaseFirestore.instance.collection('banner');
 
   @override
   Widget build(BuildContext context) {
@@ -43,150 +44,152 @@ class _animeState extends State<anime> {
 
     final onboardingPagesList = [
       PageModel(
-        widget: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                DefaultTextStyle(
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold),
-                  child: AnimatedTextKit(
-                      isRepeatingAnimation: false,
-                      animatedTexts: [
-                        TyperAnimatedText('Welcome'),
-                      ]),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                Text(
-                  'Edit Avatar',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  'Tap to change',
-                  style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
-            Container(
-              width: 200,
-              height: 200,
-              child: Stack(
-                children: <Widget>[
-                  if (path == '') ...[
-                    GestureDetector(
-                      onTap: () async {
-                        Cover = await CoverArtSelecter();
-                        setState(() {
-                          path = Cover!.path.toString();
-                        });
-                      },
-                      child: CircleAvatar(
-                        radius: 200.0,
-                        backgroundImage: NetworkImage(
-                            'https://static.wikia.nocookie.net/p__/images/5/5b/Josuke_Higashikata_anime.png/revision/latest/top-crop/width/360/height/360?cb=20200203081848&path-prefix=protagonist'),
-                        backgroundColor: Colors.transparent,
-                      ),
-                    )
-                  ] else ...[
-                    GestureDetector(
-                      onTap: () async {
-                        Cover = await CoverArtSelecter();
-                        setState(() {
-                          path = Cover!.path.toString();
-                        });
-                      },
-                      child: CircleAvatar(
-                        radius: 200.0,
-                        backgroundImage: FileImage(
-                          File(path),
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                    )
-                  ],
+        widget: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  DefaultTextStyle(
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold),
+                    child: AnimatedTextKit(
+                        isRepeatingAnimation: false,
+                        animatedTexts: [
+                          TyperAnimatedText('Welcome'),
+                        ]),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                Text(
-                  'Pick a Username',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Text(
-                  'Default: ' + arguments['UserName'],
-                  style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            TextFormField(
-              controller: UsernameControl,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Username',
-                hintStyle: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white38,
-                  fontWeight: FontWeight.bold,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  ),
-                ),
-                prefixIcon: Icon(
-                  CupertinoIcons.person_alt_circle_fill,
-                  color: Colors.white54,
-                ),
-                filled: true,
-                fillColor: Colors.white.withOpacity(0.1),
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              SizedBox(
+                height: 30,
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+              Row(
+                children: [
+                  Text(
+                    'Edit Avatar',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Tap to change',
+                    style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+              Container(
+                width: 200,
+                height: 200,
+                child: Stack(
+                  children: <Widget>[
+                    if (path == '') ...[
+                      GestureDetector(
+                        onTap: () async {
+                          Cover = await CoverArtSelecter();
+                          setState(() {
+                            path = Cover!.path.toString();
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 200.0,
+                          backgroundImage: NetworkImage(
+                              'https://static.wikia.nocookie.net/p__/images/5/5b/Josuke_Higashikata_anime.png/revision/latest/top-crop/width/360/height/360?cb=20200203081848&path-prefix=protagonist'),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      )
+                    ] else ...[
+                      GestureDetector(
+                        onTap: () async {
+                          Cover = await CoverArtSelecter();
+                          setState(() {
+                            path = Cover!.path.toString();
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 200.0,
+                          backgroundImage: FileImage(
+                            File(path),
+                          ),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      )
+                    ],
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Pick a Username',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    'Default: ' + arguments['UserName'],
+                    style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              TextFormField(
+                controller: UsernameControl,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Username',
+                  hintStyle: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white38,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      width: 0,
+                      style: BorderStyle.none,
+                    ),
+                  ),
+                  prefixIcon: Icon(
+                    CupertinoIcons.person_alt_circle_fill,
+                    color: Colors.white54,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.1),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
       PageModel(
@@ -430,6 +433,8 @@ class _animeState extends State<anime> {
     if (doc.exists) {
       users.doc(fyeuser.uid).update(
           {"username": UsernameControl.text, "tag": tag, "lookout": lookout});
+      banner.doc(fyeuser.uid).update(
+          {"username": UsernameControl.text});
     }
   }
 

@@ -32,6 +32,7 @@ class _EditProfileState extends State<EditProfile> {
   List boolarr2 = [];
 
   final usersRef = FirebaseFirestore.instance.collection('users');
+  final banner = FirebaseFirestore.instance.collection('banner');
 
   @override
   void initState() {
@@ -427,6 +428,9 @@ class _EditProfileState extends State<EditProfile> {
     usersRef.doc(widget.data['id']).update({
       "avatarUrl": DPLink.toString(),
     });
+    banner.doc(widget.data['id']).update({
+      "avatarUrl": DPLink.toString(),
+    });
   }
 
   Future<String> getUrl(String s) async {
@@ -444,6 +448,9 @@ class _EditProfileState extends State<EditProfile> {
       "lookout":boolarr2,
       "socialfb": FacebookControl.text,
       "socialig": InstagramControl.text,
+    });
+    banner.doc(widget.data['id']).update({
+      "username": UsernameControl.text
     });
   }
 
