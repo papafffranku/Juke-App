@@ -224,7 +224,7 @@ class _TrackTimelineState extends State<TrackTimeline> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'album',
+                      'single',
                       style: TextStyle(color: Theme.of(context).accentColor),
                     ),
                     Text(
