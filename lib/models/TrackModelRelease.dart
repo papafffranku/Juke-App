@@ -144,8 +144,8 @@ class _TrackTimelineState extends State<TrackTimeline> {
     }
   }
 
-  Widget releaseBlock(
-      String imgUrl, String profilePic, String artistName, String name) {
+  Widget releaseBlock(String imgUrl, String profilePic, String artistName,
+      String name, String songUrl) {
     bool selected = true;
 
     return Padding(
@@ -205,13 +205,11 @@ class _TrackTimelineState extends State<TrackTimeline> {
                         screen: Player(
                             player: audioPlayer,
                             playlist: ConcatenatingAudioSource(children: [
-                              AudioSource.uri(
-                                  Uri.parse(
-                                      'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/tracks%2F%5BMP3DOWNLOAD.TO%5D%20Frank%20Ocean%20-%20White%20Ferrari-320k.mp3?alt=media&token=765b1c81-0ebb-4e42-883c-1cf43b09dfb1'),
+                              AudioSource.uri(Uri.parse(songLink),
                                   tag: MediaItem(
                                       id: '1',
-                                      title: 'White Ferrari',
-                                      artist: 'Frank Ocean',
+                                      title: name,
+                                      artist: artistName,
                                       artUri: Uri.parse(imgUrl)))
                             ])));
                   },
@@ -249,6 +247,6 @@ class _TrackTimelineState extends State<TrackTimeline> {
   @override
   Widget build(BuildContext context) {
     isLiked = (likes[currentUserId] == true);
-    return releaseBlock(coverLink, coverLink, Artist, SongName);
+    return releaseBlock(coverLink, coverLink, Artist, SongName, songLink);
   }
 }
