@@ -235,7 +235,15 @@ class _TrackTimelineState extends State<TrackTimeline> {
                   ],
                 ),
                 Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.favorite_outline))
+                InkWell(
+                    onTap: handletrackLikes,
+                    splashColor: Colors.transparent,
+                    child: Icon(
+                      isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+                      color: isLiked
+                          ? Theme.of(context).accentColor
+                          : Colors.white,
+                    ))
               ],
             ),
           ),
