@@ -1,18 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:lessgoo/main.dart';
+import 'package:lessgoo/models/UserBannerModel.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
 
 class DatabaseMethods {
-  getUserbyUserId(String userId) {
-    return FirebaseFirestore.instance.collection('users').doc(userId).get();
-  }
-
   createChatRoom(String chatroomId, chatroomMap) {
     chatroomRef.doc(chatroomId).set(chatroomMap).catchError((e) {
       print(e.toString());
     });
   }
-
 
   addUserTile(String userId, usertileMap) {}
 

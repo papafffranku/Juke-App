@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/methods/database.dart';
-import 'package:lessgoo/models/UserModel.dart';
+import 'package:lessgoo/models/UserBannerModel.dart';
 import 'package:lessgoo/pages/chat/chat_search.dart';
 import 'package:lessgoo/pages/chat/chatter.dart';
 import 'package:lessgoo/pages/widgets/routepageheader.dart';
@@ -83,7 +83,9 @@ class _ChatLandingState extends State<ChatLanding> {
               child: chatRoomList(),
             ),
           ),
-          SizedBox(height: 10,)
+          SizedBox(
+            height: 10,
+          )
         ],
       )),
     );
@@ -108,11 +110,10 @@ class ChatRoomsTile extends StatelessWidget {
             withNavBar: false);
       },
       child: FutureBuilder<DocumentSnapshot>(
-          future: userRef.doc(userId).get(),
+          future: userbannerRef.doc(userId).get(),
           builder: (context, snapshot) {
-
             if (snapshot.hasError) {
-              return CircularProgressIndicator();
+              return Container(child: CircularProgressIndicator());
             }
 
             if (snapshot.hasData && !snapshot.data!.exists) {
@@ -120,8 +121,8 @@ class ChatRoomsTile extends StatelessWidget {
             }
 
             if (snapshot.connectionState == ConnectionState.done) {
-
-              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
 
               return Container(
                 color: Colors.black26,

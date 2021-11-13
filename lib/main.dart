@@ -11,6 +11,7 @@ import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
+import 'package:lessgoo/methods/database.dart';
 import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/Hello.dart';
@@ -32,8 +33,9 @@ final tracksRef = FirebaseFirestore.instance.collection('tracks');
 final likesRef = FirebaseFirestore.instance.collection('likes');
 final timelineRef = FirebaseFirestore.instance.collection('timeline');
 final activityfeedRef = FirebaseFirestore.instance.collection('activityfeed');
-final userbanenrRef = FirebaseFirestore.instance.collection('userbanner');
+final userbannerRef = FirebaseFirestore.instance.collection('banner');
 final audioPlayer = AudioPlayer();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

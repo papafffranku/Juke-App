@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/models/TrackModel.dart';
+import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 import 'package:lessgoo/pages/profile/ProfileLoading.dart';
 import 'package:lessgoo/pages/profile/Settings.dart';
@@ -454,6 +455,16 @@ class _ProfilePageState extends State<ProfilePage> {
         doc.reference.delete();
       }
     });
+    activityfeedRef
+        .doc(widget.searchID)
+        .collection('feedItems')
+        .doc(currentUserId)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
   }
   // remove following
 
@@ -473,6 +484,17 @@ class _ProfilePageState extends State<ProfilePage> {
         .collection('userFollowing')
         .doc(widget.searchID)
         .set({});
+
+    activityfeedRef
+        .doc(widget.searchID)
+        .collection('feedItems')
+        .doc(currentUserId)
+        .set({
+      "type": "follow",
+      "userId": currentUserId,
+      "trackId": "noVal",
+      "timestamp": Timestamp.now()
+    });
   }
 
   Widget buildButton({required String text, function}) {

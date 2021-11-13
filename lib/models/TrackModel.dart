@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -146,101 +147,176 @@ class _TrackState extends State<Track> {
         "type": "like",
         "userId": currentUserId,
         "trackId": id,
-        'timestamp': timestamp
+        'timestamp': Timestamp.now()
       });
     }
   }
 
+  deletePost() async {
+    tracksRef
+        .doc(currentUserId)
+        .collection('publicSong')
+        .doc(id)
+        .get()
+        .then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    QuerySnapshot activityfeedSnapshot = await activityfeedRef
+        .doc(currentUserId)
+        .collection('feedItems')
+        .where('trackId', isEqualTo: id)
+        .get();
+
+    activityfeedSnapshot.docs.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+  }
+
+  trackModalMenu(BuildContext context, bool isUser) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            children: [
+              isUser
+                  ? ListTile(
+                      leading: Icon(CupertinoIcons.delete),
+                      title: Text('Delete'),
+                      onTap: () {
+                        Navigator.pop(context);
+                        deletePost();
+                      },
+                    )
+                  : ListTile(
+                      leading: Icon(
+                        Icons.report,
+                        color: Colors.red,
+                      ),
+                      title: Text('Report'),
+                      onTap: () {},
+                    )
+            ],
+          );
+        });
+  }
+
   Widget trackTile(
       String songUrl, String trackname, String artistname, String coverart) {
+    bool isUser = currentUserId == artistname;
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, top: 8, bottom: 5),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Row(children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                image: DecorationImage(
-                  image: NetworkImage(coverart),
-                  fit: BoxFit.cover,
-                )),
-          ),
-          SizedBox(width: 10),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                pushNewScreen(context,
-                    withNavBar: false,
-                    screen: Player(
-                        player: audioPlayer,
-                        playlist: ConcatenatingAudioSource(children: [
-                          AudioSource.uri(Uri.parse(songUrl),
-                              tag: MediaItem(
-                                  id: '1',
-                                  title: trackname,
-                                  artist: artistname,
-                                  artUri: Uri.parse(coverart)))
-                        ])));
-              },
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      trackname,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+      child: FutureBuilder<DocumentSnapshot>(
+          future: userRef.doc(artistname).get(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Container(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return Text("Document does not exist");
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                child: Row(children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        image: DecorationImage(
+                          image: NetworkImage(coverart),
+                          fit: BoxFit.cover,
+                        )),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        pushNewScreen(context,
+                            withNavBar: false,
+                            screen: Player(
+                                player: audioPlayer,
+                                playlist: ConcatenatingAudioSource(children: [
+                                  AudioSource.uri(Uri.parse(songUrl),
+                                      tag: MediaItem(
+                                          id: '1',
+                                          title: trackname,
+                                          artist: data['username'],
+                                          artUri: Uri.parse(coverart)))
+                                ])));
+                      },
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              trackname,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Container(
+                              child: Text(
+                                data['username'],
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.4),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w200),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height: 5),
-                    Container(
-                      child: Text(
-                        'sfffffsffFfgojjfoinipgnjrndnoenijrepjnfenpinfpnepin',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.4),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w200),
-                      ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        InkWell(
+                            onTap: handletrackLikes,
+                            splashColor: Colors.transparent,
+                            child: Icon(
+                              isLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
+                              color: isLiked
+                                  ? Theme.of(context).accentColor
+                                  : Colors.white,
+                            )),
+                        InkWell(
+                            onTap: () {
+                              trackModalMenu(context, isUser);
+                            },
+                            splashColor: Colors.transparent,
+                            child: Icon(
+                              Icons.more_vert_rounded,
+                              color: Colors.white,
+                            )),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: 100,
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                    onTap: handletrackLikes,
-                    splashColor: Colors.transparent,
-                    child: Icon(
-                      isLiked ? Icons.favorite : Icons.favorite_border_outlined,
-                      color: isLiked
-                          ? Theme.of(context).accentColor
-                          : Colors.white,
-                    )),
-                InkWell(
-                    onTap: () {},
-                    splashColor: Colors.transparent,
-                    child: Icon(
-                      Icons.more_vert_rounded,
-                      color: Colors.white,
-                    )),
-              ],
-            ),
-          ),
-        ]),
-      ),
+                  ),
+                ]),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          }),
     );
   }
 

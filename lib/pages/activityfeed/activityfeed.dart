@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/pages/home/home.dart';
@@ -15,19 +14,27 @@ class ActivityFeed extends StatefulWidget {
 }
 
 class _ActivityFeedState extends State<ActivityFeed> {
-  getActivityFeed() async {
-    QuerySnapshot snapshot = await activityfeedRef
-        .doc(currentUserId)
-        .collection("feedItems")
-        .orderBy('timestamp', descending: true)
-        .limit(50)
-        .get();
+  Future<List<ActivityFeedItem>> getActivityFeed() async {
+    try {
+      QuerySnapshot snapshot = await activityfeedRef
+          .doc(currentUserId)
+          .collection('feedItems')
+          .orderBy('timestamp', descending: true)
+          .limit(50)
+          .get();
 
-    List<ActivityFeedItem> feedItems = [];
-    snapshot.docs.forEach((doc) {
-      feedItems.add(ActivityFeedItem.fromDocument(doc));
-    });
-    return feedItems;
+      List<ActivityFeedItem> feedItems = [];
+
+      snapshot.docs.forEach((doc) {
+        feedItems.add(ActivityFeedItem.fromDocument(doc));
+        print('Activity Feed Item: ${doc.data}');
+      });
+      print(feedItems);
+      return feedItems;
+    } catch (error) {
+      print(error);
+      return <ActivityFeedItem>[];
+    }
   }
 
   @override
@@ -36,87 +43,111 @@ class _ActivityFeedState extends State<ActivityFeed> {
       backgroundColor: Colors.black,
       appBar: routePageAppBar(context: context, icon: null),
       body: SafeArea(
-          child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: routeHeader(title: 'Activity'),
-          ),
-          Container(
-            child: FutureBuilder(
-              future: getActivityFeed(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return CircularProgressIndicator();
-                }
-                return Text('$snapshot.data');
-
-                // return ListView(children: snapshot.data);
-              },
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: routeHeader(title: 'Notifications'),
             ),
-          )
-        ],
-      )),
+            Container(
+              child: FutureBuilder(
+                future: getActivityFeed(),
+                builder:
+                    (context, AsyncSnapshot<List<ActivityFeedItem>> snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+
+                  return ListView(shrinkWrap: true, children: snapshot.data!);
+                },
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
-String? activityItem;
-
+// ignore: must_be_immutable
 class ActivityFeedItem extends StatelessWidget {
-  final String userId;
-  final String type; //activity type
-  final String trackId;
-  final Timestamp timestamp;
+  String type;
+  String userId;
+  String trackId;
+  Timestamp timestamp;
 
   ActivityFeedItem(
-      {required this.userId,
-      required this.type,
+      {required this.timestamp,
       required this.trackId,
-      required this.timestamp});
+      required this.type,
+      required this.userId});
 
   factory ActivityFeedItem.fromDocument(DocumentSnapshot doc) {
     return ActivityFeedItem(
-        userId: doc['userId'],
-        type: doc['type'],
+        timestamp: doc['timestamp'],
         trackId: doc['trackId'],
-        timestamp: doc['timestamp']);
+        type: doc['type'],
+        userId: doc['userId']);
   }
 
   configureMediaPreview() {
-    if (type == 'like') {
-      activityItem = "liked your track";
-    }
+    String? activityItemText;
+    String? mediaUrl;
+    var mediaPreview;
+    print(activityItemText);
+
+    if (trackId != "noVal") {}
+
     if (type == 'follow') {
-      activityItem = "started following you";
-    } else {
-      activityItem = "Unknown error '$type'";
+      activityItemText = 'started following you';
     }
+    if (type == 'like') {
+      activityItemText = 'liked your post';
+    }
+    mediaPreview = [activityItemText.toString(), mediaUrl.toString()];
+
+    return mediaPreview;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(bottom: 2),
-        child: Container(
-          child: ListTile(
-            title: GestureDetector(
-              onTap: () =>
-                  pushNewScreen(context, screen: ProfilePage(searchID: userId)),
-              child: RichText(
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
-                    style: TextStyle(fontSize: 14.0, color: Colors.white),
-                    children: [
-                      TextSpan(
-                        text: userId,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(text: activityItem)
-                    ]),
+    List<String> mediaPreview = configureMediaPreview();
+    return FutureBuilder<DocumentSnapshot>(
+        future: userRef.doc(userId).get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Container(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return Text("Document does not exist");
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+
+            return Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                // color: Colors.white,
+                child: ListTile(
+                  leading: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(data['avatarUrl'])),
+                  title: GestureDetector(
+                    onTap: () {
+                      pushNewScreen(context,
+                          screen: ProfilePage(searchID: userId));
+                    },
+                    child: Text('${data['username']} ${mediaPreview[0]}'),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ));
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 }
