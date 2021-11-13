@@ -51,6 +51,7 @@ class _TimelineState extends State<Timeline> {
 
   @override
   Widget build(BuildContext context) {
-    return buildTimeline();
+    return RefreshIndicator(
+        child: buildTimeline(), onRefresh: () => getTimeline());
   }
 }
