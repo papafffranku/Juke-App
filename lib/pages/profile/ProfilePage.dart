@@ -492,8 +492,9 @@ class _ProfilePageState extends State<ProfilePage> {
         .set({
       "type": "follow",
       "userId": currentUserId,
-      "trackId": "noVal",
-      "timestamp": Timestamp.now()
+      "trackId": 'noVal',
+      'timestamp': Timestamp.now(),
+      "mediaUrl": 'noVal'
     });
   }
 

@@ -146,7 +146,8 @@ class _TrackTimelineState extends State<TrackTimeline> {
         "type": "like",
         "userId": currentUserId,
         "trackId": id,
-        'timestamp': timestamp
+        'timestamp': Timestamp.now(),
+        "mediaUrl": coverLink
       });
     }
   }

@@ -5,6 +5,7 @@ import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/widgets/routepageheader.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ActivityFeed extends StatefulWidget {
   const ActivityFeed({Key? key}) : super(key: key);
@@ -74,12 +75,14 @@ class ActivityFeedItem extends StatelessWidget {
   String type;
   String userId;
   String trackId;
+  String mediaUrl;
   Timestamp timestamp;
 
   ActivityFeedItem(
       {required this.timestamp,
       required this.trackId,
       required this.type,
+      required this.mediaUrl,
       required this.userId});
 
   factory ActivityFeedItem.fromDocument(DocumentSnapshot doc) {
@@ -87,16 +90,13 @@ class ActivityFeedItem extends StatelessWidget {
         timestamp: doc['timestamp'],
         trackId: doc['trackId'],
         type: doc['type'],
+        mediaUrl: doc['mediaUrl'],
         userId: doc['userId']);
   }
 
   configureMediaPreview() {
     String? activityItemText;
-    String? mediaUrl;
-    var mediaPreview;
     print(activityItemText);
-
-    if (trackId != "noVal") {}
 
     if (type == 'follow') {
       activityItemText = 'started following you';
@@ -104,14 +104,13 @@ class ActivityFeedItem extends StatelessWidget {
     if (type == 'like') {
       activityItemText = 'liked your post';
     }
-    mediaPreview = [activityItemText.toString(), mediaUrl.toString()];
-
-    return mediaPreview;
+    print(activityItemText);
+    return activityItemText;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> mediaPreview = configureMediaPreview();
+    String mediaPreview = configureMediaPreview();
     return FutureBuilder<DocumentSnapshot>(
         future: userRef.doc(userId).get(),
         builder: (context, snapshot) {
@@ -132,6 +131,17 @@ class ActivityFeedItem extends StatelessWidget {
               child: Container(
                 // color: Colors.white,
                 child: ListTile(
+                  trailing: mediaUrl != 'noVal'
+                      ? Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image:
+                                DecorationImage(image: NetworkImage(mediaUrl)),
+                          ),
+                        )
+                      : Text(''),
                   leading: CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(data['avatarUrl'])),
@@ -140,13 +150,27 @@ class ActivityFeedItem extends StatelessWidget {
                       pushNewScreen(context,
                           screen: ProfilePage(searchID: userId));
                     },
-                    child: Text('${data['username']} ${mediaPreview[0]}'),
+                    child: RichText(
+                      overflow: TextOverflow.ellipsis,
+                      text: TextSpan(style: TextStyle(fontSize: 14), children: [
+                        TextSpan(
+                            text: data['username'],
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(text: ' $mediaPreview')
+                      ]),
+                    ),
+                  ),
+                  subtitle: Text(
+                    timeago.format(timestamp.toDate()),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
         });
   }
