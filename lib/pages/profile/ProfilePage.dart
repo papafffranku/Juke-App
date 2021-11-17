@@ -193,7 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           : Container();
                     },
                     icon: isCurrentUser
-                        ? Icon(Icons.settings)
+                        ? Text('')
                         : Icon(Icons.more_vert_rounded),
                     iconSize: 25,
                     color: Colors.white),

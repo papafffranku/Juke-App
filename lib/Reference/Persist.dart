@@ -1,4 +1,3 @@
-import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -9,6 +8,8 @@ import 'package:lessgoo/pages/connect/connectPage.dart';
 import 'package:lessgoo/pages/explore/explore.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
+import 'package:lessgoo/pages/profile/ProfileLanding.dart';
+import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class Persist extends StatefulWidget {
@@ -25,7 +26,7 @@ class _PersistState extends State<Persist> {
   }
 
   List<Widget> _buildScreens() {
-    return [HomePage(), ExplorePage(), ConnectPage(), ChannelPage()];
+    return [HomePage(), ExplorePage(), ConnectPage(), ProfileLanding()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -51,8 +52,8 @@ class _PersistState extends State<Persist> {
         inactiveColorPrimary: Colors.white54,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.group_solid),
-        title: ("Community"),
+        icon: Icon(CupertinoIcons.profile_circled),
+        title: ("Profile"),
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.white54,
       ),

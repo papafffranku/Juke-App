@@ -110,7 +110,7 @@ class ChatRoomsTile extends StatelessWidget {
             withNavBar: false);
       },
       child: FutureBuilder<DocumentSnapshot>(
-          future: userbannerRef.doc(userId).get(),
+          future: userRef.doc(userId).get(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Container(child: CircularProgressIndicator());

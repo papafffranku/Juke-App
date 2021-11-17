@@ -269,14 +269,6 @@ class _HomePageState extends State<HomePage> {
                               IconButton(
                                   onPressed: () {
                                     pushNewScreen(context,
-                                        screen: ActivityFeed());
-                                  },
-                                  icon: Icon(
-                                    Icons.notifications_none_rounded,
-                                  )),
-                              IconButton(
-                                  onPressed: () {
-                                    pushNewScreen(context,
                                         withNavBar: false,
                                         screen: ChatLanding());
                                   },
@@ -284,38 +276,10 @@ class _HomePageState extends State<HomePage> {
                                     CupertinoIcons.chat_bubble_2,
                                   )),
                               SizedBox(width: 10),
-                              InkWell(
-                                  child: CircleAvatar(
-                                    radius: 15.0,
-                                    backgroundImage: NetworkImage(data![
-                                        'avatarUrl']), //data!['avatarUrl']
-                                  ),
-                                  onTap: () {
-                                    pushNewScreen(context,
-                                        screen: ProfilePage(
-                                          searchID: currentUserId,
-                                        ));
-                                  }),
-                              SizedBox(width: 15),
                             ],
                           ),
                         ],
-                    body: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          //trailSection(),
-                          releaseSection(),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Timeline()
-                        ],
-                      ),
-                    )));
+                    body: Timeline()));
           } else {
             return Container(
               color: Theme.of(context).backgroundColor,

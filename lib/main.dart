@@ -16,6 +16,7 @@ import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
+import 'package:lessgoo/pages/profile/ProfileLanding.dart';
 
 import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
 
@@ -68,7 +69,7 @@ Future<void> main() async {
       '/hero': (context) => Heropop(),
       '/trailtry': (context) => TextOverImage(),
       '/chat': (context) => ChatLanding(),
-      '/channel': (context) => ChannelPage(),
+      '/profile': (context) => ProfileLanding(),
       '/anime': (context) => anime(),
       '/timer': (context) => ConnectPage(),
     },
