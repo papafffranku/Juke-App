@@ -9,6 +9,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
+import 'package:lessgoo/Reference/prefs.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/methods/database.dart';
@@ -57,7 +58,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xffEFDC6D),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/timer',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -72,6 +73,7 @@ Future<void> main() async {
       '/profile': (context) => ProfileLanding(),
       '/anime': (context) => anime(),
       '/timer': (context) => ConnectPage(),
+      '/prefs': (context) => prefs(),
     },
     debugShowCheckedModeBanner: false,
   ));

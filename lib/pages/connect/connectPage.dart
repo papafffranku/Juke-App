@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,8 +7,10 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/widgets/landingpageheader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
+final total = FirebaseFirestore.instance.collection('totalusers');
 final uid = FirebaseAuth.instance.currentUser!.uid;
 
 class ConnectPage extends StatefulWidget {
@@ -22,29 +26,57 @@ class _ConnectPageState extends State<ConnectPage> {
   String swipes = '0';
   String time = ' ';
   bool? check;
+  int sleft=1;
+  int numberofusers=0;
+  List? connectnumbers;
+
 
   @override
   void initState() {
     getUsersData();
+    gettotalusers();
+    sleft = 10 - int.parse(swipes);
     super.initState();
   }
 
   void getUsersData() {
     DateTime lastTime;
-    usersRef.doc(uid).get().then((value) {
+    usersRef.doc(uid).get().then((value) async {
       var fields = value.data();
       lastTime = (fields!['swipe'] as Timestamp).toDate();
-      swipes = fields['swipeno'];
+      print(lastTime.month);
+      print(lastTime.day);
+      swipes = await setter();
       setState(() {
         check = connect(lastTime);
         time = lastTime.hour.toString() +
             ':' +
             lastTime.minute.toString() +
             '  ' +
-            lastTime.weekday.toString() +
+            lastTime.day.toString() +
             '/' +
             lastTime.month.toString();
       });
+    });
+  }
+
+  Future<void> gettotalusers() async {
+    Random random = new Random();
+    int? temp;
+    List templist=[];
+    await total.doc('totalnumber').get().then((value) async {
+      var fields = value.data();
+      temp = (fields!['number']);
+    });
+    print(temp);
+    for (var i = 0; i <= 10; i++){
+      int random_number = random.nextInt(10);
+      if (!templist.contains(random_number)) {
+        templist.add(random_number);
+      }
+    }
+    setState(() {
+      connectnumbers=templist;
     });
   }
 
@@ -54,7 +86,6 @@ class _ConnectPageState extends State<ConnectPage> {
     double screenheight = MediaQuery.of(context).size.height;
     CollectionReference usersref =
         FirebaseFirestore.instance.collection('users');
-    int sleft = 10 - int.parse(swipes);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -62,15 +93,15 @@ class _ConnectPageState extends State<ConnectPage> {
         child: ListView(
           children: [
             landingPageHeader(context, 'Connect', Icons.filter_list, false),
-            Center(
-                child: Text(
-              'Swipes left: ' + sleft.toString(),
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-            )),
-            SizedBox(
-              height: 10,
-            ),
             if (check == true && sleft > 0) ...[
+              Center(
+                  child: Text(
+                    'Swipes left: ' + sleft.toString(),
+                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  )),
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: swipe(screenwidth),
@@ -154,7 +185,7 @@ class _ConnectPageState extends State<ConnectPage> {
     return (tagger);
   }
 
-  timeWrite(DateTime test) async {
+  timeWrite() async {
     DateTime timestamp = DateTime.now();
     DateTime next = timestamp.add(new Duration(hours: 24));
 
@@ -162,10 +193,17 @@ class _ConnectPageState extends State<ConnectPage> {
       "swipe": next,
     });
   }
+  timereset() async {
+    DateTime timestamp = DateTime.now();
+
+    usersRef.doc(uid).update({
+      "swipe": timestamp,
+    });
+  }
 
   Widget swipe(double screenwidth) {
     return FutureBuilder<QuerySnapshot>(
-        future: usersRef.limit(10).get(),
+        future: usersRef.where("connectNumber", whereIn: connectnumbers).limit(10).get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -312,13 +350,17 @@ class _ConnectPageState extends State<ConnectPage> {
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
-                                            int x = int.parse(swipes);
                                             if (count == username.length - 1) {
                                               count = 0;
-                                            } else {
+                                              sover();
+                                              print('sover ran');
+                                            } else if(count == 10){
+                                              print('sover ran');
+                                              sover(); // wont reach as 10 people not there
+                                            }
+                                            else {
                                               count++;
-                                              x++;
-                                              swipes = x.toString();
+                                              _incrementSwipe();
                                             }
                                           });
                                         },
@@ -410,6 +452,39 @@ class _ConnectPageState extends State<ConnectPage> {
         });
   }
 
+  _incrementSwipe() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int counter = (prefs.getInt('sw') ?? 1) + 1;
+    print('Pressed $counter times.');
+    setState(() {
+      swipes = counter.toString();
+    });
+    await prefs.setInt('sw', counter);
+  }
+
+  reset() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int counter = 1;
+    await prefs.setInt('sw', counter);
+    await timereset();
+  }
+
+  sover() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int counter = 1;
+    await prefs.setInt('sw', counter);
+    setState(() {
+      swipes='1';
+    });
+    timeWrite();
+  }
+
+  Future<String> setter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int counter = (prefs.getInt('sw') ?? 1);
+    return counter.toString();
+  }
+
   Widget outofswipes(String time) {
     return Center(
         child: Column(
@@ -456,7 +531,9 @@ class _ConnectPageState extends State<ConnectPage> {
               borderRadius: BorderRadius.circular(32.0),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            reset();
+          },
           icon: Icon(CupertinoIcons.refresh),
         ),
         SizedBox(
@@ -483,7 +560,9 @@ class _ConnectPageState extends State<ConnectPage> {
               borderRadius: BorderRadius.circular(32.0),
             ),
           ),
-          onPressed: () {},
+          onPressed: (){
+
+          },
           icon: Icon(Icons.share),
         ),
       ],

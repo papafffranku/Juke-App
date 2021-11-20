@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class fireauthhelp {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final usersRef = FirebaseFirestore.instance.collection('users');
-  final bannerRef = FirebaseFirestore.instance.collection('banner');
+  final total = FirebaseFirestore.instance.collection('totalusers');
 
   //google auth
   final googleSignIn = GoogleSignIn();
@@ -43,6 +43,12 @@ class fireauthhelp {
     final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
     DateTime timestamp = DateTime.now();
     DateTime past = timestamp.subtract(new Duration(days: 2));
+    String? number;
+
+    await total.doc('totalnumber').get().then((value) async {
+      var fields = value.data();
+      number = (fields!['number']).toString();
+    });
 
     List arr = [false, false, false, false, false];
     if (!doc.exists) {
@@ -62,14 +68,12 @@ class fireauthhelp {
         "following": 0,
         "timestamp": timestamp,
         "swipe":past,
-        "swipeno":'1'
+        "swipeno":'1',
+        "connectNumber":int.parse(number!)
       });
 
-      bannerRef.doc(fyeuser.uid).set({
-        "id": fyeuser.uid,
-        "username": fyeuser.displayName,
-        "avatarUrl":
-            'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
+      total.doc('totalnumber').update({
+        "number": FieldValue.increment(1),
       });
     }
   }
