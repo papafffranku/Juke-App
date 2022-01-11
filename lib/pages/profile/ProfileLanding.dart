@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/pages/activityfeed/activityfeed.dart';
 import 'package:lessgoo/pages/home/home.dart';
+import 'package:lessgoo/pages/library/likedTracks.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/profile/Settings.dart';
 import 'package:lessgoo/pages/widgets/landingpageheader.dart';
@@ -39,9 +40,13 @@ class _ProfileLandingState extends State<ProfileLanding> {
                       if (snapshot.connectionState == ConnectionState.done) {
                         Map<String, dynamic> data =
                             snapshot.data!.data() as Map<String, dynamic>;
-                        return Text(
-                          data['username'],
-                          style: TextStyle(fontSize: 24),
+                        return Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          child: Text(
+                            data['username'],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 24),
+                          ),
                         );
                       } else {
                         return CircularProgressIndicator();
@@ -66,21 +71,24 @@ class _ProfileLandingState extends State<ProfileLanding> {
           SizedBox(
             height: 30,
           ),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  Text(
-                    'Library',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios)
-                ],
-              )),
-          SizedBox(
-            height: 30,
-          ),
+          // Padding(
+          //     padding: EdgeInsets.symmetric(horizontal: 15),
+          //     child: InkWell(
+          //       onTap: () => pushNewScreen(context, screen: LikedTracks()),
+          //       child: Row(
+          //         children: [
+          //           Text(
+          //             'Library',
+          //             style: TextStyle(fontSize: 24),
+          //           ),
+          //           Spacer(),
+          //           Icon(Icons.arrow_forward_ios)
+          //         ],
+          //       ),
+          //     )),
+          // SizedBox(
+          //   height: 30,
+          // ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: InkWell(

@@ -104,6 +104,7 @@ class _TrackState extends State<Track> {
           .doc(id)
           .update({'likes.$currentUserId': false});
       removeLikeFromActivityFeed();
+      removeLikedTrack();
       setState(() {
         likeCount -= 1;
         isLiked = false;
@@ -117,6 +118,7 @@ class _TrackState extends State<Track> {
           .doc(id)
           .update({'likes.$currentUserId': true});
       addLikeToActivityFeed();
+      addToLikedTracks();
       setState(() {
         likeCount += 1;
         isLiked = true;
@@ -139,6 +141,17 @@ class _TrackState extends State<Track> {
     }
   }
 
+  removeLikedTrack() {
+    libraryRef
+        .doc(currentUserId)
+        .collection('likedTracks')
+        .doc(id)
+        .get()
+        .then((doc) => {
+              if (doc.exists) {doc.reference.delete()}
+            });
+  }
+
   addLikeToActivityFeed() {
     //notification only when activity by another user and not self
     bool isNotPostOwner = currentUserId != Artist;
@@ -151,6 +164,16 @@ class _TrackState extends State<Track> {
         "mediaUrl": coverLink
       });
     }
+  }
+
+  addToLikedTracks() {
+    //adds to users liked tracks
+    libraryRef.doc(currentUserId).collection('likedTracks').doc(id).set({
+      "trackId": id,
+      'timestamp': Timestamp.now(),
+      'mediaUrl': coverLink,
+      'artist': Artist
+    });
   }
 
   deletePost() async {

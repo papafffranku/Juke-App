@@ -46,6 +46,7 @@ class _ChatterState extends State<Chatter> {
       Map<String, dynamic> messageMap = {
         "message": messageController.text,
         "sentBy": userId,
+        "sentFrom": widget.other_user,
         "timestamp": DateTime.now()
       };
       databaseMethods.addConversation(widget.chatroomId, messageMap);

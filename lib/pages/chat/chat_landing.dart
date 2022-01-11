@@ -117,7 +117,7 @@ class ChatRoomsTile extends StatelessWidget {
             }
 
             if (snapshot.hasData && !snapshot.data!.exists) {
-              return Text("Document does not exist");
+              return Text("");
             }
 
             if (snapshot.connectionState == ConnectionState.done) {

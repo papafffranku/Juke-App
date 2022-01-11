@@ -11,6 +11,53 @@ admin.initializeApp();
 //   response.send("Hello from Firebase!");
 // });
 
+exports.sendNotification = functions.firestore.document("/chatroom/{chatroomId}/chats/{message}")
+.onCreate(async(snapshot, context)=>{
+    console.log('----------------start function--------------------');
+    const doc = snapshot.data();
+    console.log(doc);
+    
+    const sentBy = doc.sentBy;
+    const sentTo = doc.sentTo;
+    const message = doc.message;
+
+    admin.firestore().
+    collection('users').
+    where('id','==',sentTo).
+    collection('tokens')
+    get().then(querySnapshot =>{querySnapshot.forEach(userTo=>{console.log('Found user')
+    if(userTo.data().token){
+        admin.firestore.collection('users')
+        .where('id', '==', sentBy)
+        .get().then(querySnapshot2=>{querySnapshot2.forEach(userFrom=>{console.log('Found user :${userFrom.data().username}')
+
+        const payload = { notification: {
+            title: `You have a message from "${userFrom.data().username}"`,
+            body: message,
+            badge: '1',
+            sound: 'default'
+          }
+        
+        }
+
+        admin.messaging().sendToDevice(userTo.data().token, payload).then(response =>{console.log('Successfully sent message:',response)})
+        .catch(error=>{console.log('Error: ',error)
+            })
+    
+        })
+    })
+
+    }
+
+    else{
+        console.log('Cannot find pushToken')
+    }
+})
+})
+
+return null
+})
+
 exports.onCreateFollower = functions.region('asia-south1').
 firestore.document("/followers/{userId}/userFollowers/{followerId}")
 .onCreate(async(snapshot, context)=>{

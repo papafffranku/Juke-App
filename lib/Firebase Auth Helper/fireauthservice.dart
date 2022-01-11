@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/main.dart';
 
 class fireauthhelp {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -25,6 +27,7 @@ class fireauthhelp {
       idToken: googleAuth.idToken,
     );
     var authResult = await _auth.signInWithCredential(credential);
+    _saveDeviceToken();
     if (authResult.additionalUserInfo!.isNewUser) {
       createUserInFirestore(context);
       String UserName = authResult.user!.displayName.toString();
@@ -35,6 +38,21 @@ class fireauthhelp {
   Future GoogleLogout() async {
     await googleSignIn.disconnect();
     return _auth.signOut();
+  }
+
+  _saveDeviceToken() async {
+    final fyeuser = FirebaseAuth.instance.currentUser!;
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+
+    if (fcmToken != null) {
+      var tokenRef =
+          userRef.doc(fyeuser.uid).collection('tokens').doc(fcmToken);
+
+      await tokenRef.set({
+        'token': fcmToken,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
   }
 
   //Create User in Firestore
@@ -67,10 +85,12 @@ class fireauthhelp {
         "followers": 0,
         "following": 0,
         "timestamp": timestamp,
-        "swipe":past,
-        "swipeno":'1',
-        "connectNumber":int.parse(number!)
+        "swipe": past,
+        "swipeno": '1',
+        "connectNumber": int.parse(number!)
       });
+
+      _saveDeviceToken();
 
       total.doc('totalnumber').update({
         "number": FieldValue.increment(1),

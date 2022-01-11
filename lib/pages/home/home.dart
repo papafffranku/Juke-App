@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/PopUp/CustomRectTween.dart';
@@ -66,6 +69,60 @@ const String _heroAddTodo = 'add-todo-hero';
 
 class _HomePageState extends State<HomePage> {
   Stream<DocumentSnapshot<Object?>>? docStream;
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+  void showNotification(RemoteNotification remoteNotification) async {
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      Platform.isAndroid
+          ? 'com.dfa.flutterchatdemo'
+          : 'com.duytq.flutterchatdemo',
+      'Flutter chat demo',
+      playSound: true,
+      enableVibration: true,
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    IOSNotificationDetails iOSPlatformChannelSpecifics =
+        IOSNotificationDetails();
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+
+    print(remoteNotification);
+
+    await FlutterLocalNotificationsPlugin().show(
+      0,
+      remoteNotification.title,
+      remoteNotification.body,
+      platformChannelSpecifics,
+      payload: null,
+    );
+  }
+
+  void registerNotification() {
+    firebaseMessaging.requestPermission();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('onMessage: $message');
+      if (message.notification != null) {
+        showNotification(message.notification!);
+      }
+      return;
+    });
+
+    firebaseMessaging.getToken().then((token) {
+      print('push token: $token');
+      if (token != null) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserId)
+            .update({'pushToken': token});
+      }
+    }).catchError((err) {
+      Fluttertoast.showToast(msg: err.message.toString());
+    });
+  }
 
   Widget playlister(String imgUrl, String playlistName, String playlistDesc) {
     return Column(
@@ -205,6 +262,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final uid = currentUserId;
+  String notif = 'something';
   @override
   void initState() {
     docStream =
@@ -569,6 +627,21 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
         ),
       ),
     );
+  }
+
+  _saveDeviceToken() async {
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+
+    if (fcmToken != null) {
+      var tokenRef =
+          userRef.doc(currentUserId).collection('tokens').doc(fcmToken);
+
+      await tokenRef.set({
+        'token': fcmToken,
+        'createdAt': FieldValue.serverTimestamp(),
+        'platform': Platform.operatingSystem
+      });
+    }
   }
 
   Future<Color> getImagePalette(ImageProvider imageProvider) async {

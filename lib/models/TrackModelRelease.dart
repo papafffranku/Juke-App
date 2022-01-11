@@ -4,6 +4,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
+import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../main.dart';
@@ -194,7 +195,9 @@ class _TrackTimelineState extends State<TrackTimeline> {
                         ),
                       ),
                       Expanded(
-                        child: Container(
+                        child: InkWell(
+                          onTap: () => pushNewScreen(context,
+                              screen: ProfilePage(searchID: Artist)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
