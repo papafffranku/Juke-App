@@ -14,17 +14,17 @@ import 'package:lessgoo/pages/widgets/landingpageheader.dart';
 import 'package:onboarding/onboarding.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class anime extends StatefulWidget {
-  const anime({Key? key}) : super(key: key);
+class onboard extends StatefulWidget {
+  const onboard({Key? key}) : super(key: key);
 
   @override
-  _animeState createState() => _animeState();
+  _onboardState createState() => _onboardState();
 }
 
 const String _heroAddTodo = 'add-todo-hero';
 const String _heroAddTodo2 = 'add-todo-hero2';
 
-class _animeState extends State<anime> {
+class _onboardState extends State<onboard> {
   String page1 = "none";
   String page2 = "none";
   List boolarr1 = [false, false, false, false, false];
@@ -35,12 +35,12 @@ class _animeState extends State<anime> {
   FilePickerResult? result;
   late PlatformFile file;
   final uid = FirebaseAuth.instance.currentUser!.uid;
+  final name = FirebaseAuth.instance.currentUser!.displayName;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference banner = FirebaseFirestore.instance.collection('banner');
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as Map;
 
     final onboardingPagesList = [
       PageModel(
@@ -147,7 +147,7 @@ class _animeState extends State<anime> {
               Row(
                 children: [
                   Text(
-                    'Default: ' + arguments['UserName'],
+                    'Default: ' + name!,
                     style: TextStyle(
                         color: Colors.white54,
                         fontSize: 16,

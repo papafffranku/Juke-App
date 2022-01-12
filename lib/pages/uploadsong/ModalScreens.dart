@@ -17,7 +17,7 @@ class ModalScreens {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     stops: [0.1, 0.9],
-                    colors: [Colors.blue, Colors.transparent])),
+                    colors: [Colors.deepPurple, Colors.transparent])),
             height: screenheight * .80,
             child: Column(
               children: [
@@ -36,12 +36,12 @@ class ModalScreens {
                 Text(
                   "Hang on, we're still uploading....",
                   style: TextStyle(
-                      color: Colors.lightBlueAccent[100], fontSize: 18),
+                      color: Colors.lightBlueAccent, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "This takes about 1-2 minutes",
                   style: TextStyle(
-                      color: Colors.lightBlueAccent[100], fontSize: 16),
+                      color: Colors.lightBlueAccent, fontSize: 16),
                 ),
                 SizedBox(
                   height: 30,

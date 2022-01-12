@@ -18,7 +18,7 @@ class _SuccessUploadState extends State<SuccessUpload> {
       onWillPop: () async => false,
       child: ColorfulSafeArea(
         child: Scaffold(
-            backgroundColor: Color(0xff0e0e15),
+            backgroundColor: Colors.black,
             body: Center(
               child: Column(
                 children: [
@@ -26,19 +26,18 @@ class _SuccessUploadState extends State<SuccessUpload> {
                   Text(
                     'Successfully uploaded',
                     style: TextStyle(
-                        letterSpacing: 1.3,
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     'Your song is now online',
                     style: TextStyle(
-                        letterSpacing: 1.3,
                         color: Colors.white38,
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(height: 100,),
                   Container(
                     height: 300,
                     width: 300,

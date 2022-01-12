@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
+import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class prefs extends StatefulWidget {
@@ -10,6 +13,7 @@ class prefs extends StatefulWidget {
 }
 
 class _prefsState extends State<prefs> {
+  final modal = ModalScreens();
   int c1=0;
 
   @override
@@ -22,11 +26,18 @@ class _prefsState extends State<prefs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Column(
         children: [
           SizedBox(height: 100,),
           CupertinoButton(child: Text('increment'), onPressed: (){_incrementCounter();}),
-          Text(c1.toString())
+
+          Text(c1.toString()),
+          CupertinoButton(child: Text('modal'), onPressed: (){modal.loadingmodalscreen(context);}),
+          CupertinoButton(child: Text('modal'), onPressed: (){
+            pushNewScreen(context,
+                screen: SuccessUpload(), withNavBar: true);
+          }),
         ],
       ),
     );

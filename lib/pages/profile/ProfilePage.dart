@@ -31,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Stream<DocumentSnapshot<Object?>>? userdeets;
   Stream<QuerySnapshot<Object?>>? songdeets;
   Stream<DocumentSnapshot<Object?>>? private;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
   bool? isLoading;
   List<Track> tracks = [];
 
@@ -230,6 +231,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   SizedBox(width: 5),
+                  CupertinoButton(child: Text('what'), onPressed: (){
+                    setFeatured('SWsohGrcXpceGCB8ZPaXCyau7RP2AUD-20180621-WA0001.mp3');
+                  }),
                   Text(
                     "Singer, Producer",
                     textAlign: TextAlign.center,
@@ -290,6 +294,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ],
     );
+  }
+
+  //function to set a song as featured
+  setFeatured(String s){
+    users.doc(widget.searchID).update(
+        {"featured": s});
   }
 
   trackList() {

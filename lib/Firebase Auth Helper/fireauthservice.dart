@@ -30,8 +30,7 @@ class fireauthhelp {
     _saveDeviceToken();
     if (authResult.additionalUserInfo!.isNewUser) {
       createUserInFirestore(context);
-      String UserName = authResult.user!.displayName.toString();
-      Navigator.pushNamed(context, '/anime', arguments: {'UserName': UserName});
+      await Navigator.pushNamed(context, '/onboard');
     }
   }
 
@@ -61,14 +60,14 @@ class fireauthhelp {
     final DocumentSnapshot doc = await usersRef.doc(fyeuser.uid).get();
     DateTime timestamp = DateTime.now();
     DateTime past = timestamp.subtract(new Duration(days: 2));
-    String? number;
+    String number='0';
 
     await total.doc('totalnumber').get().then((value) async {
       var fields = value.data();
       number = (fields!['number']).toString();
     });
 
-    List arr = [false, false, false, false, false];
+
     if (!doc.exists) {
       usersRef.doc(fyeuser.uid).set({
         "id": fyeuser.uid,
@@ -77,8 +76,8 @@ class fireauthhelp {
             'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
         "email": fyeuser.email,
         "bio": '-',
-        "tag": arr,
-        "lookout": arr,
+        "tag": [false, false, false, false, false],
+        "lookout": [false, false, false, false, false],
         "socialfb": '',
         "socialig": '',
         "songs": 0,
@@ -87,10 +86,10 @@ class fireauthhelp {
         "timestamp": timestamp,
         "swipe": past,
         "swipeno": '1',
-        "connectNumber": int.parse(number!)
+        "connectNumber": int.parse(number)
       });
 
-      _saveDeviceToken();
+      // _saveDeviceToken();
 
       total.doc('totalnumber').update({
         "number": FieldValue.increment(1),

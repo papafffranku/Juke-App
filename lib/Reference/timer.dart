@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,80 +8,179 @@ class time123 extends StatefulWidget {
   @override
   _time123State createState() => _time123State();
 }
+String a='n';
+
 
 class _time123State extends State<time123> {
-  final usersRef = FirebaseFirestore.instance.collection('tim');
-
+  final usersRef = FirebaseFirestore.instance.collection('users');
+  int count=0;
+  Map<String, List> fruits= Map();
 
   @override
   Widget build(BuildContext context) {
+    fruits["apple"]=['v','i','k','r','a','m'];
+    fruits['what']=['true','false','false','true','false'];
+    final qSnap=usersRef.where('b.apple', arrayContainsAny: ['v']).limit(2).snapshots();
 
-    return FutureBuilder<DocumentSnapshot>(
-      future: usersRef.doc('1').get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    Future<void> bruh() async {
+      await usersRef
+          .doc('wut')
+          .update({
+        "b": fruits
+      });
+    }
 
-        if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
+    return Scaffold(
+      body: Column(
+        children: [
+          SizedBox(height: 50,),
+          CupertinoButton(child: Text('refresh'), onPressed: (){setState(() {
+            a='v';
+            print(a);
+          });}),
+          CupertinoButton(child: Text('modal'), onPressed: (){
+            connectmodalscreen(context);
+          }),
+          CupertinoButton(child: Text('b'), onPressed: () async {
+            await bruh();
+          }),
+          Container(
+            height: 120,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: qSnap,
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
-        }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-          DateTime test = (data['timestamp'] as Timestamp).toDate();
-          return Scaffold(
-            body: Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Text('yo'),
-                  Text(data['timestamp'].toString()),
-                  CupertinoButton(
-                      child: Text('date print'),
-                      onPressed: () {
-                        createUserInFirestore(test);
-                      })
-                ],
-              ),
+                return ListView(
+                  children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                    print(snapshot.data?.size); // so fucking stupid
+                    return ListTile(
+                      title: Text(data['a']),
+                    );
+                  }).toList(),
+                );
+              },
             ),
-          );
-        }
-
-        return Text("loading");
-      },
+          ),
+        ],
+      ),
     );
+
   }
 
-  createUserInFirestore(DateTime test) async {
+  void connectmodalscreen(BuildContext context) {
 
-    DateTime timestamp = DateTime.now();
-    DateTime fiftyDaysFromNow = timestamp.add(new Duration(hours: 24));
-    DateTime past = timestamp.subtract(new Duration(days: 2));
+    Color enabled = Theme.of(context).accentColor;
+    Color disabled = Colors.white;
 
-    final fyeuser = FirebaseAuth.instance.currentUser!;
-    final DocumentSnapshot doc = await usersRef.doc('1').get();
+    double screenheight = MediaQuery.of(context).size.height;
 
-    // usersRef.doc('1').set({
-    //   "timestamp": timestamp,
-    //   "later": fiftyDaysFromNow,
-    // });
+    showModalBottomSheet(
+        isDismissible: true,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext bc) {
+          return Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    stops: [0.1, 0.9],
+                    colors: [Theme.of(context).secondaryHeaderColor, Colors.transparent])),
+            height: screenheight * .80,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 40,
+                ),
+                TextButton(
+                    child: Text(
+                      "Singer".toUpperCase(),
+                      style: TextStyle(fontSize: 14,color: Colors.black),
+                    ),
+                    style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
+                    ),
+                    onPressed: () => null
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextButton(
+                    child: Text(
+                      "producer".toUpperCase(),
+                      style: TextStyle(fontSize: 14,color: Colors.black),
+                    ),
+                    style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                        backgroundColor: MaterialStateProperty.all<Color>(enabled),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
+                    ),
+                    onPressed:(){
 
-
-    //checks if current time is greater than database
-    // if(timestamp.isBefore(test)){
-    //   print('first');
-    //   print(timestamp);
-    //   print(test);
-    // }
-    // if(timestamp.isAfter(test)){
-    //   print('second');
-    //   print(timestamp);
-    //   print(test);
-    // }
+                    }
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextButton(
+                    child: Text(
+                      "Cover Artist".toUpperCase(),
+                      style: TextStyle(fontSize: 14,color: Colors.black),
+                    ),
+                    style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
+                    ),
+                    onPressed: () => null
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                TextButton(
+                    child: Text(
+                      "Instrumentalist".toUpperCase(),
+                      style: TextStyle(fontSize: 14,color: Colors.black),
+                    ),
+                    style: ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            )
+                        )
+                    ),
+                    onPressed: () => null
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

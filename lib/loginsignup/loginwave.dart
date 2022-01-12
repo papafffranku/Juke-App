@@ -53,7 +53,7 @@ class _abcState extends State<abc> {
                           ),
                         ),
                         Text(
-                          "JVS Music",
+                          "the kitchen",
                           style: TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.bold,

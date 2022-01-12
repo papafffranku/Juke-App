@@ -11,6 +11,7 @@ import 'package:lessgoo/ImageDisplayer.dart';
 import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/Reference/prefs.dart';
+import 'package:lessgoo/Reference/timer.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
 import 'package:lessgoo/loginsignup/loginwave.dart';
 import 'package:lessgoo/methods/database.dart';
@@ -25,7 +26,7 @@ import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
 import 'package:provider/provider.dart';
 
-import 'Reference/anime.dart';
+import 'Reference/onboard.dart';
 
 final storageRef = FirebaseStorage.instance.ref();
 final followersRef = FirebaseFirestore.instance.collection('followers');
@@ -80,9 +81,10 @@ Future<void> main() async {
       '/trailtry': (context) => TextOverImage(),
       '/chat': (context) => ChatLanding(),
       '/profile': (context) => ProfileLanding(),
-      '/anime': (context) => anime(),
-      '/timer': (context) => ConnectPage(),
+      '/onboard': (context) => onboard(),
+      '/connect': (context) => ConnectPage(),
       '/prefs': (context) => prefs(),
+      '/time': (context) => time123(),
     },
     debugShowCheckedModeBanner: false,
   ));

@@ -62,12 +62,12 @@ class _SongUploadState extends State<SongUpload> {
     Cover_key = "cover" + Song_key;
 
     return CupertinoPageScaffold(
-      backgroundColor: Color(0xff0e0e15),
+      backgroundColor: Colors.black,
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             CupertinoSliverNavigationBar(
-              backgroundColor: Color(0xff0e0e15),
+              backgroundColor: Colors.black,
               largeTitle: Text(
                 'Upload',
                 style: TextStyle(color: CupertinoColors.white),
@@ -99,11 +99,11 @@ class _SongUploadState extends State<SongUpload> {
                   },
                   child: Icon(
                     CupertinoIcons.check_mark_circled_solid,
-                    color: CupertinoColors.activeBlue,
+                    color: Theme.of(context).colorScheme.secondary,
                     size: 30,
                   )),
               leading: CupertinoNavigationBarBackButton(
-                color: CupertinoColors.activeBlue,
+                color: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -140,7 +140,7 @@ class _SongUploadState extends State<SongUpload> {
                           });
                         },
                         icon: Icon(Icons.upload),
-                        color: Color(0xff5338FF),
+                        color: Theme.of(context).colorScheme.secondary,
                         iconSize: 50,
                       )
                     ] else ...[
