@@ -11,52 +11,67 @@ admin.initializeApp();
 //   response.send("Hello from Firebase!");
 // });
 
-exports.sendNotification = functions.firestore.document("/chatroom/{chatroomId}/chats/{message}")
+exports.sendNotification = functions.region('asia-south1').
+firestore.document("/chatroom/{chatroomId}/chats/{message}")
 .onCreate(async(snapshot, context)=>{
-    console.log('----------------start function--------------------');
-    const doc = snapshot.data();
-    console.log(doc);
+    console.log("Message created", snapshot.data());
+
+    const chatroomId = context.params.chatroomId;
+    const messageId = context.params.message;
+
+
+    const sentTo = snapshot.data().sentTo;
+    const message = snapshot.data().message;
+    const sentBy = snapshot.data().sentBy;
+
+    const sender = admin.firestore().collection('users').doc(sentBy);
+    const senderData = await sender.get();
+    const senderUsername = senderData.data().username;
+    console.log(senderUsername);
+
+    const messageRef = admin.firestore().collection('chatroom').doc(chatroomId).collection('chats').doc(messageId);
+    const querySnapshot = await messageRef.get();
+
+    const user = admin.firestore().collection('users').doc(sentTo).collection('tokens');
+    const tokenSnapshot = await user.get();
+    const message_counter = 0;
+
     
-    const sentBy = doc.sentBy;
-    const sentTo = doc.sentTo;
-    const message = doc.message;
+        if(querySnapshot.exists){
+            console.log('Inside loop');
+            tokenSnapshot.forEach(tokenDoc=>{
+                if(tokenDoc.exists){
+                    console.log('inside token loop');
+                    const token =tokenDoc.data().token;
+                    const payload = { notification: {
+                        title: `You have a message from ${senderUsername}`,
+                        body: message,
+                        badge: '1',
+                        sound: 'default'
+                      }
+                    
+                    }
 
-    admin.firestore().
-    collection('users').
-    where('id','==',sentTo).
-    collection('tokens')
-    get().then(querySnapshot =>{querySnapshot.forEach(userTo=>{console.log('Found user')
-    if(userTo.data().token){
-        admin.firestore.collection('users')
-        .where('id', '==', sentBy)
-        .get().then(querySnapshot2=>{querySnapshot2.forEach(userFrom=>{console.log('Found user :${userFrom.data().username}')
-
-        const payload = { notification: {
-            title: `You have a message from "${userFrom.data().username}"`,
-            body: message,
-            badge: '1',
-            sound: 'default'
-          }
-        
-        }
-
-        admin.messaging().sendToDevice(userTo.data().token, payload).then(response =>{console.log('Successfully sent message:',response)})
-        .catch(error=>{console.log('Error: ',error)
+                    admin.messaging().sendToDevice(token,payload).then(response=>{console.log('Message sent ${message_counter}', response)})
+        .catch(error=>{console.log('Error: ', error)});
+                }
+                else{
+                    console.log('token not found');
+                }
             })
+            
+            //const token = doc.data().token;
+            
+        }
+        else{
+            console.log('chat does not exist');
+        }
     
-        })
-    })
 
-    }
 
-    else{
-        console.log('Cannot find pushToken')
-    }
-})
-})
 
-return null
-})
+});
+    
 
 exports.onCreateFollower = functions.region('asia-south1').
 firestore.document("/followers/{userId}/userFollowers/{followerId}")
@@ -64,6 +79,38 @@ firestore.document("/followers/{userId}/userFollowers/{followerId}")
     console.log("Follower created", snapshot.data());
     const userId = context.params.userId;
     const followerId = context.params.followerId;
+
+    const userRef = admin.firestore()
+              .collection('users')
+              .doc(userId).collection('tokens');
+
+    const querySnapshot1 = await userRef.get();
+
+    querySnapshot1.forEach(doc=>{
+        if(doc.exists){
+            const token = doc.data().token;
+            const payload = {
+                notification:{
+                    title: 'a user started following you',
+                    badge:'1',
+                    sound:'default'
+                }
+            }
+        admin.messaging().sendToDevice(token,payload).then(response=>{console.log('Message sent', response)})
+        .catch(error=>{console.log('Error: ', error)});
+        }
+
+        else{
+            console.log('not found token');
+        }
+    })
+
+    // const payload = { notification: {
+    //     title: `You have a message from "${userFrom.data().nickname}"`,
+    //     body: contentMessage,
+    //     badge: '1',
+    //     sound: 'default'
+    //   }}
 
     //Create followed users posts ref
     const followedUserRef = 
@@ -126,6 +173,7 @@ firestore.document("/tracks/{userId}/publicSong/{trackId}").onCreate(async(snaps
     collection('userFollowers');
 
     const querySnapshot = await userFollowersRef.get();
+
 
 
     querySnapshot.forEach(doc=>{

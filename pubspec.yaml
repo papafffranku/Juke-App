@@ -67,6 +67,7 @@ dependencies:
   firebase_messaging: ^11.2.4
   get_it: ^7.2.0
   fluttertoast: ^8.0.8
+  firebase_admin: ^0.2.0-dev.7
 
 dev_dependencies:
   flutter_test:
