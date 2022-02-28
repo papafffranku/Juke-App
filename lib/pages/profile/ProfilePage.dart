@@ -232,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   SizedBox(width: 5),
                   Text(
-                    "Singer, Producer",
+                    data['stringTag'].toString().replaceAll("[", "").replaceAll("]", ""),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white54, fontSize: 18),
                   ),
@@ -337,7 +337,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 20,
                     ),
-                    FutureBuilder<DocumentSnapshot>(
+                    data['swipeno'] == '1' ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Set a song as your featured now. People that come across your profile on the explore page can listen to your featured song',textAlign: TextAlign.center,),
+                    ) : FutureBuilder<DocumentSnapshot>( //display no if no featured song selected
                       future: song.doc(data['featured']).get(),
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -351,9 +354,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
                         if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> featuredData =
-                              snapshot.data!.data() as Map<String, dynamic>;
+                          snapshot.data!.data() as Map<String, dynamic>;
                           DateTime time =
-                              (featuredData['timestamp'] as Timestamp).toDate();
+                          (featuredData['timestamp'] as Timestamp).toDate();
                           String year = time.year.toString();
                           return Featured(featuredData['coverLink'],
                               featuredData['SongName'], data['username'], year);
@@ -430,7 +433,7 @@ class _ProfilePageState extends State<ProfilePage> {
             data: data,
           ),
           withNavBar: true,
-          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+          pageTransitionAnimation: PageTransitionAnimation.slideUp,
         );
       },
       elevation: 2.0,

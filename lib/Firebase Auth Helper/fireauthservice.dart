@@ -85,7 +85,8 @@ class fireauthhelp {
         "following": 0,
         "timestamp": timestamp,
         "swipe": past,
-        "connectNumber": int.parse(number)
+        "connectNumber": int.parse(number),
+        "featured": 'no'
       });
 
       // _saveDeviceToken();

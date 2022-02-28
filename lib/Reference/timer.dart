@@ -129,19 +129,19 @@ class _time123State extends State<time123> {
   Future<void> arrtotag(List<dynamic> abc) async {
     List tag=[];
       if(abc[0]==true){
-        tag.add('singer');
+        tag.add('Singer');
       }
       if(abc[1]==true){
-        tag.add('producer');
+        tag.add('Producer');
       }
       if(abc[2]==true){
-        tag.add('instrumentalist');
+        tag.add('Instrumentalist');
       }
       if(abc[3]==true){
-        tag.add('audioeng');
+        tag.add('Audio engineer');
       }
       if(abc[4]==true){
-        tag.add('cover');
+        tag.add('Cover artist');
       }
       print(tag);
     await usersRef.doc('5vvblcPKqSg9rb1W6gHCCio2Qnx2').update({"stringTag": tag});

@@ -32,7 +32,6 @@ class _EditProfileState extends State<EditProfile> {
   List boolarr2 = [];
 
   final usersRef = FirebaseFirestore.instance.collection('users');
-  final banner = FirebaseFirestore.instance.collection('banner');
 
   @override
   void initState() {
@@ -63,6 +62,27 @@ class _EditProfileState extends State<EditProfile> {
   String path = '';
   FilePickerResult? result;
   late PlatformFile file;
+
+  Future<void> arrtotag(List<dynamic> abc) async {
+    List tag=[];
+    if(abc[0]==true){
+      tag.add('Singer');
+    }
+    if(abc[1]==true){
+      tag.add('Producer');
+    }
+    if(abc[2]==true){
+      tag.add('Instrumentalist');
+    }
+    if(abc[3]==true){
+      tag.add('Audio engineer');
+    }
+    if(abc[4]==true){
+      tag.add('Cover artist');
+    }
+    print(tag);
+    await usersRef.doc(widget.data['uid']).update({"stringTag": tag});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -428,9 +448,7 @@ class _EditProfileState extends State<EditProfile> {
     usersRef.doc(widget.data['id']).update({
       "avatarUrl": DPLink.toString(),
     });
-    banner.doc(widget.data['id']).update({
-      "avatarUrl": DPLink.toString(),
-    });
+
   }
 
   Future<String> getUrl(String s) async {
@@ -449,9 +467,7 @@ class _EditProfileState extends State<EditProfile> {
       "socialfb": FacebookControl.text,
       "socialig": InstagramControl.text,
     });
-    banner.doc(widget.data['id']).update({
-      "username": UsernameControl.text
-    });
+    arrtotag(boolarr1);
   }
 
   Future<File> CoverArtSelecter() async {
