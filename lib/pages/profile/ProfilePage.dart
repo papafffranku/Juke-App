@@ -337,7 +337,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 20,
                     ),
-                    data['swipeno'] == '1' ? Padding(
+                    data['featured'] == 'no' ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text('Set a song as your featured now. People that come across your profile on the explore page can listen to your featured song',textAlign: TextAlign.center,),
                     ) : FutureBuilder<DocumentSnapshot>( //display no if no featured song selected

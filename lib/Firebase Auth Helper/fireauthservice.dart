@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -54,6 +56,14 @@ class fireauthhelp {
     }
   }
 
+  Future<void> indexer1(String uid1) async {
+    for(int i=0;i<=10;i++){
+      int otp = new Random().nextInt(10);
+      print(otp);
+      await usersRef.doc(uid1).update({"indexer.$i": otp});
+    }
+  }
+
   //Create User in Firestore
   createUserInFirestore(BuildContext context) async {
     final fyeuser = FirebaseAuth.instance.currentUser!;
@@ -69,6 +79,7 @@ class fireauthhelp {
 
 
     if (!doc.exists) {
+
       usersRef.doc(fyeuser.uid).set({
         "id": fyeuser.uid,
         "username": fyeuser.displayName,
@@ -86,8 +97,13 @@ class fireauthhelp {
         "timestamp": timestamp,
         "swipe": past,
         "connectNumber": int.parse(number),
-        "featured": 'no'
+        "featured": 'no',
+        "stringTag": ['nothing selected'],
+        "indexer": [1,2,3],
+        "random": new Random().nextInt(10),
       });
+
+      await indexer1(fyeuser.uid);
 
       // _saveDeviceToken();
 

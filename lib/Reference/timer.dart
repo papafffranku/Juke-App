@@ -36,7 +36,7 @@ class _time123State extends State<time123> {
     final query = usersRef.where('id',isEqualTo: '5vvblcPKqSg9rb1W6gHCCio2Qnx2').snapshots();
     String temp='';
 
-    Future<void> bruh() async {
+    Future<void> indexer1() async {
       for(int i=0;i<=10;i++){
         int otp = new Random().nextInt(10);
         print(otp);
@@ -63,7 +63,7 @@ class _time123State extends State<time123> {
             height: 50,
           ),
           Text(number1.toString(), style: TextStyle(fontSize: 40),),
-          CupertinoButton(child: Text('indexer'), onPressed: (){bruh();}),
+          CupertinoButton(child: Text('indexer'), onPressed: (){indexer1();}),
           CupertinoButton(child: Text('reset'), onPressed: (){reset();}),
           CupertinoButton(child: Text('printer'), onPressed: (){printer();}),
           DropdownButton(
