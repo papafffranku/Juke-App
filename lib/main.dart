@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
+import 'package:lessgoo/Reference/EventList.dart';
 import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
 import 'package:lessgoo/Reference/prefs.dart';
@@ -19,6 +20,8 @@ import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
+import 'package:lessgoo/pages/connect/noswipes.dart';
+import 'package:lessgoo/pages/connect/nousers.dart';
 import 'package:lessgoo/pages/profile/ProfileLanding.dart';
 
 import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
@@ -63,6 +66,8 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     theme: ThemeData(
+        bottomSheetTheme: BottomSheetThemeData(
+            backgroundColor: Colors.black.withOpacity(1)),
         brightness: Brightness.dark,
         primaryColor: Color(0xff121212),
         backgroundColor: Color(0xff121212),
@@ -84,7 +89,10 @@ Future<void> main() async {
       '/onboard': (context) => onboard(),
       '/connect': (context) => ConnectPage(),
       '/prefs': (context) => prefs(),
+      '/events': (context) => EventList(),
       '/time': (context) => time123(),
+      '/nos': (context) => noswipes(time1: '123', timedate: DateTime.now(),),
+      '/nouser': (context) => nousers()
     },
     debugShowCheckedModeBanner: false,
   ));

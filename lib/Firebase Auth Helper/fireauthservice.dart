@@ -75,7 +75,7 @@ class fireauthhelp {
         "avatarUrl":
             'https://firebasestorage.googleapis.com/v0/b/jvsnew-93e01.appspot.com/o/template%2FprofilePlaceholder.png?alt=media&token=42a5e4b3-175e-4b59-8aed-52ac8d93f5ae',
         "email": fyeuser.email,
-        "bio": '-',
+        "bio": 'No bio',
         "tag": [false, false, false, false, false],
         "lookout": [false, false, false, false, false],
         "socialfb": '',
@@ -85,7 +85,6 @@ class fireauthhelp {
         "following": 0,
         "timestamp": timestamp,
         "swipe": past,
-        "swipeno": '1',
         "connectNumber": int.parse(number)
       });
 

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -22,6 +23,7 @@ import 'package:lessgoo/pages/home/timeline.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/trails/Trail_landing.dart';
+import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -272,6 +274,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final modal = ModalScreens();
     double sWidth = MediaQuery.of(context).size.width;
 
     return StreamBuilder<DocumentSnapshot>(
@@ -337,7 +340,57 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ],
-                    body: Timeline()));
+                    body: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GestureDetector(
+                            onTap: (){modal.newUserRec(context,uid);},
+                            child: FadeIn(
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.bounceIn,
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: Color(0xff161616),
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20))),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 2,),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'See new users',
+                                            style: TextStyle(fontSize: 20,color: Theme.of(context).accentColor),
+                                          ),
+                                          WidgetSpan(
+                                            child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 19,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      'Make them feel welcome',
+                                      style: TextStyle(color: Colors.white70),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Timeline(),
+                      ],
+                    )));
           } else {
             return Container(
               color: Theme.of(context).backgroundColor,

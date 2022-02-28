@@ -6,12 +6,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
+import 'package:lessgoo/pages/connect/noswipes.dart';
+import 'package:lessgoo/pages/connect/nousers.dart';
 import 'package:lessgoo/pages/widgets/landingpageheader.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
 final total = FirebaseFirestore.instance.collection('totalusers');
 final uid = FirebaseAuth.instance.currentUser!.uid;
+final items = ['Singer','Producer','Instrumentalist','Cover Artist','Sound Engineer'];
 
 class ConnectPage extends StatefulWidget {
   const ConnectPage({Key? key}) : super(key: key);
@@ -22,25 +27,43 @@ class ConnectPage extends StatefulWidget {
 
 class _ConnectPageState extends State<ConnectPage> {
   late List<dynamic> users;
-  int count = 0;
+  int? mapNumber;
+  int count = 1;
+  int randomindex=0;
   String swipes = '0';
   String time = ' ';
   bool? check;
   int sleft=1;
   int numberofusers=0;
   List? connectnumbers;
-
+  List<bool> filter=[false,false,false,false,false];
+  String abc='none';
+  String tagKeyword='';
 
   @override
   void initState() {
+    mapNumber=new Random().nextInt(10);
     getUsersData();
     gettotalusers();
     sleft = 10 - int.parse(swipes);
     super.initState();
   }
 
+  DropdownMenuItem<String> buildMenuItems(String item) => DropdownMenuItem(
+      value: item,
+      child: FadeIn(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.decelerate,
+        child: Text(
+          item,
+          style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+        ),
+      )
+  );
+
+  late DateTime lastTime;
+
   void getUsersData() {
-    DateTime lastTime;
     usersRef.doc(uid).get().then((value) async {
       var fields = value.data();
       lastTime = (fields!['swipe'] as Timestamp).toDate();
@@ -48,6 +71,7 @@ class _ConnectPageState extends State<ConnectPage> {
       print(lastTime.day);
       swipes = await setter();
       setState(() {
+        check = connect(lastTime);
         check = connect(lastTime);
         time = lastTime.hour.toString() +
             ':' +
@@ -62,13 +86,13 @@ class _ConnectPageState extends State<ConnectPage> {
 
   Future<void> gettotalusers() async {
     Random random = new Random();
+    randomindex = random.nextInt(10);
     int? temp;
     List templist=[];
     await total.doc('totalnumber').get().then((value) async {
       var fields = value.data();
       temp = (fields!['number']);
     });
-    print(temp);
     for (var i = 0; i <= 10; i++){
       int random_number = random.nextInt(10);
       if (!templist.contains(random_number)) {
@@ -87,24 +111,86 @@ class _ConnectPageState extends State<ConnectPage> {
     CollectionReference usersref =
         FirebaseFirestore.instance.collection('users');
 
+    Query<Map<String, dynamic>> randomQuery =
+        usersRef.where("connectNumber", whereIn: connectnumbers).limit(10);
+
+    Query<Map<String, dynamic>> tagSnap =
+        usersRef.where('stringTag',arrayContainsAny: ['singer']).orderBy('indexer.$mapNumber').limit(10);
+
+    Query<Map<String, dynamic>> finalSnap=randomQuery;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: ColorfulSafeArea(
         child: ListView(
           children: [
-            landingPageHeader(context, 'Connect', Icons.filter_list, false),
+        Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Connect',
+                style: TextStyle(
+                    color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black), //Elevated Button Background
+                onPressed: (){}, //make onPressed callback empty
+                child:DropdownButton(
+                  borderRadius: BorderRadius.circular(20),
+                  hint: Text(''),
+                  style: TextStyle(color: Colors.white), //Dropdown font color
+                  dropdownColor: Theme.of(context).accentColor, //dropdown menu background color
+                  icon: Icon(Icons.filter_list_sharp, color:Colors.white,size: 30,), //dropdown indicator icon
+                  underline: Container(),
+                  onChanged: (value) => setState(() {
+                    if(value=='Singer'){
+                      tagKeyword='singer';
+                    }if(value=='Producer'){
+                      tagKeyword='producer';
+                    }if(value=='Instrumentalist'){
+                      tagKeyword='instrumentalist';
+                    }if(value=='Sound Engineer'){
+                      tagKeyword='audioeng';
+                    }if(value=='Cover Artist'){
+                      tagKeyword='cover';
+                    }
+                    setState(() {
+                      finalSnap=tagSnap;
+                    });
+                    abc=value.toString();
+                  }),
+                  items: items.map(buildMenuItems).toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
             if (check == true && sleft > 0) ...[
-              Center(
-                  child: Text(
-                    'Swipes left: ' + sleft.toString(),
+              // CupertinoButton(child: Text('reset'), onPressed: (){reset();}),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Swipes done: ' + swipes.toString(),
                     style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-                  )),
+                  ),
+                  Text(
+                    'Filters: ' + abc,
+                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: swipe(screenwidth),
+                child: swipe(screenwidth,finalSnap),
               )
             ] else ...[
               Padding(
@@ -201,16 +287,15 @@ class _ConnectPageState extends State<ConnectPage> {
     });
   }
 
-  Widget swipe(double screenwidth) {
+  Widget swipe(double screenwidth, Query<Map<String, dynamic>> swipeQuery) {
     return FutureBuilder<QuerySnapshot>(
-        future: usersRef.where("connectNumber", whereIn: connectnumbers).limit(10).get(),
+        future: swipeQuery.get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
             );
           } else {
-            var abx = snapshot.data!.docs..shuffle();
             final List username =
                 snapshot.data!.docs.map((doc) => doc['username']).toList();
             final List bio =
@@ -350,13 +435,15 @@ class _ConnectPageState extends State<ConnectPage> {
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
-                                            if (count == username.length - 1) {
+                                            if (count == username.length - 1) {//number of usernames in the array
                                               count = 0;
-                                              sover();
-                                              print('sover ran');
+                                              pushNewScreen(context,withNavBar: true, screen: nousers());
                                             } else if(count == 10){
-                                              print('sover ran');
                                               sover(); // wont reach as 10 people not there
+                                              pushNewScreen(context,withNavBar: true, screen: noswipes(time1: time, timedate: lastTime,));
+                                              setState(() {
+                                                check = connect(lastTime);
+                                              });
                                             }
                                             else {
                                               count++;
@@ -464,7 +551,7 @@ class _ConnectPageState extends State<ConnectPage> {
 
   reset() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int counter = 1;
+    int counter = 0;
     await prefs.setInt('sw', counter);
     await timereset();
   }
@@ -474,14 +561,14 @@ class _ConnectPageState extends State<ConnectPage> {
     int counter = 1;
     await prefs.setInt('sw', counter);
     setState(() {
-      swipes='1';
+      swipes='0';
     });
     timeWrite();
   }
 
   Future<String> setter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int counter = (prefs.getInt('sw') ?? 1);
+    int counter = (prefs.getInt('sw') ?? 0);
     return counter.toString();
   }
 
@@ -567,5 +654,42 @@ class _ConnectPageState extends State<ConnectPage> {
         ),
       ],
     ));
+  }
+
+  Widget outofusers(String time) {
+    return Center(
+        child: Column(
+          children: [
+            Text(
+              'Yikes!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Unfortunately these are all the users we have on our app right now",
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Share it with others to build a community",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 50,
+            ),
+          ],
+        ));
   }
 }

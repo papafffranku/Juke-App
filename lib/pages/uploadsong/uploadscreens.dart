@@ -405,10 +405,10 @@ class _SongUploadState extends State<SongUpload> {
     if (SongNameController.text.isEmpty) {
       Snackbar('Song name cannot be empty');
       return 1;
-    } else if (path == '') {
+    } if (path == '') {
       Snackbar('You must choose some cover art');
       return 1;
-    } else if (SongDescController.text.length >= 140) {
+    } if (SongDescController.text.length >= 140) {
       Snackbar('Limit Description to 140 words');
       return 1;
     } else {

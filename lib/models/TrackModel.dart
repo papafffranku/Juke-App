@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
@@ -201,11 +202,25 @@ class _TrackState extends State<Track> {
   }
 
   trackModalMenu(BuildContext context, bool isUser) {
+
+    final tracksRef = FirebaseFirestore.instance.collection('tracks');
+    final usersRef = FirebaseFirestore.instance.collection('users');
+
     return showModalBottomSheet(
         context: context,
         builder: (context) {
           return Column(
             children: [
+              isUser
+                  ? ListTile(
+                      leading: Icon(CupertinoIcons.delete),
+                      title: Text('Set as featured'),
+                      onTap: () async {
+                        await usersRef.doc(currentUserId).update({"featured": id});
+                        Navigator.pop(context);
+                      },
+                    )
+                  : SizedBox(),
               isUser
                   ? ListTile(
                       leading: Icon(CupertinoIcons.delete),

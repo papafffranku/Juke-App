@@ -40,7 +40,7 @@ Widget Featured(String Im, String Sname, String artist, String year) {
                           Radius.circular(12)),
                       image: DecorationImage(
                           image: NetworkImage(Im),
-                          fit: BoxFit.fill)),
+                          fit: BoxFit.cover)),
                 ),
                 Padding(
                   padding:
@@ -74,19 +74,9 @@ Widget Featured(String Im, String Sname, String artist, String year) {
                       Row(
                         children: [
                           Text(
-                            artist,
-                            style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 16),
-                          ),
-                          Text(
-                            " - ",
-                            style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 16),
-                          ),
-                          Text(
-                            year,
+                            artist+' - '+year,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Colors.white54,
                                 fontSize: 16),

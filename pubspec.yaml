@@ -68,6 +68,9 @@ dependencies:
   get_it: ^7.2.0
   fluttertoast: ^8.0.8
   firebase_admin: ^0.2.0-dev.7
+  flutter_staggered_animations: ^1.0.0
+  firestore_ui: ^1.21.0
+  flutter_fadein: ^2.0.0
 
 dev_dependencies:
   flutter_test:

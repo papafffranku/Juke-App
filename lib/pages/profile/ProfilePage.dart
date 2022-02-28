@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:lessgoo/main.dart';
 import 'package:lessgoo/models/TrackModel.dart';
 import 'package:lessgoo/pages/home/home.dart';
@@ -17,6 +18,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class ProfilePage extends StatefulWidget {
   final String searchID;
+
   const ProfilePage({Key? key, required this.searchID}) : super(key: key);
 
   @override
@@ -125,24 +127,14 @@ class _ProfilePageState extends State<ProfilePage> {
               child: SingleChildScrollView(
                 child: Stack(
                   children: [
-                    userContent(screenwidth, data!, widget.searchID),
-                    customTab(data),
-                    //main content
-                    // StreamBuilder<QuerySnapshot>(
-                    //     stream: songdeets,
-                    //     builder:
-                    //         (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    //       if (snapshot.hasError) {
-                    //         return Text("Something went wrong");
-                    //       }
-                    //       if (snapshot.connectionState ==
-                    //           ConnectionState.waiting) {
-                    //         return Text("Loading");
-                    //       } else {
-                    //         var song = snapshot.data!.docs;
-                    //         return mainContent(screenwidth, data, song);
-                    //       }
-                    //     })
+                    FadeIn(
+                        duration: Duration(milliseconds: 500),
+                        child: userContent(screenwidth, data!, widget.searchID)
+                    ),
+                    FadeIn(
+                        duration: Duration(milliseconds: 500),
+                        child: customTab(data)
+                    ),
                   ],
                 ),
               ),
@@ -169,8 +161,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20)),
                 color: Colors.black,
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(data['avatarUrl']))),
+                // image: DecorationImage(
+                //     fit: BoxFit.cover,
+                //     image: NetworkImage(data['avatarUrl'])
+                // )
+            ),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(data['avatarUrl']),
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.black,
+            ),
           ),
         ),
         Container(
@@ -231,9 +231,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   SizedBox(width: 5),
-                  CupertinoButton(child: Text('what'), onPressed: (){
-                    setFeatured('SWsohGrcXpceGCB8ZPaXCyau7RP2AUD-20180621-WA0001.mp3');
-                  }),
                   Text(
                     "Singer, Producer",
                     textAlign: TextAlign.center,
@@ -297,9 +294,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //function to set a song as featured
-  setFeatured(String s){
-    users.doc(widget.searchID).update(
-        {"featured": s});
+  setFeatured(String s) {
+    users.doc(widget.searchID).update({"featured": s});
   }
 
   trackList() {
@@ -313,6 +309,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget customTab(var data) {
+    CollectionReference song = FirebaseFirestore.instance
+        .collection('tracks')
+        .doc(widget.searchID)
+        .collection('publicSong');
+
     return Padding(
         padding: const EdgeInsets.only(top: 600.0),
         child: DefaultTabController(
@@ -336,13 +337,30 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Featured(
-                        'https://img.discogs.com/UB8uZXucpxGcbdrtqoVZFHWZ2Cw=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-10268904-1494414512-7307.jpeg.jpg',
-                        'Someone To Stay',
-                        'Vikram Sharma',
-                        '2021'),
-                    SizedBox(
-                      height: 30,
+                    FutureBuilder<DocumentSnapshot>(
+                      future: song.doc(data['featured']).get(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text("Something went wrong");
+                        }
+
+                        if (snapshot.hasData && !snapshot.data!.exists) {
+                          return Text("Document does not exist");
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          Map<String, dynamic> featuredData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          DateTime time =
+                              (featuredData['timestamp'] as Timestamp).toDate();
+                          String year = time.year.toString();
+                          return Featured(featuredData['coverLink'],
+                              featuredData['SongName'], data['username'], year);
+                        }
+
+                        return Text("loading");
+                      },
                     ),
                     SizedBox(
                       height: 30,
@@ -367,21 +385,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     trackList()
                   ]),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: 20,
                       ),
-                      Bio(data['bio']),
+                      Bio(data['bio'],),
                       SizedBox(
                         height: 20,
                       ),
-                      Collabs(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      //Collabs(),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -418,7 +434,7 @@ class _ProfilePageState extends State<ProfilePage> {
         );
       },
       elevation: 2.0,
-      fillColor: Colors.white,
+      fillColor: Theme.of(context).accentColor,
       child: Icon(
         Icons.edit,
         size: 20,
@@ -476,6 +492,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     });
   }
+
   // remove following
 
   handleFollowUser() {

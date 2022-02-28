@@ -7,6 +7,7 @@ Widget Bio(String data) {
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text('About',
                 style: TextStyle(
