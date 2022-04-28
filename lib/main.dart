@@ -8,9 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/ImageDisplayer.dart';
-import 'package:lessgoo/Reference/EventList.dart';
 import 'package:lessgoo/Reference/Heropop.dart';
 import 'package:lessgoo/Reference/Persist.dart';
+import 'package:lessgoo/Reference/newstuff.dart';
 import 'package:lessgoo/Reference/prefs.dart';
 import 'package:lessgoo/Reference/timer.dart';
 import 'package:lessgoo/loginsignup/NewUserDetail.dart';
@@ -89,10 +89,10 @@ Future<void> main() async {
       '/onboard': (context) => onboard(),
       '/connect': (context) => ConnectPage(),
       '/prefs': (context) => prefs(),
-      '/events': (context) => EventList(),
       '/time': (context) => time123(),
       '/nos': (context) => noswipes(time1: '123', timedate: DateTime.now(),),
-      '/nouser': (context) => nousers()
+      '/nouser': (context) => nousers(),
+      '/newstuff': (context) => newstuff(),
     },
     debugShowCheckedModeBanner: false,
   ));

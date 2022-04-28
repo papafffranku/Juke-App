@@ -71,6 +71,7 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
   firestore_ui: ^1.21.0
   flutter_fadein: ^2.0.0
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:

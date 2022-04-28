@@ -93,10 +93,18 @@ class _PersistState extends State<Persist> {
             screenTransitionAnimation: ScreenTransitionAnimation(
               // Screen transition animation on change of selected tab.
               animateTabTransition: true,
-              curve: Curves.fastLinearToSlowEaseIn,
+              curve: Curves.easeInOutCubicEmphasized,
               duration: Duration(milliseconds: 400),
             ),
             navBarStyle: NavBarStyle.style12,
+            decoration: NavBarDecoration(
+              colorBehindNavBar: Colors.transparent,
+              gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: [0.005, 0.995],
+                  colors: [Color(0xff121212), Colors.transparent]),
+            ),
           ),
           Padding(
               padding: const EdgeInsets.only(bottom: 60),

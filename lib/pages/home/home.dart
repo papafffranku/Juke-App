@@ -275,7 +275,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final modal = ModalScreens();
-    double sWidth = MediaQuery.of(context).size.width;
+    Size size = MediaQuery.of(context).size;
+    double width=size.width;
+    double height=size.height;
 
     return StreamBuilder<DocumentSnapshot>(
         stream: docStream,
@@ -289,108 +291,217 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             var data = snapshot.data;
 
-            return Scaffold(
-                backgroundColor: Colors.black,
-                body: NestedScrollView(
-                    floatHeaderSlivers: true,
-                    headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                          SliverAppBar //QuickAccess Bar
-                              (
-                            title: SvgPicture.asset(
-                              'lib/assets/juke_title.svg',
-                              height: 25,
-                              placeholderBuilder: (context) =>
-                                  Icon(Icons.error),
-                            ),
-                            backgroundColor: Theme.of(context).backgroundColor,
-                            floating: true,
-                            onStretchTrigger: () {
-                              return Future<void>.value();
-                            },
-                            actions: [
-                              Hero(
-                                tag: _heroAddTodo,
-                                createRectTween: (begin, end) {
-                                  return CustomRectTween(
-                                      begin: begin, end: end);
-                                },
-                                child: IconButton(
+            return Container(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(-2.5, -2.5),
+                  colors: [
+                    Theme.of(context).accentColor,
+                    Colors.black
+                  ],
+                  radius: 2.6,
+                  stops: [0.005, 0.995],
+                ),
+              ),
+              child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  body: NestedScrollView(
+                      floatHeaderSlivers: true,
+                      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                            SliverAppBar //QuickAccess Bar
+                                (
+                              title: SvgPicture.asset(
+                                'lib/assets/juke_title.svg',
+                                height: 25,
+                                placeholderBuilder: (context) =>
+                                    Icon(Icons.error),
+                              ),
+                              backgroundColor: Colors.transparent,
+                              floating: true,
+                              onStretchTrigger: () {
+                                return Future<void>.value();
+                              },
+                              actions: [
+                                Hero(
+                                  tag: _heroAddTodo,
+                                  createRectTween: (begin, end) {
+                                    return CustomRectTween(
+                                        begin: begin, end: end);
+                                  },
+                                  child: IconButton(
+                                      onPressed: () {
+                                        String id = data!['id'];
+                                        Navigator.of(context).push(
+                                            HeroDialogRoute(builder: (context) {
+                                          return _AddTodoPopupCard(id: id);
+                                        }));
+                                      },
+                                      icon: Icon(
+                                        CupertinoIcons.add,
+                                        color: Theme.of(context).accentColor,
+                                      )),
+                                ),
+                                IconButton(
                                     onPressed: () {
-                                      String id = data!['id'];
-                                      Navigator.of(context).push(
-                                          HeroDialogRoute(builder: (context) {
-                                        return _AddTodoPopupCard(id: id);
-                                      }));
+                                      pushNewScreen(context,
+                                          withNavBar: false,
+                                          screen: ChatLanding());
                                     },
                                     icon: Icon(
-                                      CupertinoIcons.add,
-                                      color: Theme.of(context).accentColor,
+                                      CupertinoIcons.chat_bubble_2,
                                     )),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    pushNewScreen(context,
-                                        withNavBar: false,
-                                        screen: ChatLanding());
-                                  },
-                                  icon: Icon(
-                                    CupertinoIcons.chat_bubble_2,
-                                  )),
-                              SizedBox(width: 10),
-                            ],
+                                SizedBox(width: 10),
+                              ],
+                            ),
+                          ],
+                      body: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text('Hey, '+data!['username'],style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.bold),),
                           ),
-                        ],
-                    body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: GestureDetector(
-                            onTap: (){modal.newUserRec(context,uid);},
-                            child: FadeIn(
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.bounceIn,
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    color: Color(0xff161616),
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20))),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text('Check out whats new!',style: TextStyle(color: Colors.white70,fontWeight: FontWeight.bold),),
+                          ),
+                          SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: InkWell(
+                                  onTap: (){modal.newUserRec(context,uid);},
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        height: 0.30*width,
+                                        width: 0.45*width,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              'lib/assets/Bandppl.jpg',
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        height: 0.30*width,
+                                        width: 0.45*width,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                          gradient: RadialGradient(
+                                            center: Alignment(-0.8, 0.8),
+                                            colors: [
+                                              Colors.blue,
+                                              Colors.transparent
+                                            ],
+                                            radius: 2.4,
+                                            stops: [0.005, 0.995],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 0.15*width,left: 5),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            RichText(
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'New Artists',
+                                                    style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                                                  ),
+                                                  WidgetSpan(
+                                                    child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 22,),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Text('See the newbies',style: TextStyle(color: Colors.white70),),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Stack(
                                   children: [
-                                    SizedBox(height: 2,),
-                                    RichText(
-                                      text: TextSpan(
+                                    Container(
+                                      height: 0.30*width,
+                                      width: 0.45*width,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            'lib/assets/records.jpg',
+                                          ),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 0.3*width,
+                                      width: 0.45*width,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                        gradient: RadialGradient(
+                                          center: Alignment(-0.8, 0.8),
+                                          colors: [
+                                            Colors.blue,
+                                            Colors.transparent
+                                          ],
+                                          radius: 2.4,
+                                          stops: [0.005, 0.995],
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 0.15*width,left: 5),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          TextSpan(
-                                            text: 'See new users',
-                                            style: TextStyle(fontSize: 20,color: Theme.of(context).accentColor),
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: 'New Songs',
+                                                  style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                                                ),
+                                                WidgetSpan(
+                                                  child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 22,),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          WidgetSpan(
-                                            child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 19,),
-                                          ),
+                                          Text('New tracks',style: TextStyle(color: Colors.white70),),
                                         ],
                                       ),
                                     ),
-                                    Text(
-                                      'Make them feel welcome',
-                                      style: TextStyle(color: Colors.white70),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    )
                                   ],
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 10,),
-                        Timeline(),
-                      ],
-                    )));
+                          SizedBox(height: 20,),
+                          Timeline(),
+                        ],
+                      ))),
+            );
           } else {
             return Container(
               color: Theme.of(context).backgroundColor,

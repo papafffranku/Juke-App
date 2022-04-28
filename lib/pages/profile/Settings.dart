@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfileSettings extends StatefulWidget {
@@ -25,6 +26,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           color: Colors.white,
         ),
         title: Text("Settings",style: TextStyle(fontSize: 25),),
+        actions: [
+          SvgPicture.asset(
+            'lib/assets/juke_title.svg',
+            height: 20,
+            placeholderBuilder: (context) =>
+                Icon(Icons.error),
+          ),
+        ],
       ),
       backgroundColor: Color(0xff0e0e15),
       body: ColorfulSafeArea(
@@ -137,7 +146,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ],
                 )
               ),
-              SizedBox(height: 30,),
+              SizedBox(height: 20,),
               CupertinoButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +156,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ],
                   ),
                   onPressed: () async {await Logout();}),
-              SizedBox(height: 20,),
+              SizedBox(height: 70,),
             ],
           ),
         ),

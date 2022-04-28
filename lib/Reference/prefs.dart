@@ -55,101 +55,108 @@ class _prefsState extends State<prefs> {
                     SizedBox(
                       height: 5,
                     ),
-                    Container(
-                      height: 400,
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: query,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return Text('Something went wrong');
-                          }
+                    CupertinoButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/yo');
+                      },
+                      child: Text('go to new paagis'),
 
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Text("Loading");
-                          }
-
-                          return GridView(
-                            shrinkWrap: true,
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 10,
-                                  childAspectRatio: 0.7,
-                                  crossAxisSpacing: 5,
-                              ),
-                              scrollDirection: Axis.vertical,
-                            children:
-                            snapshot.data!.docs.map((DocumentSnapshot document) {
-                              Map<String, dynamic> data =
-                              document.data()! as Map<String, dynamic>;
-                              if (data['id']!='uid'){
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.purple,
-                                      border: Border.all(
-                                        color: Colors.purple,
-                                      ),
-                                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                                  child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: Column(
-                                          children: [
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            CircleAvatar(
-                                              radius: 30,
-                                              backgroundImage:
-                                              NetworkImage(data['avatarUrl']),
-                                            ),
-                                            Text(
-                                              data['username'],
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                data['avatarUrl'],
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(color: Colors.white70),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Align(
-                                                alignment: Alignment.bottomCenter,
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(bottom: 10),
-                                                  child: ElevatedButton(
-                                                    onPressed: () {},
-                                                    child: Text('View profile'),
-                                                    style: ElevatedButton.styleFrom(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(12), // <-- Radius
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                );
-                              }
-                              else{
-                                return SizedBox();
-                              }
-                            }).toList(),
-                          );
-                        },
-                      ),
                     ),
+                    // Container(
+                    //   height: 400,
+                    //   child: StreamBuilder<QuerySnapshot>(
+                    //     stream: query,
+                    //     builder: (BuildContext context,
+                    //         AsyncSnapshot<QuerySnapshot> snapshot) {
+                    //       if (snapshot.hasError) {
+                    //         return Text('Something went wrong');
+                    //       }
+                    //
+                    //       if (snapshot.connectionState == ConnectionState.waiting) {
+                    //         return Text("Loading");
+                    //       }
+                    //
+                    //       return GridView(
+                    //         shrinkWrap: true,
+                    //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //               crossAxisCount: 2,
+                    //               mainAxisSpacing: 10,
+                    //               childAspectRatio: 0.7,
+                    //               crossAxisSpacing: 5,
+                    //           ),
+                    //           scrollDirection: Axis.vertical,
+                    //         children:
+                    //         snapshot.data!.docs.map((DocumentSnapshot document) {
+                    //           Map<String, dynamic> data =
+                    //           document.data()! as Map<String, dynamic>;
+                    //           if (data['id']!='uid'){
+                    //             return Container(
+                    //               decoration: BoxDecoration(
+                    //                   color: Colors.purple,
+                    //                   border: Border.all(
+                    //                     color: Colors.purple,
+                    //                   ),
+                    //                   borderRadius: BorderRadius.all(Radius.circular(15))),
+                    //               child: Center(
+                    //                   child: Padding(
+                    //                     padding: const EdgeInsets.symmetric(horizontal: 8),
+                    //                     child: Column(
+                    //                       children: [
+                    //                         SizedBox(
+                    //                           height: 10,
+                    //                         ),
+                    //                         CircleAvatar(
+                    //                           radius: 30,
+                    //                           backgroundImage:
+                    //                           NetworkImage(data['avatarUrl']),
+                    //                         ),
+                    //                         Text(
+                    //                           data['username'],
+                    //                           maxLines: 3,
+                    //                           overflow: TextOverflow.ellipsis,
+                    //                           style: TextStyle(fontSize: 20),
+                    //                         ),
+                    //                         SizedBox(
+                    //                           height: 5,
+                    //                         ),
+                    //                         Container(
+                    //                           child: Text(
+                    //                             data['avatarUrl'],
+                    //                             maxLines: 3,
+                    //                             overflow: TextOverflow.ellipsis,
+                    //                             style: TextStyle(color: Colors.white70),
+                    //                           ),
+                    //                         ),
+                    //                         Expanded(
+                    //                           child: Align(
+                    //                             alignment: Alignment.bottomCenter,
+                    //                             child: Padding(
+                    //                               padding: const EdgeInsets.only(bottom: 10),
+                    //                               child: ElevatedButton(
+                    //                                 onPressed: () {},
+                    //                                 child: Text('View profile'),
+                    //                                 style: ElevatedButton.styleFrom(
+                    //                                   shape: RoundedRectangleBorder(
+                    //                                     borderRadius: BorderRadius.circular(12), // <-- Radius
+                    //                                   ),
+                    //                                 ),
+                    //                               ),
+                    //                             ),
+                    //                           ),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   )),
+                    //             );
+                    //           }
+                    //           else{
+                    //             return SizedBox();
+                    //           }
+                    //         }).toList(),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                   ],
                 ),
               )),
