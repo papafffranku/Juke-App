@@ -33,7 +33,7 @@ class _time123State extends State<time123> {
     fruits["apple"] = ['v', 'i', 'k', 'r', 'a', 'm'];
     fruits['what'] = ['true', 'false', 'false', 'true', 'false'];
     final qSnap = usersRef.where('tag',isEqualTo: 'ab').orderBy('fruits.1').limit(2).snapshots();
-    final query = usersRef.where('id',isEqualTo: '5vvblcPKqSg9rb1W6gHCCio2Qnx2').snapshots();
+    final query = usersRef.snapshots();
     String temp='';
 
     Future<void> indexer1() async {
@@ -55,73 +55,201 @@ class _time123State extends State<time123> {
         print(fields!["fruits"]);
       });
     }
+    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Text(number1.toString(), style: TextStyle(fontSize: 40),),
-          CupertinoButton(child: Text('indexer'), onPressed: (){indexer1();}),
-          CupertinoButton(child: Text('reset'), onPressed: (){reset();}),
-          CupertinoButton(child: Text('printer'), onPressed: (){printer();}),
-          DropdownButton(
-            underline: Container(),
-            iconEnabledColor: Colors.black,
-              icon: Icon(Icons.ice_skating),
-              items: items.map(buildMenuItems).toList(),
-              onChanged: (value) => setState(() {
-                ab=value.toString();
-              })
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: Colors.redAccent), //Elevated Button Background
-            onPressed: (){}, //make onPressed callback empty
-            child:DropdownButton(
-              style: TextStyle(color: Colors.white), //Dropdown font color
-              dropdownColor: Colors.redAccent, //dropdown menu background color
-              icon: Icon(Icons.arrow_downward, color:Colors.white), //dropdown indicator icon
-              underline: Container(),
-                onChanged: (value) => setState(() {
-                  ab=value.toString();
-                }),
-              items: items.map(buildMenuItems).toList(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
             ),
-          ),
-          Container(
-            height: 120,
-            child: StreamBuilder<QuerySnapshot>(
-              stream: query,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
+            Container(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: query,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading");
-                }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
 
-                return ListView(
-                  children:
-                  snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
-                    print(snapshot.data?.size); // so fucking stupid
-                    return ListTile(
-                      title: Text(data['tag'].toString()),
-                      onTap: (){
-                        List abc=data['tag'];
-                        arrtotag(abc);
-                      },
-                    );
-                  }).toList(),
-                );
-              },
+                  return GridView(
+                    shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                      ),
+                    children:
+                    snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                      document.data()! as Map<String, dynamic>;
+                      print(snapshot.data?.size); // so fucking stupid
+                      if(data['username']=='Jovin'){
+                        return ListTile(
+                          title: Text(data['username'].toString()),
+                          tileColor: Colors.blue,
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                              data['avatarUrl'],
+                            ),
+                          ),
+                          onTap: (){
+                            List abc=data['tag'];
+                            arrtotag(abc);
+                          },
+                        );
+                      }
+                      else{
+                        return ListTile(
+                          title: Text(data['username'].toString()),
+                          onTap: (){
+                            List abc=data['tag'];
+                            arrtotag(abc);
+                          },
+                        );
+                      }
+                    }).toList(),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+            Container(height: 3000,width: 100,color: Colors.black,),
+            Stack(
+              children: [
+                Container(
+                  width: width*0.45,
+                  height: width*0.8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        'https://i.pinimg.com/736x/b8/69/5f/b8695f007aea9a08a0419479217ca6aa.jpg',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 20,),
+            Stack(
+              children: [
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        'https://m.media-amazon.com/images/M/MV5BYjkxYzE3ODktZjExMi00YmM0LTgwNTMtMmU2OTE3ZDI0NDQzXkEyXkFqcGdeQXVyODEyMDIxNDY@._V1_.jpg',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    gradient: RadialGradient(
+                      center: Alignment(-0.8, 0.8),
+                      colors: [Colors.blue, Colors.transparent],
+                      radius: 2.4,
+                      stops: [0.005, 0.995],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 15, left: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: width * 0.25,
+                            width: width * 0.25,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  'https://m.media-amazon.com/images/M/MV5BYjkxYzE3ODktZjExMi00YmM0LTgwNTMtMmU2OTE3ZDI0NDQzXkEyXkFqcGdeQXVyODEyMDIxNDY@._V1_.jpg',
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                              width: width*0.6,
+                              child: Text(
+                                'trackname',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Colors.white70, fontSize: 16),
+                              )),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'artist',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                WidgetSpan(
+                                  child: Icon(
+                                    CupertinoIcons.forward,
+                                    color: Theme.of(context).accentColor,
+                                    size: 22,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Pop',
+                              style: TextStyle(
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1),
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            CircleAvatar(
+                              radius: width * 0.125,
+                              backgroundImage: NetworkImage(
+                                'https://m.media-amazon.com/images/M/MV5BYjkxYzE3ODktZjExMi00YmM0LTgwNTMtMmU2OTE3ZDI0NDQzXkEyXkFqcGdeQXVyODEyMDIxNDY@._V1_.jpg',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

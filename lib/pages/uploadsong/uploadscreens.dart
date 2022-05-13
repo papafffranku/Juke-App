@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lessgoo/pages/connect/connectPage.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
@@ -38,6 +39,7 @@ class _SongUploadState extends State<SongUpload> {
   String Song_key = '';
   bool prv = false;
   String prvmsg = 'This song is public';
+  String featuredRead = '';
 
   //UI Variables
   double blur = 0;
@@ -51,6 +53,7 @@ class _SongUploadState extends State<SongUpload> {
 
   @override
   void initState() {
+    getFeatured();
     super.initState();
   }
 
@@ -401,6 +404,16 @@ class _SongUploadState extends State<SongUpload> {
     );
   }
 
+  void getFeatured() {
+    usersRef.doc(widget.uid).get().then((value) async {
+      var fields = value.data();
+      var a = (fields!['swipe'].toString());
+      setState(() {
+        featuredRead=a;
+      });
+    });
+  }
+
   Future<int> FieldChecker() async {
     if (SongNameController.text.isEmpty) {
       Snackbar('Song name cannot be empty');
@@ -470,7 +483,8 @@ class _SongUploadState extends State<SongUpload> {
         "timestamp": timestamp,
         "likes": likes
       });
-    } else {
+    }
+    else {
       await tracksRef
           .doc(widget.uid)
           .collection('publicSong')
@@ -486,6 +500,11 @@ class _SongUploadState extends State<SongUpload> {
         "timestamp": timestamp,
         "likes": likes
       });
+      if(featuredRead=='no'){
+        usersRef.doc(widget.uid).update({
+          "featured": song_key,
+        });
+      }
     }
   }
 

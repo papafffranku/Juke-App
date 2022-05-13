@@ -19,6 +19,7 @@ import 'package:lessgoo/methods/database.dart';
 import 'package:lessgoo/pages/channel/channels.dart';
 import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/Hello.dart';
+import 'package:lessgoo/pages/connect/Konnect.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
 import 'package:lessgoo/pages/connect/noswipes.dart';
 import 'package:lessgoo/pages/connect/nousers.dart';
@@ -73,7 +74,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xffEFDC6D),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/K',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -93,6 +94,7 @@ Future<void> main() async {
       '/nos': (context) => noswipes(time1: '123', timedate: DateTime.now(),),
       '/nouser': (context) => nousers(),
       '/newstuff': (context) => newstuff(),
+      '/K': (context) => konnect(),
     },
     debugShowCheckedModeBanner: false,
   ));

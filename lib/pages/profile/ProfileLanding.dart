@@ -63,10 +63,11 @@ class _ProfileLandingState extends State<ProfileLanding> {
                         }),
                     Spacer(),
                     InkWell(
-                      onTap: () => pushNewScreen(context,
-                          screen: ProfilePage(searchID: currentUserId),
-                        pageTransitionAnimation: PageTransitionAnimation.cupertino
-                      ),
+                      onTap: ()async => Future.microtask((){
+                        pushNewScreen(context,
+                            screen: ProfilePage(searchID: currentUserId),
+                        pageTransitionAnimation: PageTransitionAnimation.cupertino);
+                      }),
                       child: Container(
                         decoration: BoxDecoration(
                             color: Color(0xff3B3F46),

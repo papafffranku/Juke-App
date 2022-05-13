@@ -107,9 +107,6 @@ class _ConnectPageState extends State<ConnectPage> {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-    double screenheight = MediaQuery.of(context).size.height;
-    CollectionReference usersref =
-        FirebaseFirestore.instance.collection('users');
 
     Query<Map<String, dynamic>> randomQuery =
         usersRef.where("connectNumber", whereIn: connectnumbers).limit(10);
@@ -435,7 +432,7 @@ class _ConnectPageState extends State<ConnectPage> {
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
-                                            if (count == username.length - 1) {//number of usernames in the array
+                                            if (count == username.length) {//number of usernames in the array
                                               count = 0;
                                               pushNewScreen(context,withNavBar: true, screen: nousers());
                                             } else if(count == 10){

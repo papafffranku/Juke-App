@@ -70,58 +70,6 @@ class _nousersState extends State<nousers> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: (){
-
-                },
-                child: FadeIn(
-                  duration: Duration(milliseconds: 500),
-                  curve: Curves.bounceIn,
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Color(0xff161616),
-                        gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            stops: [0.005, 0.995],
-                            colors: [Color(0xff222222), Colors.black]),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 2,),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'See new users',
-                                style: TextStyle(fontSize: 20,color: Theme.of(context).accentColor),
-                              ),
-                              WidgetSpan(
-                                child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 19,),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Text(
-                          'Make them feel welcome',
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.all(15),
               child: GestureDetector(
                 onTap: () {

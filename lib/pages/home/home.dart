@@ -368,7 +368,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           SizedBox(height: 10,),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(left: 15),
@@ -435,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 15),
+                                padding: const EdgeInsets.only(right: 15),
                                 child: Stack(
                                   children: [
                                     Container(
@@ -446,7 +446,7 @@ class _HomePageState extends State<HomePage> {
                                         BorderRadius.all(Radius.circular(10)),
                                         image: DecorationImage(
                                           image: AssetImage(
-                                            'lib/assets/records.jpg',
+                                            'lib/assets/musicdiscussion.jpg',
                                           ),
                                           fit: BoxFit.fill,
                                         ),
@@ -479,7 +479,7 @@ class _HomePageState extends State<HomePage> {
                                             text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: 'New Songs',
+                                                  text: 'Discussions',
                                                   style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
                                                 ),
                                                 WidgetSpan(
@@ -488,7 +488,7 @@ class _HomePageState extends State<HomePage> {
                                               ],
                                             ),
                                           ),
-                                          Text('New tracks',style: TextStyle(color: Colors.white70),),
+                                          Text('Get on the soapbox',style: TextStyle(color: Colors.white70),),
                                         ],
                                       ),
                                     ),
@@ -497,7 +497,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(height: 10,),
                           Timeline(),
                         ],
                       ))),

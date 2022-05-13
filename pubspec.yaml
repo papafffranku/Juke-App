@@ -72,6 +72,8 @@ dependencies:
   firestore_ui: ^1.21.0
   flutter_fadein: ^2.0.0
   animations: ^2.0.2
+  animation_list: ^2.1.0
+  delayed_display: ^2.0.0
 
 dev_dependencies:
   flutter_test:
