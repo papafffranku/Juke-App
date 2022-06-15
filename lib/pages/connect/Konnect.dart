@@ -226,32 +226,37 @@ class _konnectState extends State<konnect> {
 
   Widget maincontent(
       double width, Stream<QuerySnapshot<Map<String, dynamic>>> query) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: query,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
+    return Column(
+      children: [
+        Text('data'),
+        StreamBuilder<QuerySnapshot>(
+          stream: query,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Something went wrong');
+            }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
-        return AnimationList(
-          physics: NeverScrollableScrollPhysics(),
-          duration: 1000,
-          shrinkWrap: true,
-          children: snapshot.data!.docs.map((DocumentSnapshot document) {
-            Map<String, dynamic> data =
-                document.data()! as Map<String, dynamic>;
-            print(snapshot.data?.size); // so fucking stupid
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: newTrack(width, data['email'], data['username'],
-                  data['avatarUrl'], data['avatarUrl'], data['email']),
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Text("Loading");
+            }
+            return AnimationList(
+              physics: NeverScrollableScrollPhysics(),
+              duration: 1000,
+              shrinkWrap: true,
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                print(snapshot.data?.size); // so fucking stupid
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: newTrack(width, data['email'], data['username'],
+                      data['avatarUrl'], data['avatarUrl'], data['email']),
+                );
+              }).toList(),
             );
-          }).toList(),
-        );
-      },
+          },
+        ),
+      ],
     );
   }
 }

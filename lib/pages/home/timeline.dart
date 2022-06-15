@@ -97,7 +97,7 @@ class _TimelineState extends State<Timeline> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 60),
+                padding: const EdgeInsets.only(top: 30),
                 child: Text('Invite your friends',style: TextStyle(fontSize: 20),),
               ),
               Text('Help us grow our community!',),

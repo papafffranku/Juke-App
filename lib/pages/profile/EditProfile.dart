@@ -63,27 +63,6 @@ class _EditProfileState extends State<EditProfile> {
   FilePickerResult? result;
   late PlatformFile file;
 
-  Future<void> arrtotag(List<dynamic> abc) async {
-    List tag=[];
-    if(abc[0]==true){
-      tag.add('Singer');
-    }
-    if(abc[1]==true){
-      tag.add('Producer');
-    }
-    if(abc[2]==true){
-      tag.add('Instrumentalist');
-    }
-    if(abc[3]==true){
-      tag.add('Audio engineer');
-    }
-    if(abc[4]==true){
-      tag.add('Cover artist');
-    }
-    print(tag);
-    await usersRef.doc(widget.data['uid']).update({"stringTag": tag});
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -459,6 +438,24 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<void> WriteDetails() async {
     arr = [singerValue, producerValue, instrumentValue, engineValue, coverValue];
+
+    List tag=[];
+    if(boolarr1[0]==true){
+      tag.add('Singer');
+    }
+    if(boolarr1[1]==true){
+      tag.add('Producer');
+    }
+    if(boolarr1[2]==true){
+      tag.add('Instrumentalist');
+    }
+    if(boolarr1[3]==true){
+      tag.add('Audio engineer');
+    }
+    if(boolarr1[4]==true){
+      tag.add('Cover artist');
+    }
+
     usersRef.doc(widget.data['id']).update({
       "username": UsernameControl.text,
       "bio": BioControl.text,
@@ -466,8 +463,8 @@ class _EditProfileState extends State<EditProfile> {
       "lookout":boolarr2,
       "socialfb": FacebookControl.text,
       "socialig": InstagramControl.text,
+      "stringTag":tag
     });
-    arrtotag(boolarr1);
   }
 
   Future<File> CoverArtSelecter() async {

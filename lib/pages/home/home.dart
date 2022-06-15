@@ -85,8 +85,7 @@ class _HomePageState extends State<HomePage> {
       importance: Importance.max,
       priority: Priority.high,
     );
-    IOSNotificationDetails iOSPlatformChannelSpecifics =
-        IOSNotificationDetails();
+    IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails(threadIdentifier: 'thread_id');
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);

@@ -23,6 +23,7 @@ import 'package:lessgoo/pages/connect/Konnect.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
 import 'package:lessgoo/pages/connect/noswipes.dart';
 import 'package:lessgoo/pages/connect/nousers.dart';
+import 'package:lessgoo/pages/connect/ope.dart';
 import 'package:lessgoo/pages/profile/ProfileLanding.dart';
 
 import 'package:lessgoo/pages/trails/Trail%20Trial.dart';
@@ -74,7 +75,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xffEFDC6D),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/K',
+    initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -95,6 +96,7 @@ Future<void> main() async {
       '/nouser': (context) => nousers(),
       '/newstuff': (context) => newstuff(),
       '/K': (context) => konnect(),
+      '/ope': (context) => ope(),
     },
     debugShowCheckedModeBanner: false,
   ));
