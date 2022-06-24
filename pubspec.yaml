@@ -75,6 +75,7 @@ dependencies:
   animation_list: ^2.1.0
   delayed_display: ^2.0.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

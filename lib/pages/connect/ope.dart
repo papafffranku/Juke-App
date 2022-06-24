@@ -30,6 +30,8 @@ class _opeState extends State<ope> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    double width=size.width;
     Stream<QuerySnapshot<Map<String, dynamic>>> query = usersRef.where("username", isEqualTo: abc).snapshots();
     Stream<QuerySnapshot<Map<String, dynamic>>> tagSnap = usersRef.where('stringTag',arrayContainsAny: ['singer']).orderBy('indexer.$mapNumber').limit(10).snapshots();
 
@@ -48,7 +50,27 @@ class _opeState extends State<ope> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 30,),
+          SizedBox(height: 50,),
+          Stack(
+            children: [
+              Container(
+                height: 0.50*width,
+                width:width,
+                color: Colors.red,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Center(
+                  child: GlassContainer(
+                    height: 0.30*width,
+                    width: 0.45*width,
+                    blur: 60,
+                  ),
+                ),
+              ),
+
+            ],
+          ),
           Text(tagKeyword),
           DropdownButton(
             borderRadius: BorderRadius.circular(20),

@@ -75,7 +75,7 @@ Future<void> main() async {
         backgroundColor: Color(0xff121212),
         accentColor: Color(0xffEFDC6D),
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/ok',
+    initialRoute: '/K',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
