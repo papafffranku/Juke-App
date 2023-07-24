@@ -6,7 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../main.dart';
 
@@ -279,7 +279,7 @@ class _TrackState extends State<Track> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        pushNewScreen(context,
+                        PersistentNavBarNavigator.pushNewScreen(context,
                             withNavBar: false,
                             screen: Player(
                                 player: audioPlayer,
@@ -335,7 +335,7 @@ class _TrackState extends State<Track> {
                                   ? Icons.favorite
                                   : Icons.favorite_border_outlined,
                               color: isLiked
-                                  ? Theme.of(context).accentColor
+                                  ? Theme.of(context).hintColor
                                   : Colors.white,
                             )),
                         InkWell(

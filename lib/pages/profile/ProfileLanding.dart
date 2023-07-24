@@ -11,7 +11,7 @@ import 'package:lessgoo/pages/library/likedTracks.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/profile/Settings.dart';
 import 'package:lessgoo/pages/widgets/landingpageheader.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 final fbRef = FirebaseFirestore.instance.collection('Feedback');
 
@@ -64,7 +64,7 @@ class _ProfileLandingState extends State<ProfileLanding> {
                     Spacer(),
                     InkWell(
                       onTap: ()async => Future.microtask((){
-                        pushNewScreen(context,
+                        PersistentNavBarNavigator.pushNewScreen(context,
                             screen: ProfilePage(searchID: currentUserId),
                         pageTransitionAnimation: PageTransitionAnimation.cupertino);
                       }),
@@ -87,7 +87,7 @@ class _ProfileLandingState extends State<ProfileLanding> {
             // Padding(
             //     padding: EdgeInsets.symmetric(horizontal: 15),
             //     child: InkWell(
-            //       onTap: () => pushNewScreen(context, screen: LikedTracks()),
+            //       onTap: () => PersistentNavBarNavigator.pushNewScreen(context, screen: LikedTracks()),
             //       child: Row(
             //         children: [
             //           Text(
@@ -107,7 +107,7 @@ class _ProfileLandingState extends State<ProfileLanding> {
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15),
                   child: InkWell(
-                    onTap: () => pushNewScreen(context, screen: ActivityFeed()),
+                    onTap: () => PersistentNavBarNavigator.pushNewScreen(context, screen: ActivityFeed()),
                     child: Container(
                       height: 35,
                       child: Row(
@@ -156,7 +156,7 @@ class _ProfileLandingState extends State<ProfileLanding> {
                     child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
-                            color: Theme.of(context).accentColor
+                            color: Theme.of(context).hintColor
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -174,7 +174,7 @@ class _ProfileLandingState extends State<ProfileLanding> {
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.all(Radius.circular(20)),
-                                color: Theme.of(context).accentColor
+                                color: Theme.of(context).hintColor
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class prefs extends StatefulWidget {

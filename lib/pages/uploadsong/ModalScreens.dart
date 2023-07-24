@@ -182,7 +182,7 @@ class ModalScreens {
                                                     child: Text('View profile',style: TextStyle(color: Colors.black,),),
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      primary: Theme.of(context).accentColor,
+                                                      primary: Theme.of(context).hintColor,
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius: BorderRadius
                                                             .circular(
@@ -211,7 +211,7 @@ class ModalScreens {
                                               style: TextStyle(fontSize: 20,color: Colors.white),
                                             ),TextSpan(
                                               text: 'connect page ',
-                                              style: TextStyle(fontSize: 20,color: Theme.of(context).accentColor),
+                                              style: TextStyle(fontSize: 20,color: Theme.of(context).hintColor),
                                             ),
                                             TextSpan(
                                               text: 'to filter by your preference ',

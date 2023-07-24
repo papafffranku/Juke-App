@@ -71,7 +71,7 @@ class _AlbumViewerState extends State<AlbumViewer> {
                               Text(
                                 'album',
                                 style: TextStyle(
-                                    color: Theme.of(context).accentColor),
+                                    color: Theme.of(context).hintColor),
                               ),
                               Row(
                                 mainAxisAlignment:

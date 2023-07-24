@@ -8,7 +8,7 @@ import 'package:lessgoo/models/UserBannerModel.dart';
 import 'package:lessgoo/pages/chat/chat_search.dart';
 import 'package:lessgoo/pages/chat/chatter.dart';
 import 'package:lessgoo/pages/widgets/routepageheader.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ChatLanding extends StatefulWidget {
   const ChatLanding({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _ChatLandingState extends State<ChatLanding> {
   }
 
   _onSearchTap() {
-    pushNewScreen(context, screen: ChatSearch());
+    PersistentNavBarNavigator.pushNewScreen(context, screen: ChatSearch());
   }
 
   @override
@@ -102,7 +102,7 @@ class ChatRoomsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        pushNewScreen(context,
+        PersistentNavBarNavigator.pushNewScreen(context,
             screen: Chatter(
               chatroomId: chatRoomId,
               other_user: userId,

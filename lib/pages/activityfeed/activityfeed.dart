@@ -4,7 +4,7 @@ import 'package:lessgoo/main.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
 import 'package:lessgoo/pages/widgets/routepageheader.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ActivityFeed extends StatefulWidget {
@@ -147,7 +147,7 @@ class ActivityFeedItem extends StatelessWidget {
                       backgroundImage: NetworkImage(data['avatarUrl'])),
                   title: GestureDetector(
                     onTap: () {
-                      pushNewScreen(context,
+                      PersistentNavBarNavigator.pushNewScreen(context,
                           screen: ProfilePage(searchID: userId));
                     },
                     child: RichText(

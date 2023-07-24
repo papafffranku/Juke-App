@@ -26,7 +26,7 @@ import 'package:lessgoo/pages/trails/Trail_landing.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:lessgoo/pages/uploadsong/uploadscreens.dart';
 import 'package:palette_generator/palette_generator.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 final currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
       importance: Importance.max,
       priority: Priority.high,
     );
-    IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails(threadIdentifier: 'thread_id');
+    DarwinNotificationDetails iOSPlatformChannelSpecifics = DarwinNotificationDetails(threadIdentifier: 'thread_id');
     NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                     text: '$releaseType',
                     style: TextStyle(
                         fontSize: 14,
-                        color: Theme.of(context).accentColor.withOpacity(0.9)),
+                        color: Theme.of(context).hintColor.withOpacity(0.9)),
                   ),
                   TextSpan(
                     text: '\n$trackName',
@@ -228,11 +228,11 @@ class _HomePageState extends State<HomePage> {
       children: [
         Stack(children: [
           CircleAvatar(
-            backgroundColor: Theme.of(context).accentColor,
+            backgroundColor: Theme.of(context).hintColor,
             radius: 4,
           ),
           GestureDetector(
-            onTap: () => pushNewScreen(context, screen: StoryPageView()),
+            onTap: () => PersistentNavBarNavigator.pushNewScreen(context, screen: StoryPageView()),
             child: CircleAvatar(
               backgroundImage: NetworkImage(imgurl),
               radius: 32,
@@ -295,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                 gradient: RadialGradient(
                   center: Alignment(-2.5, -2.5),
                   colors: [
-                    Theme.of(context).accentColor,
+                    Theme.of(context).hintColor,
                     Colors.black
                   ],
                   radius: 2.6,
@@ -337,12 +337,12 @@ class _HomePageState extends State<HomePage> {
                                       },
                                       icon: Icon(
                                         CupertinoIcons.add,
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme.of(context).hintColor,
                                       )),
                                 ),
                                 IconButton(
                                     onPressed: () {
-                                      pushNewScreen(context,
+                                      PersistentNavBarNavigator.pushNewScreen(context,
                                           withNavBar: false,
                                           screen: ChatLanding());
                                     },
@@ -420,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                                                     style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
                                                   ),
                                                   WidgetSpan(
-                                                    child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 22,),
+                                                    child: Icon(CupertinoIcons.forward,color: Theme.of(context).hintColor,size: 22,),
                                                   ),
                                                 ],
                                               ),
@@ -482,7 +482,7 @@ class _HomePageState extends State<HomePage> {
                                                   style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
                                                 ),
                                                 WidgetSpan(
-                                                  child: Icon(CupertinoIcons.forward,color: Theme.of(context).accentColor,size: 22,),
+                                                  child: Icon(CupertinoIcons.forward,color: Theme.of(context).hintColor,size: 22,),
                                                 ),
                                               ],
                                             ),
@@ -519,7 +519,7 @@ class _HomePageState extends State<HomePage> {
             'Releases',
             style: TextStyle(
                 letterSpacing: 1.2,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).hintColor,
                 fontSize: 25,
                 fontWeight: FontWeight.bold),
           ),
@@ -543,7 +543,7 @@ class _HomePageState extends State<HomePage> {
                   'Trails',
                   style: TextStyle(
                       letterSpacing: 1.2,
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).hintColor,
                       fontSize: 25,
                       fontWeight: FontWeight.bold),
                 ),
@@ -606,7 +606,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
             return CustomRectTween(begin: begin, end: end);
           },
           child: Material(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).hintColor,
             elevation: 2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -635,7 +635,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                             nextColor.substring(11, 16);
                         Color otherColor = new Color(int.parse(nextColor));
                         print(otherColor.toString());
-                        pushNewScreen(context,
+                        PersistentNavBarNavigator.pushNewScreen(context,
                             screen: Trail_landing(
                               UPFcon: UPF,
                               uid: widget.id,
@@ -666,7 +666,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                                       text: "Trail",
                                       style: TextStyle(
                                           letterSpacing: 1.2,
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context).hintColor,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -687,7 +687,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                         );
                         file = result!.files.first;
                         final File UPF = File(file.path.toString());
-                        pushNewScreen(context,
+                        PersistentNavBarNavigator.pushNewScreen(context,
                             screen: SongUpload(
                               UPFcon: UPF,
                               uid: widget.id,
@@ -715,7 +715,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                                       text: "Song",
                                       style: TextStyle(
                                           letterSpacing: 1.2,
-                                          color: Theme.of(context).accentColor,
+                                          color: Theme.of(context).hintColor,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -750,7 +750,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                                     text: "Album",
                                     style: TextStyle(
                                         letterSpacing: 1.2,
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme.of(context).hintColor,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -770,7 +770,7 @@ class __AddTodoPopupCardState extends State<_AddTodoPopupCard> {
                         width: 200,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: Theme.of(context).accentColor),
+                            color: Theme.of(context).hintColor),
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Center(

@@ -10,7 +10,7 @@ import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfileLanding.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class Persist extends StatefulWidget {
   const Persist({Key? key}) : super(key: key);
@@ -230,7 +230,7 @@ class _PersistState extends State<Persist> {
   }
 
   void pushToPlayer() {
-    pushNewScreen(context,
+    PersistentNavBarNavigator.pushNewScreen(context,
         withNavBar: false,
         pageTransitionAnimation: PageTransitionAnimation.cupertino,
         screen: Player(player: audioPlayer, playlist: null));

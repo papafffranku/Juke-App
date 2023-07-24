@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/explore/SearchPage.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 Widget landingPageHeader(
     BuildContext context, String title, var actionButton, var action) {
@@ -20,7 +20,7 @@ Widget landingPageHeader(
               ? IconButton(
                   onPressed: action != false
                       ? () {
-                          pushNewScreen(context, screen: action);
+                          PersistentNavBarNavigator.pushNewScreen(context, screen: action);
                         }
                       : () {},
                   icon: Icon(
@@ -67,7 +67,7 @@ Widget landingPageHeader2(
               ? IconButton(
                   onPressed: action != false
                       ? () {
-                          pushNewScreen(context, screen: action, pageTransitionAnimation: PageTransitionAnimation.fade);
+                          PersistentNavBarNavigator.pushNewScreen(context, screen: action, pageTransitionAnimation: PageTransitionAnimation.fade);
                         }
                       : () {},
                   icon: Icon(

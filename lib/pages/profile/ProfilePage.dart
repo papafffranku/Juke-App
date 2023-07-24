@@ -14,7 +14,7 @@ import 'package:lessgoo/pages/profile/Settings.dart';
 import 'package:lessgoo/pages/profile/trackwidget/bio.dart';
 import 'package:lessgoo/pages/profile/trackwidget/collab.dart';
 import 'package:lessgoo/pages/profile/trackwidget/featured_track.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ProfilePage extends StatefulWidget {
   final String searchID;
@@ -190,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 IconButton(
                     onPressed: () {
                       isCurrentUser
-                          ? pushNewScreen(context, screen: ProfileSettings())
+                          ? PersistentNavBarNavigator.pushNewScreen(context, screen: ProfileSettings())
                           : Container();
                     },
                     icon: isCurrentUser
@@ -427,7 +427,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget userEdit(dynamic data) {
     return RawMaterialButton(
       onPressed: () {
-        pushNewScreen(
+        PersistentNavBarNavigator.pushNewScreen(
           context,
           screen: EditProfile(
             data: data,
@@ -437,7 +437,7 @@ class _ProfilePageState extends State<ProfilePage> {
         );
       },
       elevation: 2.0,
-      fillColor: Theme.of(context).accentColor,
+      fillColor: Theme.of(context).hintColor,
       child: Icon(
         Icons.edit,
         size: 20,
@@ -540,7 +540,7 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: text == 'Following'
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).hintColor
                     : Colors.white,
               ),
               child: Padding(

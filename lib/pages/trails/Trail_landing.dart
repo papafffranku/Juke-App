@@ -102,7 +102,7 @@ class _Trail_landingState extends State<Trail_landing> {
                           ClipOval(
                             child: Material(
                               color:
-                                  Theme.of(context).accentColor, // Button color
+                                  Theme.of(context).hintColor, // Button color
                               child: InkWell(
                                 splashColor: Colors.black, // Splash color
                                 onTap: () async {
@@ -135,7 +135,7 @@ class _Trail_landingState extends State<Trail_landing> {
                                     height: 50,
                                     child: Icon(
                                       Icons.send_sharp,
-                                      color: Theme.of(context).accentColor,
+                                      color: Theme.of(context).hintColor,
                                     )),
                               ),
                             ),

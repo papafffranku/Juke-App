@@ -5,7 +5,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:lessgoo/pages/home/home.dart';
 import 'package:lessgoo/pages/player/player.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../main.dart';
 
@@ -196,7 +196,7 @@ class _TrackTimelineState extends State<TrackTimeline> {
                       ),
                       Expanded(
                         child: InkWell(
-                          onTap: () => pushNewScreen(context,
+                          onTap: () => PersistentNavBarNavigator.pushNewScreen(context,
                               screen: ProfilePage(searchID: Artist)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -228,7 +228,7 @@ class _TrackTimelineState extends State<TrackTimeline> {
                           onPressed: () {
                             selected = !selected;
 
-                            pushNewScreen(context,
+                            PersistentNavBarNavigator.pushNewScreen(context,
                                 withNavBar: false,
                                 pageTransitionAnimation:
                                     PageTransitionAnimation.cupertino,
@@ -257,7 +257,7 @@ class _TrackTimelineState extends State<TrackTimeline> {
                             Text(
                               'single',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).hintColor),
                             ),
                             Text(
                               SongName,
@@ -275,7 +275,7 @@ class _TrackTimelineState extends State<TrackTimeline> {
                                   ? Icons.favorite
                                   : Icons.favorite_border_outlined,
                               color: isLiked
-                                  ? Theme.of(context).accentColor
+                                  ? Theme.of(context).hintColor
                                   : Colors.white,
                             ))
                       ],

@@ -5,7 +5,7 @@ import 'package:lessgoo/main.dart';
 import 'package:lessgoo/methods/database.dart';
 import 'package:lessgoo/pages/chat/chatter.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ChatSearch extends StatefulWidget {
   const ChatSearch({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class _ChatSearchState extends State<ChatSearch> {
       "chatroomId": chatRoomId
     };
     databaseMethods.createChatRoom(chatRoomId, chatRoomMap);
-    pushNewScreen(context,
+    PersistentNavBarNavigator.pushNewScreen(context,
         screen: Chatter(chatroomId: chatRoomId, other_user: otherUser));
   }
 

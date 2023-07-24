@@ -13,7 +13,7 @@ import 'package:lessgoo/pages/connect/connectPage.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lessgoo/pages/uploadsong/SuccessUpload.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class SongUpload extends StatefulWidget {
   final File UPFcon;
@@ -93,7 +93,7 @@ class _SongUploadState extends State<SongUpload> {
                       await Uploader(
                           Cover!, Cover_key, UPF1, Song_key, widget.uid);
                       Navigator.pop(context);
-                      pushNewScreen(context,
+                      PersistentNavBarNavigator.pushNewScreen(context,
                           screen: SuccessUpload(), withNavBar: true);
                     } else if (doc.exists || doc1.exists) {
                       Snackbar(

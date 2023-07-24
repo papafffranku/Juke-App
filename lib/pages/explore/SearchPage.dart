@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/profile/ProfilePage.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -80,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
                           children: snapshot.data!.docs
                               .map((DocumentSnapshot document) {
                             return InkWell(
-                              onTap: () => pushNewScreen(context,
+                              onTap: () => PersistentNavBarNavigator.pushNewScreen(context,
                                   screen: ProfilePage(
                                     searchID: document['id'].toString(),
                                   )),

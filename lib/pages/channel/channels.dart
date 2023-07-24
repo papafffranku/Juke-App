@@ -111,12 +111,12 @@ class GroupTile extends StatelessWidget {
                 Spacer(),
                 OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Theme.of(context).accentColor)),
+                        side: BorderSide(color: Theme.of(context).hintColor)),
                     onPressed: () {},
                     child: Text(
                       '+ Join',
                       style: TextStyle(
-                          color: Theme.of(context).accentColor, fontSize: 16),
+                          color: Theme.of(context).hintColor, fontSize: 16),
                     ))
               ],
             ),

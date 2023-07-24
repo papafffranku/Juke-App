@@ -8,7 +8,7 @@ import 'package:lessgoo/pages/profile/Settings.dart';
 import 'package:lessgoo/pages/profile/trackwidget/bio.dart';
 import 'package:lessgoo/pages/profile/trackwidget/collab.dart';
 import 'package:lessgoo/pages/profile/trackwidget/featured_track.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class NewDetail extends StatefulWidget {
   const NewDetail({Key? key}) : super(key: key);
@@ -86,7 +86,7 @@ class _NewDetailState extends State<NewDetail> {
                                 shape: BoxShape.circle),
                             child: IconButton(
                                 onPressed: () {
-                                  pushNewScreen(context,
+                                  PersistentNavBarNavigator.pushNewScreen(context,
                                       screen: ProfileSettings());
                                 },
                                 icon: Icon(Icons.settings),
@@ -201,7 +201,7 @@ class _NewDetailState extends State<NewDetail> {
                               children: [
                                 GestureDetector(
                                   // onTap: () {
-                                  //   pushNewScreen(
+                                  //   PersistentNavBarNavigator.pushNewScreen(
                                   //     context,
                                   //     screen: EditProfile(),
                                   //     withNavBar: true,

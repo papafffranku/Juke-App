@@ -73,7 +73,7 @@ class _PlaylistViewerState extends State<PlaylistViewer> {
                   children: [
                     Text(
                       'playlist',
-                      style: TextStyle(color: Theme.of(context).accentColor),
+                      style: TextStyle(color: Theme.of(context).hintColor),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

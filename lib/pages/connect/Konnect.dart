@@ -27,39 +27,24 @@ class konnect extends StatefulWidget {
 }
 
 class _konnectState extends State<konnect> {
-  int? mapNumber;
-  int randomindex = 0;
-  List? connectnumbers;
+  int? totalusers;
   String abc = 'none';
   String tagKeyword = 'weasdd';
   String filterString='';
 
   @override
   void initState() {
-    mapNumber = new Random().nextInt(10);
     gettotalusers();
     super.initState();
   }
 
   Future<void> gettotalusers() async {
-    Random random = new Random();
-    randomindex = random.nextInt(10);
-    int? temp;
-    List templist = [];
     await total.doc('totalnumber').get().then((value) async {
       var fields = value.data();
-      temp = (fields!['number']);
-    });
-    for (var i = 0; i <= 10; i++) {
-      int random_number = random.nextInt(10);
-      if (!templist.contains(random_number)) {
-        templist.add(random_number);
-      }
-    }
-    setState(() {
-      connectnumbers = templist;
+      totalusers = (fields!['number']);
     });
   }
+
 
 
   DropdownMenuItem<String> buildMenuItems(String item) => DropdownMenuItem(
@@ -76,10 +61,8 @@ class _konnectState extends State<konnect> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    Stream<QuerySnapshot<Map<String, dynamic>>> randomQuery = usersRef
-        .where("connectNumber", whereIn: connectnumbers)
-        .limit(2)
-        .snapshots();
+    Query<Map<String, dynamic>> randomQuery =
+    usersRef.where("connectNumber", isEqualTo: 2).limit(3);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -92,13 +75,13 @@ class _konnectState extends State<konnect> {
               Row(
                 children: [
                   Text(
-                    'Connect',
+                    totalusers.toString(),
                     style: TextStyle(
                         color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              maincontent(width, randomQuery)
+              maincontent(width, randomQuery.snapshots())
             ],
           ),
         ),
@@ -185,7 +168,7 @@ class _konnectState extends State<konnect> {
                         WidgetSpan(
                           child: Icon(
                             CupertinoIcons.forward,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).hintColor,
                             size: 22,
                           ),
                         ),

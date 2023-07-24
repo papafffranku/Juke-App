@@ -211,7 +211,7 @@ class _time123State extends State<time123> {
                                 WidgetSpan(
                                   child: Icon(
                                     CupertinoIcons.forward,
-                                    color: Theme.of(context).accentColor,
+                                    color: Theme.of(context).hintColor,
                                     size: 22,
                                   ),
                                 ),

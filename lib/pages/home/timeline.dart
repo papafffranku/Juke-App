@@ -60,11 +60,11 @@ class _TimelineState extends State<Timeline> {
                         style: TextStyle(color: Colors.white),
                       ),WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
-                        child: Icon(CupertinoIcons.infinite,size: 20,color: Theme.of(context).accentColor,),
+                        child: Icon(CupertinoIcons.infinite,size: 20,color: Theme.of(context).hintColor,),
                       ),
                       TextSpan(
                         text: ' page',
-                        style: TextStyle(color: Theme.of(context).accentColor),
+                        style: TextStyle(color: Theme.of(context).hintColor),
                       ),
                       TextSpan(
                         text: ' to meet some new people ',
@@ -82,11 +82,11 @@ class _TimelineState extends State<Timeline> {
                         style: TextStyle(color: Colors.white),
                       ),WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
-                        child: Icon(CupertinoIcons.search,size: 20,color: Theme.of(context).accentColor,),
+                        child: Icon(CupertinoIcons.search,size: 20,color: Theme.of(context).hintColor,),
                       ),
                       TextSpan(
                         text: ' page',
-                        style: TextStyle(color: Theme.of(context).accentColor),
+                        style: TextStyle(color: Theme.of(context).hintColor),
                       ),
                       TextSpan(
                         text: ' to find people via their username',

@@ -340,7 +340,10 @@ class _onboardState extends State<onboard> {
       ),
     ];
 
-    return Scaffold(
+    return Scaffold();
+
+    '''
+      return Scaffold(
       backgroundColor: Colors.black,
       body: Onboarding(
         pagesContentPadding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
@@ -382,6 +385,8 @@ class _onboardState extends State<onboard> {
         ),
       ),
     );
+    ''';
+
   }
 
   String tagProcess(arr) {

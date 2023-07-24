@@ -10,7 +10,7 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:lessgoo/pages/connect/noswipes.dart';
 import 'package:lessgoo/pages/connect/nousers.dart';
 import 'package:lessgoo/pages/widgets/landingpageheader.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
@@ -140,7 +140,7 @@ class _ConnectPageState extends State<ConnectPage> {
                   borderRadius: BorderRadius.circular(20),
                   hint: Text(''),
                   style: TextStyle(color: Colors.white), //Dropdown font color
-                  dropdownColor: Theme.of(context).accentColor, //dropdown menu background color
+                  dropdownColor: Theme.of(context).hintColor, //dropdown menu background color
                   icon: Icon(Icons.filter_list_sharp, color:Colors.white,size: 30,), //dropdown indicator icon
                   underline: Container(),
                   onChanged: (value) => setState(() {
@@ -434,10 +434,10 @@ class _ConnectPageState extends State<ConnectPage> {
                                           setState(() {
                                             if (count == username.length) {//number of usernames in the array
                                               count = 0;
-                                              pushNewScreen(context,withNavBar: true, screen: nousers());
+                                              PersistentNavBarNavigator.pushNewScreen(context,withNavBar: true, screen: nousers());
                                             } else if(count == 10){
                                               sover(); // wont reach as 10 people not there
-                                              pushNewScreen(context,withNavBar: true, screen: noswipes(time1: time, timedate: lastTime,));
+                                              PersistentNavBarNavigator.pushNewScreen(context,withNavBar: true, screen: noswipes(time1: time, timedate: lastTime,));
                                               setState(() {
                                                 check = connect(lastTime);
                                               });

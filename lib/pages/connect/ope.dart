@@ -76,7 +76,7 @@ class _opeState extends State<ope> {
             borderRadius: BorderRadius.circular(20),
             hint: Text(''),
             style: TextStyle(color: Colors.white), //Dropdown font color
-            dropdownColor: Theme.of(context).accentColor, //dropdown menu background color
+            dropdownColor: Theme.of(context).hintColor, //dropdown menu background color
             icon: Icon(Icons.filter_list_sharp, color:Colors.white,size: 30,), //dropdown indicator icon
             underline: Container(),
             onChanged: (value) => setState(() {

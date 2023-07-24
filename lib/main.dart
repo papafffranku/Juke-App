@@ -21,6 +21,8 @@ import 'package:lessgoo/pages/chat/chat_landing.dart';
 import 'package:lessgoo/Hello.dart';
 import 'package:lessgoo/pages/connect/Konnect.dart';
 import 'package:lessgoo/pages/connect/connectPage.dart';
+import 'package:lessgoo/pages/connect/design.dart';
+import 'package:lessgoo/pages/connect/finalist.dart';
 import 'package:lessgoo/pages/connect/noswipes.dart';
 import 'package:lessgoo/pages/connect/nousers.dart';
 import 'package:lessgoo/pages/connect/ope.dart';
@@ -73,9 +75,9 @@ Future<void> main() async {
         brightness: Brightness.dark,
         primaryColor: Color(0xff121212),
         backgroundColor: Color(0xff121212),
-        accentColor: Color(0xffEFDC6D),
+        hintColor: Color(0xffEFDC6D), //accent color is now hint color
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/K',
+    initialRoute: '/finalist',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -97,6 +99,8 @@ Future<void> main() async {
       '/newstuff': (context) => newstuff(),
       '/K': (context) => konnect(),
       '/ope': (context) => ope(),
+      '/finalist': (context) => finalist(),
+      '/d': (context) => Design(),
     },
     debugShowCheckedModeBanner: false,
   ));

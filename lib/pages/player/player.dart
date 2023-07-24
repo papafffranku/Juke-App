@@ -190,7 +190,7 @@ class _PlayerState extends State<Player> {
                                     icon: shuffleModeEnabled
                                         ? Icon(Icons.shuffle,
                                             color:
-                                                Theme.of(context).accentColor)
+                                                Theme.of(context).hintColor)
                                         : Icon(Icons.shuffle,
                                             color: Colors.grey),
                                     onPressed: () async {
@@ -263,7 +263,7 @@ class _PlayerState extends State<Player> {
                                   final loopMode =
                                       snapshot.data ?? LoopMode.off;
                                   var activeColor =
-                                      Theme.of(context).accentColor;
+                                      Theme.of(context).hintColor;
                                   var icons = [
                                     Icon(Icons.repeat, color: Colors.grey),
                                     Icon(Icons.repeat, color: activeColor),

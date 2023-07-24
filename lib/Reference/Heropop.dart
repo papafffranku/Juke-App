@@ -91,7 +91,7 @@ class _HeropopState extends State<Heropop> {
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12)),
-                              color: Theme.of(context).accentColor),
+                              color: Theme.of(context).hintColor),
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Row(
@@ -142,7 +142,7 @@ class _HeropopState extends State<Heropop> {
                                   'Trail',
                                   style: TextStyle(
                                       letterSpacing: 1.2,
-                                      color: Theme.of(context).accentColor,
+                                      color: Theme.of(context).hintColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -212,7 +212,7 @@ class _AddTodoPopupCard extends StatelessWidget {
                       color: Colors.white,
                       thickness: 0.2,
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {},
                       child: const Text('Add'),
                     ),
