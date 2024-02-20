@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:lessgoo/pages/profile/EditProfile.dart';
 
 import 'package:lessgoo/pages/profile/Settings.dart';
-import 'package:lessgoo/pages/profile/trackwidget/bio.dart';
 import 'package:lessgoo/pages/profile/trackwidget/collab.dart';
 import 'package:lessgoo/pages/profile/trackwidget/featured_track.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -86,7 +85,8 @@ class _NewDetailState extends State<NewDetail> {
                                 shape: BoxShape.circle),
                             child: IconButton(
                                 onPressed: () {
-                                  PersistentNavBarNavigator.pushNewScreen(context,
+                                  PersistentNavBarNavigator.pushNewScreen(
+                                      context,
                                       screen: ProfileSettings());
                                 },
                                 icon: Icon(Icons.settings),

@@ -70,14 +70,14 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     theme: ThemeData(
-        bottomSheetTheme: BottomSheetThemeData(
-            backgroundColor: Colors.black.withOpacity(1)),
+        bottomSheetTheme:
+            BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(1)),
         brightness: Brightness.dark,
         primaryColor: Color(0xff121212),
         backgroundColor: Color(0xff121212),
         hintColor: Color(0xffEFDC6D), //accent color is now hint color
         fontFamily: GoogleFonts.rubik().fontFamily),
-    initialRoute: '/finalist',
+    initialRoute: '/ok',
     routes: {
       '/ok': (context) => Hello(),
       '/Pro': (context) => abc(),
@@ -94,7 +94,10 @@ Future<void> main() async {
       '/connect': (context) => ConnectPage(),
       '/prefs': (context) => prefs(),
       '/time': (context) => time123(),
-      '/nos': (context) => noswipes(time1: '123', timedate: DateTime.now(),),
+      '/nos': (context) => noswipes(
+            time1: '123',
+            timedate: DateTime.now(),
+          ),
       '/nouser': (context) => nousers(),
       '/newstuff': (context) => newstuff(),
       '/K': (context) => konnect(),

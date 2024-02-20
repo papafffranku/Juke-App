@@ -49,8 +49,8 @@ class _nousersState extends State<nousers> {
         ElevatedButton.icon(
           label: Text("Share"),
           style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.black,
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(32.0),
             ),
@@ -102,9 +102,9 @@ class _nousersState extends State<nousers> {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 setState(() {
-                  move=!move;
+                  move = !move;
                 });
               },
               child: Container(
@@ -114,15 +114,15 @@ class _nousersState extends State<nousers> {
                 child: Stack(
                   children: [
                     Positioned(
-                        top:90,
+                        top: 90,
                         left: 50,
                         child: Text(
-                      'data',
-                      style: TextStyle(color: Colors.blue),
-                    )),
+                          'data',
+                          style: TextStyle(color: Colors.blue),
+                        )),
                     AnimatedPositioned(
                       duration: Duration(milliseconds: 250),
-                      top:move ? 40 : 80,
+                      top: move ? 40 : 80,
                       left: 50,
                       child: Container(
                         width: 100,

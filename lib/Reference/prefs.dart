@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firestore_ui/animated_firestore_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lessgoo/pages/uploadsong/ModalScreens.dart';
@@ -28,7 +27,8 @@ class _prefsState extends State<prefs> {
 
   @override
   Widget build(BuildContext context) {
-    final query = usersRef.orderBy('timestamp', descending: true).limit(4).snapshots();
+    final query =
+        usersRef.orderBy('timestamp', descending: true).limit(4).snapshots();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -39,7 +39,6 @@ class _prefsState extends State<prefs> {
           SizedBox(
             height: 20,
           ),
-
         ],
       ),
     );

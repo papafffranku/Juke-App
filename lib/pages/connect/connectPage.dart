@@ -16,7 +16,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 final usersRef = FirebaseFirestore.instance.collection('users');
 final total = FirebaseFirestore.instance.collection('totalusers');
 final uid = FirebaseAuth.instance.currentUser!.uid;
-final items = ['Singer','Producer','Instrumentalist','Cover Artist','Sound Engineer'];
+final items = [
+  'Singer',
+  'Producer',
+  'Instrumentalist',
+  'Cover Artist',
+  'Sound Engineer'
+];
 
 class ConnectPage extends StatefulWidget {
   const ConnectPage({Key? key}) : super(key: key);
@@ -29,20 +35,20 @@ class _ConnectPageState extends State<ConnectPage> {
   late List<dynamic> users;
   int? mapNumber;
   int count = 1;
-  int randomindex=0;
+  int randomindex = 0;
   String swipes = '0';
   String time = ' ';
   bool? check;
-  int sleft=1;
-  int numberofusers=0;
+  int sleft = 1;
+  int numberofusers = 0;
   List? connectnumbers;
-  List<bool> filter=[false,false,false,false,false];
-  String abc='none';
-  String tagKeyword='';
+  List<bool> filter = [false, false, false, false, false];
+  String abc = 'none';
+  String tagKeyword = '';
 
   @override
   void initState() {
-    mapNumber=new Random().nextInt(10);
+    mapNumber = new Random().nextInt(10);
     getUsersData();
     gettotalusers();
     sleft = 10 - int.parse(swipes);
@@ -56,10 +62,9 @@ class _ConnectPageState extends State<ConnectPage> {
         curve: Curves.decelerate,
         child: Text(
           item,
-          style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-      )
-  );
+      ));
 
   late DateTime lastTime;
 
@@ -88,19 +93,19 @@ class _ConnectPageState extends State<ConnectPage> {
     Random random = new Random();
     randomindex = random.nextInt(10);
     int? temp;
-    List templist=[];
+    List templist = [];
     await total.doc('totalnumber').get().then((value) async {
       var fields = value.data();
       temp = (fields!['number']);
     });
-    for (var i = 0; i <= 10; i++){
+    for (var i = 0; i <= 10; i++) {
       int random_number = random.nextInt(10);
       if (!templist.contains(random_number)) {
         templist.add(random_number);
       }
     }
     setState(() {
-      connectnumbers=templist;
+      connectnumbers = templist;
     });
   }
 
@@ -111,62 +116,78 @@ class _ConnectPageState extends State<ConnectPage> {
     Query<Map<String, dynamic>> randomQuery =
         usersRef.where("connectNumber", whereIn: connectnumbers).limit(10);
 
-    Query<Map<String, dynamic>> tagSnap =
-        usersRef.where('stringTag',arrayContainsAny: ['singer']).orderBy('indexer.$mapNumber').limit(10);
+    Query<Map<String, dynamic>> tagSnap = usersRef
+        .where('stringTag', arrayContainsAny: ['singer'])
+        .orderBy('indexer.$mapNumber')
+        .limit(10);
 
-    Query<Map<String, dynamic>> finalSnap=randomQuery;
+    Query<Map<String, dynamic>> finalSnap = randomQuery;
 
     return Scaffold(
       backgroundColor: Colors.black,
       body: ColorfulSafeArea(
         child: ListView(
           children: [
-        Padding(
-        padding: const EdgeInsets.only(top: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Connect',
-                style: TextStyle(
-                    color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.black), //Elevated Button Background
-                onPressed: (){}, //make onPressed callback empty
-                child:DropdownButton(
-                  borderRadius: BorderRadius.circular(20),
-                  hint: Text(''),
-                  style: TextStyle(color: Colors.white), //Dropdown font color
-                  dropdownColor: Theme.of(context).hintColor, //dropdown menu background color
-                  icon: Icon(Icons.filter_list_sharp, color:Colors.white,size: 30,), //dropdown indicator icon
-                  underline: Container(),
-                  onChanged: (value) => setState(() {
-                    if(value=='Singer'){
-                      tagKeyword='singer';
-                    }if(value=='Producer'){
-                      tagKeyword='producer';
-                    }if(value=='Instrumentalist'){
-                      tagKeyword='instrumentalist';
-                    }if(value=='Sound Engineer'){
-                      tagKeyword='audioeng';
-                    }if(value=='Cover Artist'){
-                      tagKeyword='cover';
-                    }
-                    setState(() {
-                      finalSnap=tagSnap;
-                    });
-                    abc=value.toString();
-                  }),
-                  items: items.map(buildMenuItems).toList(),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Connect',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Colors.black), //Elevated Button Background
+                      onPressed: () {}, //make onPressed callback empty
+                      child: DropdownButton(
+                        borderRadius: BorderRadius.circular(20),
+                        hint: Text(''),
+                        style: TextStyle(
+                            color: Colors.white), //Dropdown font color
+                        dropdownColor: Theme.of(context)
+                            .hintColor, //dropdown menu background color
+                        icon: Icon(
+                          Icons.filter_list_sharp,
+                          color: Colors.white,
+                          size: 30,
+                        ), //dropdown indicator icon
+                        underline: Container(),
+                        onChanged: (value) => setState(() {
+                          if (value == 'Singer') {
+                            tagKeyword = 'singer';
+                          }
+                          if (value == 'Producer') {
+                            tagKeyword = 'producer';
+                          }
+                          if (value == 'Instrumentalist') {
+                            tagKeyword = 'instrumentalist';
+                          }
+                          if (value == 'Sound Engineer') {
+                            tagKeyword = 'audioeng';
+                          }
+                          if (value == 'Cover Artist') {
+                            tagKeyword = 'cover';
+                          }
+                          setState(() {
+                            finalSnap = tagSnap;
+                          });
+                          abc = value.toString();
+                        }),
+                        items: items.map(buildMenuItems).toList(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
             if (check == true && sleft > 0) ...[
               // CupertinoButton(child: Text('reset'), onPressed: (){reset();}),
               Row(
@@ -174,11 +195,13 @@ class _ConnectPageState extends State<ConnectPage> {
                 children: [
                   Text(
                     'Swipes done: ' + swipes.toString(),
-                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                   Text(
                     'Filters: ' + abc,
-                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 ],
               ),
@@ -187,7 +210,7 @@ class _ConnectPageState extends State<ConnectPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: swipe(screenwidth,finalSnap),
+                child: swipe(screenwidth, finalSnap),
               )
             ] else ...[
               Padding(
@@ -216,10 +239,10 @@ class _ConnectPageState extends State<ConnectPage> {
   Widget actionButton(String actionString) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: actionString != 'Message'
-              ? Theme.of(context).backgroundColor
+          foregroundColor: Colors.white,
+          backgroundColor: actionString != 'Message'
+              ? Theme.of(context).colorScheme.background
               : Color(0xffd0b517),
-          onPrimary: Colors.white,
         ),
         onPressed: () {},
         child: Text(actionString));
@@ -276,6 +299,7 @@ class _ConnectPageState extends State<ConnectPage> {
       "swipe": next,
     });
   }
+
   timereset() async {
     DateTime timestamp = DateTime.now();
 
@@ -432,17 +456,26 @@ class _ConnectPageState extends State<ConnectPage> {
                                       ElevatedButton(
                                         onPressed: () {
                                           setState(() {
-                                            if (count == username.length) {//number of usernames in the array
+                                            if (count == username.length) {
+                                              //number of usernames in the array
                                               count = 0;
-                                              PersistentNavBarNavigator.pushNewScreen(context,withNavBar: true, screen: nousers());
-                                            } else if(count == 10){
+                                              PersistentNavBarNavigator
+                                                  .pushNewScreen(context,
+                                                      withNavBar: true,
+                                                      screen: nousers());
+                                            } else if (count == 10) {
                                               sover(); // wont reach as 10 people not there
-                                              PersistentNavBarNavigator.pushNewScreen(context,withNavBar: true, screen: noswipes(time1: time, timedate: lastTime,));
+                                              PersistentNavBarNavigator
+                                                  .pushNewScreen(context,
+                                                      withNavBar: true,
+                                                      screen: noswipes(
+                                                        time1: time,
+                                                        timedate: lastTime,
+                                                      ));
                                               setState(() {
                                                 check = connect(lastTime);
                                               });
-                                            }
-                                            else {
+                                            } else {
                                               count++;
                                               _incrementSwipe();
                                             }
@@ -454,12 +487,11 @@ class _ConnectPageState extends State<ConnectPage> {
                                           size: 18,
                                         ),
                                         style: ElevatedButton.styleFrom(
+                                          foregroundColor: Colors.red,
+                                          backgroundColor: Colors.red,
                                           shape: CircleBorder(),
-                                          padding: EdgeInsets.all(20),
-                                          primary:
-                                              Colors.red, // <-- Button color
-                                          onPrimary:
-                                              Colors.red, // <-- Splash color
+                                          padding: EdgeInsets.all(
+                                              20), // <-- Splash color
                                         ),
                                       ),
                                     ],
@@ -558,7 +590,7 @@ class _ConnectPageState extends State<ConnectPage> {
     int counter = 1;
     await prefs.setInt('sw', counter);
     setState(() {
-      swipes='0';
+      swipes = '0';
     });
     timeWrite();
   }
@@ -609,8 +641,8 @@ class _ConnectPageState extends State<ConnectPage> {
         ElevatedButton.icon(
           label: Text("Refresh"),
           style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.black,
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(32.0),
             ),
@@ -638,15 +670,13 @@ class _ConnectPageState extends State<ConnectPage> {
         ElevatedButton.icon(
           label: Text("Share"),
           style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            onPrimary: Colors.black,
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(32.0),
             ),
           ),
-          onPressed: (){
-
-          },
+          onPressed: () {},
           icon: Icon(Icons.share),
         ),
       ],
@@ -656,37 +686,37 @@ class _ConnectPageState extends State<ConnectPage> {
   Widget outofusers(String time) {
     return Center(
         child: Column(
+      children: [
+        Text(
+          'Yikes!',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          "Unfortunately these are all the users we have on our app right now",
+          style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Yikes!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Unfortunately these are all the users we have on our app right now",
+              "Share it with others to build a community",
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Share it with others to build a community",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 50,
-            ),
           ],
-        ));
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          height: 50,
+        ),
+      ],
+    ));
   }
 }

@@ -180,7 +180,7 @@ class _abcState extends State<abc> {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                shape: CircleBorder(), primary: Colors.white),
+                shape: CircleBorder(), backgroundColor: Colors.white),
             child: Icon(
               CupertinoIcons.arrow_right,
               color: Colors.purple,

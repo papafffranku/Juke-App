@@ -47,78 +47,100 @@ class _TimelineState extends State<Timeline> {
     return FadeIn(
       child: Center(
           child: Column(
-            children: [
-              SizedBox(height: 50,),
-              Text('Follow people to view their posts',style: TextStyle(fontSize: 20),),
-              SizedBox(height: 5,),
-              Container(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Head over to the ',
-                        style: TextStyle(color: Colors.white),
-                      ),WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(CupertinoIcons.infinite,size: 20,color: Theme.of(context).hintColor,),
-                      ),
-                      TextSpan(
-                        text: ' page',
-                        style: TextStyle(color: Theme.of(context).hintColor),
-                      ),
-                      TextSpan(
-                        text: ' to meet some new people ',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+        children: [
+          SizedBox(
+            height: 50,
+          ),
+          Text(
+            'Follow people to view their posts',
+            style: TextStyle(fontSize: 20),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Head over to the ',
+                    style: TextStyle(color: Colors.white),
                   ),
-                ),
-              ),Container(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'or to the ',
-                        style: TextStyle(color: Colors.white),
-                      ),WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(CupertinoIcons.search,size: 20,color: Theme.of(context).hintColor,),
-                      ),
-                      TextSpan(
-                        text: ' page',
-                        style: TextStyle(color: Theme.of(context).hintColor),
-                      ),
-                      TextSpan(
-                        text: ' to find people via their username',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(
+                      CupertinoIcons.infinite,
+                      size: 20,
+                      color: Theme.of(context).hintColor,
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Text('Invite your friends',style: TextStyle(fontSize: 20),),
-              ),
-              Text('Help us grow our community!',),
-              SizedBox(height: 10,),
-              ElevatedButton.icon(
-                label: Text("Share"),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  onPrimary: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32.0),
+                  TextSpan(
+                    text: ' page',
+                    style: TextStyle(color: Theme.of(context).hintColor),
                   ),
-                ),
-                onPressed: (){
-
-                },
-                icon: Icon(Icons.share),
+                  TextSpan(
+                    text: ' to meet some new people ',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
-            ],
-          )
-      ),
+            ),
+          ),
+          Container(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'or to the ',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(
+                      CupertinoIcons.search,
+                      size: 20,
+                      color: Theme.of(context).hintColor,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' page',
+                    style: TextStyle(color: Theme.of(context).hintColor),
+                  ),
+                  TextSpan(
+                    text: ' to find people via their username',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Text(
+              'Invite your friends',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Text(
+            'Help us grow our community!',
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton.icon(
+            label: Text("Share"),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(32.0),
+              ),
+            ),
+            onPressed: () {},
+            icon: Icon(Icons.share),
+          ),
+        ],
+      )),
     );
   }
 
