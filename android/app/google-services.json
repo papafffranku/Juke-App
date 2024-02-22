@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "80821200866-i3eg6iob6paqefnimektf7kif3fjvi0d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lessgoo",
+            "certificate_hash": "4786932ff8124afb898cf24b975d427a6d04977c"
+          }
+        },
+        {
+          "client_id": "80821200866-vg0pedhj9f9c5fgf6llucbfptmig2bdg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lessgoo",
+            "certificate_hash": "f12a34de5f4f2b9846576b09337741cbe39a2f1a"
+          }
+        },
+        {
           "client_id": "80821200866-m9h9i7v1iombnhgusvfhm0a6sf32lruq.apps.googleusercontent.com",
           "client_type": 3
         }
